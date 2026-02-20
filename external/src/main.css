@@ -43,6 +43,75 @@
   --shadow-card: 0px 2px 8px rgb(0 0 0 / 0.15);
 }
 
+/* Font utilities (needed for @apply in _form.css and others) */
+@utility body-1 {
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.5px;
+}
+@utility body-2 {
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.5px;
+}
+@utility body-3 {
+  font-size: 14px;
+  line-height: 1.5;
+  letter-spacing: 0.25px;
+}
+@utility body-4 {
+  font-size: 14px;
+  line-height: 1.5;
+}
+@utility body-5 {
+  font-size: 12px;
+  line-height: 1.25;
+}
+@utility body-6 {
+  font-size: 11px;
+  line-height: 1.25;
+}
+
+/* Custom button base utility (needed for @apply in _buttons.css) */
+@utility base-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+  font-size: 16px;
+  line-height: 1.25;
+  font-weight: 600;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 9999px;
+  padding-inline: 1.5rem;
+  padding-block: 1rem;
+}
+
+/* Custom max-width utilities */
+@utility max-w-desk {
+  max-width: 1440px;
+}
+@utility max-w-wide {
+  max-width: 1920px;
+}
+@utility max-w-xl-wide {
+  max-width: 2500px;
+}
+
+/* Max-width (down) variants for Tailwind v4 */
+@custom-variant tiny-down (@media (max-width: 329px));
+@custom-variant xs-down (@media (max-width: 374px));
+@custom-variant sm-down (@media (max-width: 479px));
+@custom-variant sm2-down (@media (max-width: 579px));
+@custom-variant sm3-down (@media (max-width: 679px));
+@custom-variant md-down (@media (max-width: 767px));
+@custom-variant lg-down (@media (max-width: 1023px));
+@custom-variant xl-down (@media (max-width: 1279px));
+@custom-variant desktop-down (@media (max-width: 1440px));
+@custom-variant only-md (@media (min-width: 768px) and (max-width: 1023px));
+
 @layer swiper {
   @import 'swiper/css';
   @import 'swiper/css/navigation';
