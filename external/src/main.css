@@ -1,0 +1,67 @@
+@layer theme, base, components, swiper, custom, utilities;
+
+@import 'tailwindcss';
+@source "../../sections";
+@source "../../snippets";
+@source "../../layout";
+@source "../../blocks";
+@source "../../templates/gift_card.liquid";
+
+@theme {
+  /* Breakpoints */
+  --breakpoint-tiny: 330px;
+  --breakpoint-xs: 375px;
+  --breakpoint-sm: 480px;
+  --breakpoint-sm2: 580px;
+  --breakpoint-sm3: 680px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-desktop: 1441px;
+
+  /* Colors */
+  --color-primary: #000000;
+  --color-primary-light: #222222;
+  --color-primary-dark: #000000;
+  --color-secondary: #3200b2;
+  --color-secondary-light: #4000e5;
+  --color-secondary-dark: #24007f;
+  --color-disabled: #595959;
+  --color-error: #d31334;
+  --color-success: #00b300;
+
+  /* Typography */
+  --font-body: var(--font-body-family);
+  --font-headings: var(--font-heading-family);
+
+  /* Max widths */
+  --max-w-desk: 1440px;
+  --max-w-wide: 1920px;
+  --max-w-xl-wide: 2500px;
+
+  /* Shadows */
+  --shadow-card: 0px 2px 8px rgb(0 0 0 / 0.15);
+}
+
+@layer swiper {
+  @import 'swiper/css';
+  @import 'swiper/css/navigation';
+  @import 'swiper/css/pagination';
+}
+
+@layer custom {
+  @import './css/_globals.css';
+  @import './css/_utilities.css';
+  @import './css/_fonts.css';
+  @import './css/_buttons.css';
+  @import './css/_form.css';
+  @import './css/_animations.css';
+  @import './css/_accessibility.css';
+  @import './css/_cart.css';
+  @import './css/_header.css';
+  @import './css/_custom-swiper.css';
+}
+
+[x-cloak] {
+  display: none !important;
+}

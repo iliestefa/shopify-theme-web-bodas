@@ -1,26 +1,8 @@
 import { defineConfig } from 'vite';
-import tailwindcss from 'tailwindcss';
-import autoprefixer from 'autoprefixer';
-import cssnano from 'cssnano';
-import postcssPresetEnv from 'postcss-preset-env';
-import postcssImport from 'postcss-import';
-import tailwindcssNesting from 'tailwindcss/nesting';
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-  css: {
-    postcss: {
-      plugins: [
-        postcssImport,
-        tailwindcssNesting,
-        tailwindcss,
-        autoprefixer,
-        cssnano,
-        postcssPresetEnv({
-          stage: 1,
-        }),
-      ],
-    },
-  },
+  plugins: [tailwindcss()],
   build: {
     minify: true,
     sourcemap: false,
@@ -28,7 +10,7 @@ export default defineConfig({
     outDir: '../../assets',
     emptyOutDir: false,
     rollupOptions: {
-      input: ['src/main.js', 'src/main.scss'],
+      input: ['src/main.js', 'src/main.css'],
       output: {
         entryFileNames: '[name].js',
         chunkFileNames: '[name].chunk.js',

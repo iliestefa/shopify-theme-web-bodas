@@ -1,0 +1,88 @@
+{%- doc -%}
+  Renders a Shopify CDN image with srcset, lazy loading and automatic alt text.
+  Always use this snippet instead of image_url + image_tag directly.
+
+  @param {image} image - Shopify image object (required)
+  @param {boolean} [preload] - Adds <link rel="preload"> and loading="eager"
+  @param {boolean} [priority] - Sets fetchpriority="high" + loading="eager" without preload tag
+  @param {number} [max_width] - Limit srcset widths (default: 1920)
+  @param {number} [fixed_width] - Render at exact width (disables srcset)
+  @param {number} [fixed_height] - Crop to exact height (use with fixed_width)
+  @param {string} [crop] - Crop position: 'center' | 'top' | 'bottom' | 'left' | 'right'
+  @param {string} [class] - CSS classes
+  @param {string} [alt] - Alt text (auto-generated from filename if omitted)
+  @param {string} [sizes] - Responsive sizes attribute
+  @param {string} [widths] - Comma-separated srcset widths (default: '500,650,800,1000,1200,1500,1920')
+  @param {string} [style] - Inline styles
+{%- enddoc -%}
+
+{%- liquid
+  assign preload = preload | default: false, allow_false: true
+  assign priority = priority | default: false, allow_false: true
+  assign max_width = max_width | default: 1920
+  assign fixed_width = fixed_width | default: blank
+  assign fixed_height = fixed_height | default: null
+  assign crop = crop | default: null
+  assign class = class | default: blank
+  assign alt = alt | default: image.alt
+  assign sizes = sizes | default: null
+  assign style = style | default: null
+
+  assign default_widths = '500,650,800,1000,1200,1500,1920'
+  if max_width < 500
+    assign default_widths = max_width | append: ',' | append: default_widths
+  endif
+  assign widths = widths | default: default_widths
+
+  assign image_width = image.width
+  assign image_url_width = image_width
+
+  if fixed_width == blank
+    if max_width > image_width
+      assign max_width = image_width
+    endif
+
+    assign split_widths = widths | split: ','
+    for w in split_widths
+      assign w_int = w | strip | plus: 0
+      if w_int > max_width
+        break
+      endif
+      assign image_url_width = w_int
+    endfor
+  else
+    assign widths = blank
+    assign image_url_width = fixed_width
+  endif
+
+  if alt == blank
+    assign file_name = image | split: '/' | last
+    assign file_extension = file_name | split: '.' | last | prepend: '.'
+    assign alt = file_name | remove: file_extension | replace: '-', ' ' | replace: '_', ' '
+  endif
+
+  assign loading = 'lazy'
+  assign fetchpriority = null
+  if priority or preload
+    assign loading = 'eager'
+    assign fetchpriority = 'high'
+  endif
+
+  if crop != null
+    assign image_url_width = fixed_width
+  endif
+-%}
+
+{{-
+  image
+  | image_url: width: image_url_width, height: fixed_height, crop: crop
+  | image_tag:
+    preload: preload,
+    loading: loading,
+    widths: widths,
+    sizes: sizes,
+    fetchpriority: fetchpriority,
+    class: class,
+    alt: alt,
+    style: style
+-}}
