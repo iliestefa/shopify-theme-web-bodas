@@ -1,7 +1,7 @@
 {
   "type": "module",
   "scripts": {
-    "shopify": "shopify theme dev -s comida-saludable-dev.myshopify.com --path ../",
+    "shopify": "shopify theme dev -s YOUR-STORE.myshopify.com --path ../",
     "shopify:pull": "shopify theme pull --development --nodelete --path ../",
     "dev": "vite build --watch",
     "debug": "vite build --mode development --minify=false --sourcemap=inline --watch"
