@@ -1,4 +1,4 @@
-<footer class="border-t border-t-gray-400 border-opacity-20 color-{{ section.settings.color_scheme }} gradient">
+<footer class="border-t border-wb-linen bg-wb-parchment">
   <div class="c-container flex flex-col gap-y-12 py-12">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
       {%- for block in section.blocks -%}
@@ -7,7 +7,7 @@
           {{ block.shopify_attributes }}
         >
           {%- if block.settings.heading != blank -%}
-            <h2 class="h4">{{- block.settings.heading -}}</h2>
+            <h2 class="font-wb-serif text-[16px] font-normal text-wb-brown">{{- block.settings.heading -}}</h2>
           {%- endif -%}
 
           {%- case block.type -%}
@@ -27,7 +27,7 @@
     {%- if section.settings.newsletter_enable -%}
       <div class="w-full flex flex-col gap-y-5 max-w-[500px] mx-auto">
         {%- if section.settings.newsletter_heading != blank -%}
-          <h2 class="h4 text-center">{{ section.settings.newsletter_heading }}</h2>
+          <h2 class="font-wb-serif text-[16px] font-normal text-wb-brown text-center">{{ section.settings.newsletter_heading }}</h2>
         {%- endif -%}
 
         {%- render 'newsletter-form', local_position: 'Footer' -%}
@@ -40,7 +40,7 @@
     {%- assign enable_localization = true -%}
   {%- endif -%}
 
-  <div class="w-full border-t border-t-gray-400 border-opacity-20 py-8">
+  <div class="w-full border-t border-wb-linen py-8">
     <div class="c-container flex flex-col gap-8">
       {%- if enable_localization or section.settings.payment_enable -%}
         <div class="flex flex-col md:flex-row md:items-center {% if enable_localization %} md:justify-between {% else %} md:justify-center {% endif %} gap-8">
@@ -70,15 +70,15 @@
 
       <div class="flex flex-col gap-y-3">
         {%- if section.settings.copyright != blank -%}
-          <small class="body-4">{{ section.settings.copyright }}</small>
+          <small class="body-4 text-wb-brown-mid">{{ section.settings.copyright }}</small>
         {%- endif -%}
 
         {%- if section.settings.show_policy -%}
-          <ul class="flex flex-row flex-wrap gap-3 body-4">
+          <ul class="flex flex-row flex-wrap gap-3 body-4 text-wb-brown-mid">
             {%- for policy in shop.policies -%}
               {%- if policy != blank -%}
                 <li>
-                  <a class="hover:underline" href="{{ policy.url }}">{{ policy.title }}</a>
+                  <a class="hover:underline hover:text-wb-blush transition-colors" href="{{ policy.url }}">{{ policy.title }}</a>
                 </li>
               {%- endif -%}
             {%- endfor -%}

@@ -119,3 +119,22 @@ strong {
     color: var(--color-wb-blush-deep);
   }
 }
+
+/* Web Bodas FAQ Styles */
+.wb-faq-item {
+  &:nth-child(odd) {
+    @apply border-r border-wb-linen pr-14 lg-down:border-r-0 lg-down:pr-0;
+  }
+
+  &:nth-child(even) {
+    @apply pl-14 lg-down:pl-0;
+  }
+
+  &.wb-open .wb-faq-a {
+    @apply max-h-[200px] mt-3.5;
+  }
+
+  &.wb-open .wb-toggle {
+    @apply rotate-45;
+  }
+}

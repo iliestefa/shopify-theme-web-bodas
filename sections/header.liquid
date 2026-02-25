@@ -1,6 +1,6 @@
 <sticky-header
   data-sticky-type="{{ section.settings.sticky_header_type }}"
-  class="relative block color-{{ section.settings.color_scheme }} gradient"
+  class="relative block bg-wb-parchment border-b border-wb-linen"
 >
   <header class="c-container grid grid-cols-[1fr_2fr_1fr] lg:grid-cols-[1fr_auto_1fr] gap-4 py-4">
     {%- render 'header-drawer' -%}
@@ -20,7 +20,7 @@
             style: logo_style
           -%}
         {%- else -%}
-          <span class="h2">{{ shop.name }}</span>
+          <span class="font-wb-serif text-[24px] font-normal text-wb-brown">{{ shop.name }}</span>
         {%- endif -%}
       </a>
     </div>
@@ -47,7 +47,7 @@
           href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
           class="flex group"
         >
-          {%- render 'icon-account', class: 'h-8 transition-transform group-hover:scale-105' -%}
+          {%- render 'icon-account', class: 'h-8 transition-transform group-hover:scale-105 text-wb-brown' -%}
           <span class="sr-only">
             {%- if customer -%}
               {{- 'customer.account_fallback' | t -}}
@@ -62,13 +62,12 @@
         href="{{ routes.cart_url }}"
         class="flex js-cart-drawer-trigger relative group"
       >
-        {%- render 'icon-cart', class: 'h-8 transition-transform group-hover:scale-105' -%}
+        {%- render 'icon-cart', class: 'h-8 transition-transform group-hover:scale-105 text-wb-brown' -%}
         <span class="sr-only">{{ 'templates.cart.cart' | t }}</span>
         <div
-          class="cart-count-container hide-if-cart-empty absolute -bottom-2 -right-2 rounded-full w-6 h-6 bg-white body-4 flex justify-center items-center show-md"
-          style="color: rgba(var(--color-foreground));"
+          class="cart-count-container hide-if-cart-empty absolute -bottom-2 -right-2 rounded-full w-6 h-6 bg-wb-blush body-4 flex justify-center items-center show-md"
         >
-          <span aria-hidden="true" class="cart-count text-black" style="color: rgb(var(--color-background));">
+          <span aria-hidden="true" class="cart-count text-white font-bold text-[11px]">
             {{- cart.item_count -}}
           </span>
         </div>

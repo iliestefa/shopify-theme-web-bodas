@@ -1,145 +1,19 @@
-{%- style -%}
-  #WbFaq-{{ section.id }} {
-    padding: 112px 64px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  #WbFaq-{{ section.id }} .wb-section-label {
-    font-size: 10px;
-    letter-spacing: 0.5em;
-    text-transform: uppercase;
-    color: var(--color-wb-blush-deep);
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  #WbFaq-{{ section.id }} .wb-section-label::before {
-    content: '';
-    width: 24px;
-    height: 1px;
-    background: var(--color-wb-blush);
-  }
-
-  #WbFaq-{{ section.id }} .wb-section-title {
-    font-family: var(--font-wb-serif);
-    font-size: clamp(36px, 4.5vw, 56px);
-    font-weight: 400;
-    line-height: 1.05;
-    color: var(--color-wb-brown);
-  }
-
-  #WbFaq-{{ section.id }} .wb-section-title em {
-    font-style: italic;
-    color: var(--color-wb-blush-deep);
-  }
-
-  #WbFaq-{{ section.id }} .wb-faq-grid {
-    margin-top: 72px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-  }
-
-  #WbFaq-{{ section.id }} .wb-faq-item {
-    padding: 28px 0;
-    border-bottom: 1px solid var(--color-wb-linen);
-    cursor: pointer;
-  }
-
-  #WbFaq-{{ section.id }} .wb-faq-item:nth-child(odd) {
-    padding-right: 56px;
-    border-right: 1px solid var(--color-wb-linen);
-  }
-
-  #WbFaq-{{ section.id }} .wb-faq-item:nth-child(even) {
-    padding-left: 56px;
-  }
-
-  #WbFaq-{{ section.id }} .wb-faq-q {
-    font-family: var(--font-wb-serif);
-    font-size: 19px;
-    font-style: italic;
-    color: var(--color-wb-brown);
-    margin-bottom: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 16px;
-  }
-
-  #WbFaq-{{ section.id }} .wb-faq-q .wb-toggle {
-    color: var(--color-wb-blush);
-    font-style: normal;
-    flex-shrink: 0;
-    font-family: var(--font-body);
-    font-size: 20px;
-    transition: transform 0.3s;
-    line-height: 1;
-  }
-
-  #WbFaq-{{ section.id }} .wb-faq-a {
-    font-size: 14px;
-    line-height: 1.75;
-    color: var(--color-wb-brown-mid);
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s ease, margin-top 0.3s;
-  }
-
-  #WbFaq-{{ section.id }} .wb-faq-item.wb-open .wb-faq-a {
-    max-height: 200px;
-    margin-top: 14px;
-  }
-
-  #WbFaq-{{ section.id }} .wb-faq-item.wb-open .wb-toggle {
-    transform: rotate(45deg);
-  }
-
-  @media (max-width: 1024px) {
-    #WbFaq-{{ section.id }} .wb-faq-grid {
-      grid-template-columns: 1fr;
-    }
-
-    #WbFaq-{{ section.id }} .wb-faq-item:nth-child(odd) {
-      padding-right: 0;
-      border-right: none;
-    }
-
-    #WbFaq-{{ section.id }} .wb-faq-item:nth-child(even) {
-      padding-left: 0;
-    }
-  }
-
-  @media (max-width: 767px) {
-    #WbFaq-{{ section.id }} {
-      padding: 72px 24px;
-    }
-
-    #WbFaq-{{ section.id }} .wb-faq-grid {
-      margin-top: 40px;
-    }
-  }
-{%- endstyle -%}
-
-<div id="WbFaq-{{ section.id }}" class="wb-faq-section" x-data="wbFaqComp_{{ section.id }}" x-cloak>
-  <div class="wb-section-label">{{ section.settings.label_text }}</div>
+<div class="py-28 px-8 xl:px-24 md-down:px-6 md-down:py-18 xs-down:px-4 xs-down:py-16 max-w-desk mx-auto">
+  <div class="wb-section-label mb-5">{{ section.settings.label_text }}</div>
 
   {%- if section.settings.title != blank -%}
-    <h2 class="wb-section-title">{{ section.settings.title }}</h2>
+    <div class="wb-section-title">{{ section.settings.title }}</div>
   {%- endif -%}
 
-  <div class="wb-faq-grid">
+  <div class="grid grid-cols-2 lg-down:grid-cols-1 gap-0 mt-18 md-down:mt-10" x-data="wbFaqComp_{{ section.id }}" x-cloak>
     {%- for block in section.blocks -%}
-      <div class="wb-faq-item" @click="toggleItem({{ forloop.index0 }})" :class="{ 'wb-open': openItems[{{ forloop.index0 }}] }" {{ block.shopify_attributes }}>
-        <div class="wb-faq-q">
-          <span>{{ block.settings.question }}</span>
-          <span class="wb-toggle">+</span>
+      <div class="wb-faq-item border-b border-wb-linen cursor-pointer" :class="{ 'wb-open': openItems[{{ forloop.index0 }}] }" @click="toggleItem({{ forloop.index0 }})" {{ block.shopify_attributes }}>
+        <div class="flex justify-between items-start gap-4 py-7 lg-down:py-7">
+          <span class="font-wb-serif text-[19px] italic text-wb-brown flex-1">{{ block.settings.question }}</span>
+          <span class="wb-toggle text-wb-blush shrink-0 text-[20px] font-normal transition-transform duration-300 leading-none">+</span>
         </div>
-        <div class="wb-faq-a">
-          <div class="richtext">{{ block.settings.answer }}</div>
+        <div class="wb-faq-a max-h-0 overflow-hidden transition-all duration-400 ease-in-out">
+          <div class="richtext text-[14px] leading-[1.75] text-wb-brown-mid pb-4">{{ block.settings.answer }}</div>
         </div>
       </div>
     {%- endfor -%}
