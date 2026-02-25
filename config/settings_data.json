@@ -45,20 +45,6 @@
       }
     },
     "content_for_index": [],
-    "blocks": {
-      "17635902270821987737": {
-        "type": "shopify://apps/social-proof-app/blocks/app-embed/0198d048-48ce-7c9c-a1a2-19e9bfe47636",
-        "disabled": false,
-        "settings": {
-          "low_stock_threshold": 10,
-          "low_stock_text": "Low Stock",
-          "almost_sold_out_threshold": 5,
-          "almost_sold_out_text": "Almost Sold Out",
-          "only_remaining_threshold": 3,
-          "only_remaining_text": "Only Remaining"
-        }
-      }
-    },
     "color_schemes": {
       "scheme-1": {
         "settings": {
