@@ -105,7 +105,7 @@
       "type": "wb-templates-grid",
       "settings": {
         "label_text": "Plantillas",
-        "title": "Tres estilos,<br /><em>una sola historia</em>",
+        "title": "Tres estilos, <em>una sola historia</em>",
         "intro_text": "<p>Haz clic en cualquier plantilla para ver su preview completo y personalizar tu invitación.</p>"
       },
       "blocks": {
