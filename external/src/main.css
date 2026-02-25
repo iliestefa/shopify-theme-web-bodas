@@ -19,7 +19,22 @@
   --breakpoint-xl: 1280px;
   --breakpoint-desktop: 1441px;
 
-  /* Colors */
+  /* Colors — Web Bodas Nupcial Palette */
+  --color-wb-parchment: #faf6f0;
+  --color-wb-ivory: #f5efe4;
+  --color-wb-linen: #ede4d6;
+  --color-wb-blush: #e8b4b0;
+  --color-wb-blush-deep: #c9847e;
+  --color-wb-blush-pale: #f5dbd9;
+  --color-wb-sage: #9aaa94;
+  --color-wb-sage-pale: #e8ede6;
+  --color-wb-gold: #b89a6a;
+  --color-wb-gold-pale: #f0e6d2;
+  --color-wb-brown: #4a3728;
+  --color-wb-brown-mid: #7a5f4e;
+  --color-wb-brown-soft: #a88b78;
+
+  /* Colors — Base Theme (legacy) */
   --color-primary: #000000;
   --color-primary-light: #222222;
   --color-primary-dark: #000000;
@@ -33,6 +48,8 @@
   /* Typography */
   --font-body: var(--font-body-family);
   --font-headings: var(--font-heading-family);
+  --font-wb-serif: 'Cormorant Garamond', serif;
+  --font-wb-script: 'Great Vibes', cursive;
 
   /* Max widths */
   --max-w-desk: 1440px;
@@ -88,6 +105,8 @@
   padding-inline: 1.5rem;
   padding-block: 1rem;
 }
+
+/* Web Bodas Nuptial Utilities (moved to _globals.css to avoid pseudo-class issues) */
 
 /* Custom max-width utilities */
 @utility max-w-desk {

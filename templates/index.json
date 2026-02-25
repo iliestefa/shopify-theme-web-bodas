@@ -1,229 +1,306 @@
-/*
-* ------------------------------------------------------------
-* IMPORTANT: The contents of this file are auto-generated.
-*
-* This file may be updated by the Shopify admin theme editor
-* or related systems. Please exercise caution as any changes
-* made to this file may be overwritten.
-* ------------------------------------------------------------
-*/
 {
   "sections": {
-    "hero": {
-      "type": "hero",
+    "wb_hero": {
+      "type": "wb-hero",
+      "settings": {
+        "badge_text": "Invitaciones Digitales de Boda",
+        "script_text": "Para el día más especial",
+        "heading": "Tu historia de amor,<br /><em>contada con elegancia</em>",
+        "subheading": "<p>Páginas web de invitación diseñadas a medida. Elige tu plantilla favorita, comparte tus datos y recíbela lista para compartir en solo 48 horas.</p>",
+        "btn_primary_text": "Ver Plantillas",
+        "btn_primary_url": "#plantillas",
+        "btn_ghost_text": "¿Cómo funciona?",
+        "btn_ghost_url": "#como-funciona"
+      }
+    },
+    "wb_features_strip": {
+      "type": "wb-features-strip",
       "blocks": {
-        "slide-0": {
-          "type": "slide",
+        "feature_1": {
+          "type": "feature",
           "settings": {
-            "use_video": false,
-            "overlay_type": "dark",
-            "heading": "Hero Slide",
-            "description": "<p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>",
-            "color": "#ffffff",
-            "button_text_1": "First Button",
-            "button_url_1": "",
-            "button_text_2": "Second Button",
-            "button_url_2": ""
+            "icon": "⏱",
+            "is_emoji": true,
+            "title": "48 horas",
+            "label": "entrega garantizada"
           }
         },
-        "slide_yDzW94": {
-          "type": "slide",
+        "feature_2": {
+          "type": "feature",
           "settings": {
-            "use_video": false,
-            "overlay_type": "dark",
-            "heading": "Lorem ipsum",
-            "description": "<p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>",
-            "color": "#ffffff",
-            "button_text_1": "First Button",
-            "button_url_1": "",
-            "button_text_2": "Second Button",
-            "button_url_2": ""
+            "icon": "✏️",
+            "is_emoji": true,
+            "title": "1 revisión",
+            "label": "sin costo adicional"
+          }
+        },
+        "feature_3": {
+          "type": "feature",
+          "settings": {
+            "icon": "📱",
+            "is_emoji": true,
+            "title": "Responsive",
+            "label": "móvil y desktop"
+          }
+        },
+        "feature_4": {
+          "type": "feature",
+          "settings": {
+            "icon": "🔗",
+            "is_emoji": true,
+            "title": "Link listo",
+            "label": "para compartir"
           }
         }
       },
-      "block_order": [
-        "slide-0",
-        "slide_yDzW94"
-      ],
-      "settings": {
-        "autoplay": false,
-        "autoplay_speed": 5,
-        "hero_mobile_height": 100,
-        "hero_desktop_height": 100
-      }
+      "block_order": ["feature_1", "feature_2", "feature_3", "feature_4"]
     },
-    "featured-collection-0": {
-      "type": "featured-collection",
+    "wb_how_it_works": {
+      "type": "wb-how-it-works",
       "settings": {
-        "color_scheme": "scheme-2",
-        "heading": "Featured collection",
-        "description": "<p>Discover the difference with our exclusive Lorem Ipsum collection. Elevate your routine with high-quality goods that make a statement.</p>",
-        "collection": "all",
-        "products_to_show": 8,
-        "cta_label": "View all",
-        "show_secondary_image": true,
-        "show_vendor": true,
-        "quick_add": "standard"
-      }
-    },
-    "image_with_text_x6cL3k": {
-      "type": "image-with-text",
+        "label_text": "El proceso",
+        "title": "Tan sencillo como <em>cuatro pasos</em>"
+      },
       "blocks": {
-        "image_xetJxU": {
-          "type": "image",
+        "step_1": {
+          "type": "step",
           "settings": {
-            "justify_content": "center",
-            "rounded_corners": true,
-            "bg_color": "",
-            "use_video_or_image": "image"
+            "step_number": "01",
+            "icon": "💎",
+            "heading": "Elige tu plantilla",
+            "description": "<p>Explora nuestras 3 plantillas exclusivas y previsualiza cada una antes de decidirte.</p>"
           }
         },
-        "content_pwTDfX": {
-          "type": "content",
+        "step_2": {
+          "type": "step",
           "settings": {
-            "justify_content": "start",
-            "rounded_corners": true,
-            "bg_color": "#e1e5e9",
-            "text_color": "#000000",
-            "caption": "Caption text",
-            "heading_text": "<p>Image and Text</p>",
-            "description": "<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio amet a illo eaque eligendi dignissimos alias optio quas, ipsam sint facilis eum vitae provident consequatur repellat cupiditate sed quisquam consequuntur tempore vel. In explicabo omnis ducimus, error a natus nemo!</p>",
-            "button_text_1": "Shop Women",
-            "button_link_1": "",
-            "button_text_2": "Shop Men",
-            "button_link_2": ""
+            "step_number": "02",
+            "icon": "✍️",
+            "heading": "Completa tus datos",
+            "description": "<p>Llena el formulario con todos los detalles de tu boda: nombres, fecha, lugar y programa.</p>"
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "step_number": "03",
+            "icon": "💳",
+            "heading": "Realiza el pago",
+            "description": "<p>Pago seguro y sencillo. En cuanto lo confirmemos, comenzamos a crear tu invitación.</p>"
+          }
+        },
+        "step_4": {
+          "type": "step",
+          "settings": {
+            "step_number": "04",
+            "icon": "🎁",
+            "heading": "Recibe en 48 hrs",
+            "description": "<p>Tu invitación personalizada llegará a tu correo, lista para compartir con tus invitados.</p>"
           }
         }
       },
-      "block_order": [
-        "image_xetJxU",
-        "content_pwTDfX"
-      ],
-      "settings": {
-        "color_scheme": "scheme-1",
-        "container_width": "medium",
-        "container_spacer_type": "padding",
-        "section_id": ""
-      }
+      "block_order": ["step_1", "step_2", "step_3", "step_4"]
     },
-    "image_and_coordinate_points_kz9WKE": {
-      "type": "image-and-coordinate-points",
+    "wb_templates_grid": {
+      "type": "wb-templates-grid",
+      "settings": {
+        "label_text": "Plantillas",
+        "title": "Tres estilos,<br /><em>una sola historia</em>",
+        "intro_text": "<p>Haz clic en cualquier plantilla para ver su preview completo y personalizar tu invitación.</p>"
+      },
       "blocks": {
-        "feature_i6DV8g": {
-          "type": "feature",
+        "template_1": {
+          "type": "template",
           "settings": {
-            "position_x": 27,
-            "position_y": 60,
-            "heading": "Consectetur adipisicing",
-            "description": "<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsum, tempora.</p>",
-            "description_position": "left-center"
+            "style": "clasica",
+            "badge": "Clásica",
+            "name": "La Clásica",
+            "description": "<p>Elegancia atemporal en tonos crema y dorado. Composición simétrica, tipografía serif sofisticada y detalles ornamentales refinados.</p>"
           }
         },
-        "feature_8tJypM": {
-          "type": "feature",
+        "template_2": {
+          "type": "template",
           "settings": {
-            "position_x": 40,
-            "position_y": 35,
-            "heading": "Laboris nisi ut aliquip",
-            "description": "<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>",
-            "description_position": "bottom-right"
+            "style": "romantica",
+            "badge": "Romántica",
+            "name": "La Romántica",
+            "description": "<p>Calidez y emoción en tonos rosa y durazno. Script fluido, detalles florales y una atmósfera que transmite amor desde el primer scroll.</p>"
           }
         },
-        "feature_cHAwYe": {
-          "type": "feature",
+        "template_3": {
+          "type": "template",
           "settings": {
-            "position_x": 70,
-            "position_y": 50,
-            "heading": "Provident nostrum",
-            "description": "<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Corporis magni veniam reiciendis, provident nostrum vero!</p>",
-            "description_position": "right-center"
-          }
-        },
-        "feature_XJM7Pr": {
-          "type": "feature",
-          "settings": {
-            "position_x": 50,
-            "position_y": 70,
-            "heading": "Voluptate velit",
-            "description": "<p>Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur.</p>",
-            "description_position": "top-center"
+            "style": "elegante",
+            "badge": "Elegante",
+            "name": "La Elegante",
+            "description": "<p>Sofisticación moderna en tonos lavanda y perla. Minimalismo editorial con detalles geométricos y tipografía contrastante y contemporánea.</p>"
           }
         }
       },
-      "block_order": [
-        "feature_i6DV8g",
-        "feature_8tJypM",
-        "feature_cHAwYe",
-        "feature_XJM7Pr"
-      ],
-      "settings": {
-        "color_scheme": "scheme-2",
-        "container_width": "medium",
-        "container_spacer_type": "padding",
-        "heading": "Dynamic coordinates",
-        "description": "<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsum, tempora.</p>",
-        "show_markers_in_desktop": true,
-        "section_id": ""
-      }
+      "block_order": ["template_1", "template_2", "template_3"]
     },
-    "collapsible_content_qmWWDz": {
-      "type": "collapsible-content",
+    "wb_pricing": {
+      "type": "wb-pricing",
+      "settings": {
+        "label_text": "Inversión",
+        "price_label": "precio único · todo incluido",
+        "price": "49",
+        "price_note": "<p><strong>¿Necesitas un cambio después de recibir tu invitación?</strong><br />Con gusto lo realizamos. El tiempo de entrega de la modificación es también de <strong>48 horas</strong>, sin costo adicional.</p>",
+        "cta_label": "¿Lista para empezar?",
+        "headline": "Elige tu plantilla y cuéntanos tu historia de amor",
+        "delivery_text": "Entrega garantizada en 48 horas",
+        "cta_text": "Elegir mi plantilla",
+        "cta_url": "#plantillas"
+      },
       "blocks": {
-        "collapsible_row_mkG7az": {
-          "type": "collapsible_row",
+        "item_1": {
+          "type": "item",
           "settings": {
-            "heading": "Excepteur sint occaecat cupidatat non proident",
-            "content": "<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa iste porro, inventore perferendis nam impedit facere ea adipisci autem iusto ratione doloremque repellat, asperiores, cum eligendi itaque necessitatibus mollitia commodi.</p>",
-            "page": ""
+            "item_text": "<p>Página web personalizada en la plantilla elegida</p>"
           }
         },
-        "collapsible_row_DdtkBn": {
-          "type": "collapsible_row",
+        "item_2": {
+          "type": "item",
           "settings": {
-            "heading": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur",
-            "content": "<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa iste porro, inventore perferendis nam impedit facere ea adipisci autem iusto ratione doloremque repellat, asperiores, cum eligendi itaque necessitatibus mollitia commodi.</p>",
-            "page": ""
+            "item_text": "<p>Entrega en máximo 48 horas tras confirmar el pago</p>"
           }
         },
-        "collapsible_row_azXUWD": {
-          "type": "collapsible_row",
+        "item_3": {
+          "type": "item",
           "settings": {
-            "heading": "Lorem ipsum dolor sit amet consectetur adipisicing elit",
-            "content": "<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa iste porro, inventore perferendis nam impedit facere ea adipisci autem iusto ratione doloremque repellat, asperiores, cum eligendi itaque necessitatibus mollitia commodi.</p>",
-            "page": ""
+            "item_text": "<p>100% responsive: móvil, tablet y desktop</p>"
           }
         },
-        "collapsible_row_N6qwF3": {
-          "type": "collapsible_row",
+        "item_4": {
+          "type": "item",
           "settings": {
-            "heading": "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "content": "<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa iste porro, inventore perferendis nam impedit facere ea adipisci autem iusto ratione doloremque repellat, asperiores, cum eligendi itaque necessitatibus mollitia commodi.</p>",
-            "page": ""
+            "item_text": "<p>Link personalizado listo para compartir</p>"
+          }
+        },
+        "item_5": {
+          "type": "item",
+          "settings": {
+            "item_text": "<p>Una revisión de cambios incluida sin costo</p>"
+          }
+        },
+        "item_6": {
+          "type": "item",
+          "settings": {
+            "item_text": "<p>Página activa por 12 meses</p>"
           }
         }
       },
-      "block_order": [
-        "collapsible_row_mkG7az",
-        "collapsible_row_DdtkBn",
-        "collapsible_row_azXUWD",
-        "collapsible_row_N6qwF3"
-      ],
+      "block_order": ["item_1", "item_2", "item_3", "item_4", "item_5", "item_6"]
+    },
+    "wb_testimonials": {
+      "type": "wb-testimonials",
       "settings": {
-        "color_scheme": "",
-        "container_width": "medium",
-        "container_spacer_type": "padding",
-        "heading": "Collapsible Content",
-        "description": "<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsum, tempora.</p>",
-        "open_first_collapsible_row": true,
-        "section_id": ""
+        "label_text": "Parejas felices",
+        "title": "Ellos ya dijeron <em>sí</em>"
+      },
+      "blocks": {
+        "testimonial_1": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "<p>Superó todas nuestras expectativas. La recibimos en menos de 24 horas y nuestros invitados no paraban de decir lo hermosa que era. ¡La recomendamos totalmente!</p>",
+            "avatar_initial": "C",
+            "author_name": "Camila &amp; Rodrigo",
+            "template_name": "Plantilla Clásica"
+          }
+        },
+        "testimonial_2": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "<p>Pedimos un pequeño cambio en los colores y lo tuvieron listo al día siguiente. El proceso fue súper fácil y el resultado fue exactamente lo que soñábamos.</p>",
+            "avatar_initial": "L",
+            "author_name": "Luciana &amp; Felipe",
+            "template_name": "Plantilla Romántica"
+          }
+        },
+        "testimonial_3": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "<p>Buscábamos algo moderno y diferente. La plantilla Elegante fue perfecta para nosotros. Todos nuestros amigos preguntaron quién la hizo. ¡Vale cada centavo!</p>",
+            "avatar_initial": "V",
+            "author_name": "Valentina &amp; Marco",
+            "template_name": "Plantilla Elegante"
+          }
+        }
+      },
+      "block_order": ["testimonial_1", "testimonial_2", "testimonial_3"]
+    },
+    "wb_faq": {
+      "type": "wb-faq",
+      "settings": {
+        "label_text": "Preguntas frecuentes",
+        "title": "Todo lo que <em>necesitas saber</em>"
+      },
+      "blocks": {
+        "faq_1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Cuánto tardan en entregar?",
+            "answer": "<p>La entrega es de máximo 48 horas después de confirmar el pago y recibir toda la información del formulario. En muchos casos la entrega es antes.</p>"
+          }
+        },
+        "faq_2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Puedo solicitar cambios?",
+            "answer": "<p>Sí. Incluimos una revisión de cambios completamente gratis. El tiempo de entrega de esa modificación también es de 48 horas máximo.</p>"
+          }
+        },
+        "faq_3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Cómo comparto la invitación?",
+            "answer": "<p>Te entregamos un link directo que puedes compartir por WhatsApp, Instagram, correo electrónico o cualquier red social. Tus invitados solo hacen clic y listo.</p>"
+          }
+        },
+        "faq_4": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿La página funciona en celular?",
+            "answer": "<p>Sí, todas nuestras invitaciones son completamente responsive y se ven perfectamente en teléfonos, tablets y computadoras.</p>"
+          }
+        },
+        "faq_5": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Qué información necesito proveer?",
+            "answer": "<p>Nombres, fecha, lugar, hora, programa del día, código de vestimenta (opcional), RSVP (opcional) y cualquier mensaje especial para los invitados.</p>"
+          }
+        },
+        "faq_6": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Por cuánto tiempo estará activa?",
+            "answer": "<p>La página permanece activa por 12 meses desde la fecha de entrega, más que suficiente para toda la duración de tu boda y celebraciones.</p>"
+          }
+        }
+      },
+      "block_order": ["faq_1", "faq_2", "faq_3", "faq_4", "faq_5", "faq_6"]
+    },
+    "wb_cta_final": {
+      "type": "wb-cta-final",
+      "settings": {
+        "label_text": "Empieza hoy",
+        "script_text": "Tu gran día merece una gran invitación",
+        "title": "Elige tu plantilla y <em>enamora</em> a tus invitados",
+        "description": "<p>En 48 horas tendrás una invitación digital que tus invitados nunca olvidarán.</p>",
+        "cta_text": "Ver las 3 plantillas",
+        "cta_url": "#plantillas"
       }
     }
   },
   "order": [
-    "hero",
-    "featured-collection-0",
-    "image_with_text_x6cL3k",
-    "image_and_coordinate_points_kz9WKE",
-    "collapsible_content_qmWWDz"
+    "wb_hero",
+    "wb_features_strip",
+    "wb_how_it_works",
+    "wb_templates_grid",
+    "wb_pricing",
+    "wb_testimonials",
+    "wb_faq",
+    "wb_cta_final"
   ]
 }

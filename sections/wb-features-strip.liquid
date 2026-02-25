@@ -1,0 +1,165 @@
+{%- style -%}
+  #WbFeaturesStrip-{{ section.id }} {
+    background: white;
+    border-top: 1px solid var(--color-wb-linen);
+    border-bottom: 1px solid var(--color-wb-linen);
+    padding: 32px 60px;
+    display: flex;
+    justify-content: center;
+    gap: 64px;
+    flex-wrap: wrap;
+  }
+
+  #WbFeaturesStrip-{{ section.id }} .wb-feature-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 13px;
+    color: var(--color-wb-brown-mid);
+  }
+
+  #WbFeaturesStrip-{{ section.id }} .wb-fi-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--color-wb-blush-pale);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  #WbFeaturesStrip-{{ section.id }} .wb-fi-icon.emoji {
+    background: transparent;
+    font-size: 24px;
+  }
+
+  #WbFeaturesStrip-{{ section.id }} .wb-feature-item strong {
+    font-family: var(--font-wb-serif);
+    font-style: italic;
+    color: var(--color-wb-brown);
+    font-size: 17px;
+    font-weight: 400;
+    display: block;
+    line-height: 1;
+  }
+
+  @media (max-width: 1024px) {
+    #WbFeaturesStrip-{{ section.id }} {
+      padding: 20px 24px;
+      gap: 28px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    #WbFeaturesStrip-{{ section.id }} {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 20px;
+      padding: 16px;
+    }
+  }
+{%- endstyle -%}
+
+<div id="WbFeaturesStrip-{{ section.id }}" class="wb-features-strip">
+  {%- for block in section.blocks -%}
+    <div class="wb-feature-item" {{ block.shopify_attributes }}>
+      {%- if block.settings.icon != blank -%}
+        <div class="wb-fi-icon {% if block.settings.is_emoji %}emoji{% endif %}">
+          {{ block.settings.icon }}
+        </div>
+      {%- endif -%}
+
+      <div>
+        {%- if block.settings.title != blank -%}
+          <strong>{{ block.settings.title }}</strong>
+        {%- endif -%}
+        {%- if block.settings.label != blank -%}
+          {{ block.settings.label }}
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endfor -%}
+</div>
+
+{% schema %}
+{
+  "name": "Web Bodas — Features Strip",
+  "class": "section",
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "icon",
+          "label": "Icon or Emoji",
+          "default": "⏱"
+        },
+        {
+          "type": "checkbox",
+          "id": "is_emoji",
+          "label": "Is emoji (no background circle)"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "Title",
+          "default": "48 horas"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "label",
+          "label": "Label",
+          "default": "entrega garantizada"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Web Bodas — Features Strip",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "⏱",
+            "is_emoji": true,
+            "title": "48 horas",
+            "label": "entrega garantizada"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "✏️",
+            "is_emoji": true,
+            "title": "1 revisión",
+            "label": "sin costo adicional"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "📱",
+            "is_emoji": true,
+            "title": "Responsive",
+            "label": "móvil y desktop"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "🔗",
+            "is_emoji": true,
+            "title": "Link listo",
+            "label": "para compartir"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

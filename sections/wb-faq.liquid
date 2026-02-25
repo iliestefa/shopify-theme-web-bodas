@@ -1,0 +1,248 @@
+{%- style -%}
+  #WbFaq-{{ section.id }} {
+    padding: 112px 64px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  #WbFaq-{{ section.id }} .wb-section-label {
+    font-size: 10px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--color-wb-blush-deep);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  #WbFaq-{{ section.id }} .wb-section-label::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--color-wb-blush);
+  }
+
+  #WbFaq-{{ section.id }} .wb-section-title {
+    font-family: var(--font-wb-serif);
+    font-size: clamp(36px, 4.5vw, 56px);
+    font-weight: 400;
+    line-height: 1.05;
+    color: var(--color-wb-brown);
+  }
+
+  #WbFaq-{{ section.id }} .wb-section-title em {
+    font-style: italic;
+    color: var(--color-wb-blush-deep);
+  }
+
+  #WbFaq-{{ section.id }} .wb-faq-grid {
+    margin-top: 72px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+
+  #WbFaq-{{ section.id }} .wb-faq-item {
+    padding: 28px 0;
+    border-bottom: 1px solid var(--color-wb-linen);
+    cursor: pointer;
+  }
+
+  #WbFaq-{{ section.id }} .wb-faq-item:nth-child(odd) {
+    padding-right: 56px;
+    border-right: 1px solid var(--color-wb-linen);
+  }
+
+  #WbFaq-{{ section.id }} .wb-faq-item:nth-child(even) {
+    padding-left: 56px;
+  }
+
+  #WbFaq-{{ section.id }} .wb-faq-q {
+    font-family: var(--font-wb-serif);
+    font-size: 19px;
+    font-style: italic;
+    color: var(--color-wb-brown);
+    margin-bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  #WbFaq-{{ section.id }} .wb-faq-q .wb-toggle {
+    color: var(--color-wb-blush);
+    font-style: normal;
+    flex-shrink: 0;
+    font-family: var(--font-body);
+    font-size: 20px;
+    transition: transform 0.3s;
+    line-height: 1;
+  }
+
+  #WbFaq-{{ section.id }} .wb-faq-a {
+    font-size: 14px;
+    line-height: 1.75;
+    color: var(--color-wb-brown-mid);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, margin-top 0.3s;
+  }
+
+  #WbFaq-{{ section.id }} .wb-faq-item.wb-open .wb-faq-a {
+    max-height: 200px;
+    margin-top: 14px;
+  }
+
+  #WbFaq-{{ section.id }} .wb-faq-item.wb-open .wb-toggle {
+    transform: rotate(45deg);
+  }
+
+  @media (max-width: 1024px) {
+    #WbFaq-{{ section.id }} .wb-faq-grid {
+      grid-template-columns: 1fr;
+    }
+
+    #WbFaq-{{ section.id }} .wb-faq-item:nth-child(odd) {
+      padding-right: 0;
+      border-right: none;
+    }
+
+    #WbFaq-{{ section.id }} .wb-faq-item:nth-child(even) {
+      padding-left: 0;
+    }
+  }
+
+  @media (max-width: 767px) {
+    #WbFaq-{{ section.id }} {
+      padding: 72px 24px;
+    }
+
+    #WbFaq-{{ section.id }} .wb-faq-grid {
+      margin-top: 40px;
+    }
+  }
+{%- endstyle -%}
+
+<div id="WbFaq-{{ section.id }}" class="wb-faq-section" x-data="wbFaqComp_{{ section.id }}" x-cloak>
+  <div class="wb-section-label">{{ section.settings.label_text }}</div>
+
+  {%- if section.settings.title != blank -%}
+    <h2 class="wb-section-title">{{ section.settings.title }}</h2>
+  {%- endif -%}
+
+  <div class="wb-faq-grid">
+    {%- for block in section.blocks -%}
+      <div class="wb-faq-item" @click="toggleItem({{ forloop.index0 }})" :class="{ 'wb-open': openItems[{{ forloop.index0 }}] }" {{ block.shopify_attributes }}>
+        <div class="wb-faq-q">
+          <span>{{ block.settings.question }}</span>
+          <span class="wb-toggle">+</span>
+        </div>
+        <div class="wb-faq-a">
+          <div class="richtext">{{ block.settings.answer }}</div>
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+<script>
+  document.addEventListener('alpine:init', () => {
+    Alpine.data('wbFaqComp_{{ section.id }}', () => ({
+      openItems: {},
+      toggleItem(index) {
+        this.$set(this.openItems, index, !this.openItems[index]);
+      }
+    }));
+  }, { once: true });
+</script>
+
+{% schema %}
+{
+  "name": "Web Bodas — FAQ",
+  "class": "section",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "label_text",
+      "label": "Section Label",
+      "default": "Preguntas frecuentes"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Todo lo que <em>necesitas saber</em>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "FAQ Item",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "question",
+          "label": "Question",
+          "default": "¿Cuánto tardan en entregar?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>La entrega es de máximo 48 horas después de confirmar el pago y recibir toda la información del formulario. En muchos casos la entrega es antes.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Web Bodas — FAQ",
+      "blocks": [
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Cuánto tardan en entregar?",
+            "answer": "<p>La entrega es de máximo 48 horas después de confirmar el pago y recibir toda la información del formulario. En muchos casos la entrega es antes.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Puedo solicitar cambios?",
+            "answer": "<p>Sí. Incluimos una revisión de cambios completamente gratis. El tiempo de entrega de esa modificación también es de 48 horas máximo.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Cómo comparto la invitación?",
+            "answer": "<p>Te entregamos un link directo que puedes compartir por WhatsApp, Instagram, correo electrónico o cualquier red social. Tus invitados solo hacen clic y listo.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿La página funciona en celular?",
+            "answer": "<p>Sí, todas nuestras invitaciones son completamente responsive y se ven perfectamente en teléfonos, tablets y computadoras.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Qué información necesito proveer?",
+            "answer": "<p>Nombres, fecha, lugar, hora, programa del día, código de vestimenta (opcional), RSVP (opcional) y cualquier mensaje especial para los invitados.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Por cuánto tiempo estará activa?",
+            "answer": "<p>La página permanece activa por 12 meses desde la fecha de entrega, más que suficiente para toda la duración de tu boda y celebraciones.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,237 @@
+{%- style -%}
+  #WbHowItWorks-{{ section.id }} {
+    background: var(--color-wb-ivory);
+    padding: 112px 64px;
+  }
+
+  #WbHowItWorks-{{ section.id }} .wb-how-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  #WbHowItWorks-{{ section.id }} .wb-section-label {
+    font-size: 10px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--color-wb-blush-deep);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  #WbHowItWorks-{{ section.id }} .wb-section-label::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--color-wb-blush);
+  }
+
+  #WbHowItWorks-{{ section.id }} .wb-section-title {
+    font-family: var(--font-wb-serif);
+    font-size: clamp(36px, 4.5vw, 56px);
+    font-weight: 400;
+    line-height: 1.05;
+    color: var(--color-wb-brown);
+  }
+
+  #WbHowItWorks-{{ section.id }} .wb-section-title em {
+    font-style: italic;
+    color: var(--color-wb-blush-deep);
+  }
+
+  #WbHowItWorks-{{ section.id }} .wb-how-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 48px;
+    margin-top: 72px;
+  }
+
+  #WbHowItWorks-{{ section.id }} .wb-how-step {
+    position: relative;
+  }
+
+  #WbHowItWorks-{{ section.id }} .wb-how-num {
+    font-family: var(--font-wb-serif);
+    font-size: 11px;
+    font-style: italic;
+    color: var(--color-wb-blush);
+    letter-spacing: 0.2em;
+    margin-bottom: 20px;
+  }
+
+  #WbHowItWorks-{{ section.id }} .wb-how-icon {
+    width: 52px;
+    height: 52px;
+    background: white;
+    border: 1px solid var(--color-wb-linen);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 20px rgba(74, 55, 40, 0.06);
+  }
+
+  #WbHowItWorks-{{ section.id }} .wb-how-step h3 {
+    font-family: var(--font-wb-serif);
+    font-size: 22px;
+    font-style: italic;
+    color: var(--color-wb-brown);
+    margin-bottom: 10px;
+  }
+
+  #WbHowItWorks-{{ section.id }} .wb-how-step p {
+    font-size: 14px;
+    line-height: 1.75;
+    color: var(--color-wb-brown-mid);
+  }
+
+  @media (max-width: 1024px) {
+    #WbHowItWorks-{{ section.id }} .wb-how-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    #WbHowItWorks-{{ section.id }} {
+      padding: 72px 24px;
+    }
+
+    #WbHowItWorks-{{ section.id }} .wb-how-grid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+      margin-top: 40px;
+    }
+  }
+{%- endstyle -%}
+
+<div id="WbHowItWorks-{{ section.id }}" class="wb-how-works">
+  <div class="wb-how-inner">
+    <div class="wb-section-label">{{ section.settings.label_text }}</div>
+
+    {%- if section.settings.title != blank -%}
+      <h2 class="wb-section-title">{{ section.settings.title }}</h2>
+    {%- endif -%}
+
+    <div class="wb-how-grid">
+      {%- for block in section.blocks -%}
+        <div class="wb-how-step" {{ block.shopify_attributes }}>
+          {%- if block.settings.step_number != blank -%}
+            <div class="wb-how-num">— {{ block.settings.step_number }}</div>
+          {%- endif -%}
+
+          {%- if block.settings.icon != blank -%}
+            <div class="wb-how-icon">{{ block.settings.icon }}</div>
+          {%- endif -%}
+
+          {%- if block.settings.heading != blank -%}
+            <h3>{{ block.settings.heading }}</h3>
+          {%- endif -%}
+
+          {%- if block.settings.description != blank -%}
+            <p>{{ block.settings.description }}</p>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Web Bodas — Cómo Funciona",
+  "class": "section",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "label_text",
+      "label": "Section Label",
+      "default": "El proceso"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Tan sencillo como <em>cuatro pasos</em>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "step_number",
+          "label": "Step Number",
+          "default": "01"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "icon",
+          "label": "Icon/Emoji",
+          "default": "💎"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Elige tu plantilla"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>Explora nuestras 3 plantillas exclusivas y previsualiza cada una antes de decidirte.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Web Bodas — Cómo Funciona",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "step_number": "01",
+            "icon": "💎",
+            "heading": "Elige tu plantilla",
+            "description": "<p>Explora nuestras 3 plantillas exclusivas y previsualiza cada una antes de decidirte.</p>"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "step_number": "02",
+            "icon": "✍️",
+            "heading": "Completa tus datos",
+            "description": "<p>Llena el formulario con todos los detalles de tu boda: nombres, fecha, lugar y programa.</p>"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "step_number": "03",
+            "icon": "💳",
+            "heading": "Realiza el pago",
+            "description": "<p>Pago seguro y sencillo. En cuanto lo confirmemos, comenzamos a crear tu invitación.</p>"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "step_number": "04",
+            "icon": "🎁",
+            "heading": "Recibe en 48 hrs",
+            "description": "<p>Tu invitación personalizada llegará a tu correo, lista para compartir con tus invitados.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

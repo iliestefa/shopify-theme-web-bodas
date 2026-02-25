@@ -1,0 +1,487 @@
+{%- style -%}
+  #WbTemplatesGrid-{{ section.id }} {
+    background: var(--color-wb-parchment);
+    padding: 112px 64px;
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-templates-intro {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 80px;
+    align-items: end;
+    margin-bottom: 72px;
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-section-label {
+    font-size: 10px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--color-wb-blush-deep);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-section-label::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--color-wb-blush);
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-section-title {
+    font-family: var(--font-wb-serif);
+    font-size: clamp(36px, 4.5vw, 56px);
+    font-weight: 400;
+    line-height: 1.05;
+    color: var(--color-wb-brown);
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-section-title em {
+    font-style: italic;
+    color: var(--color-wb-blush-deep);
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-intro-desc {
+    color: var(--color-wb-brown-mid);
+    font-size: 15px;
+    line-height: 1.8;
+    max-width: 340px;
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-templates-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-template-card {
+    cursor: pointer;
+    transition: transform 0.4s ease;
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-template-card:hover {
+    transform: translateY(-6px);
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-template-thumb {
+    position: relative;
+    height: 460px;
+    overflow: hidden;
+    border: 1px solid var(--color-wb-linen);
+    box-shadow: 0 8px 40px rgba(74, 55, 40, 0.07);
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-template-thumb-inner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 32px;
+    text-align: center;
+    transition: transform 0.5s ease;
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-template-card:hover .wb-template-thumb-inner {
+    transform: scale(1.02);
+  }
+
+  /* Template Styles */
+  #WbTemplatesGrid-{{ section.id }} .wb-t-clasica {
+    background: linear-gradient(160deg, #faf7f2 0%, #f0e8da 100%);
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-t-clasica .wb-t-ornament {
+    font-size: 22px;
+    color: rgba(184, 154, 106, 0.35);
+    margin-bottom: 12px;
+    letter-spacing: 0.3em;
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-t-clasica .wb-t-names {
+    font-family: var(--font-wb-serif);
+    font-size: 30px;
+    font-style: italic;
+    color: #4a3728;
+    line-height: 1.1;
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-t-clasica .wb-t-line {
+    width: 48px;
+    height: 1px;
+    background: var(--color-wb-gold);
+    margin: 14px auto;
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-t-clasica .wb-t-date {
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--color-wb-gold);
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-t-clasica .wb-t-border {
+    position: absolute;
+    inset: 14px;
+    border: 1px solid rgba(184, 154, 106, 0.2);
+    pointer-events: none;
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-t-romantica {
+    background: linear-gradient(160deg, #fdf5f5 0%, #f5e4e4 100%);
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-t-romantica .wb-t-names {
+    font-family: var(--font-wb-script);
+    font-size: 46px;
+    color: #9b4f54;
+    line-height: 1.05;
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-t-romantica .wb-t-heart {
+    font-size: 18px;
+    color: #d4878a;
+    margin: 10px 0;
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-t-romantica .wb-t-date {
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: #c4777a;
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-t-romantica .wb-t-swirl {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #d4878a, transparent);
+    margin: 12px auto;
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-t-romantica .wb-t-glow {
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    background: radial-gradient(circle, rgba(212, 135, 138, 0.12), transparent);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-t-elegante {
+    background: linear-gradient(160deg, #f6f4f8 0%, #ece8f2 100%);
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-t-elegante .wb-t-names {
+    font-family: var(--font-wb-serif);
+    font-size: 22px;
+    letter-spacing: 0.15em;
+    color: #3d3550;
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-t-elegante .wb-t-and {
+    font-family: var(--font-wb-script);
+    font-size: 38px;
+    color: #8b7faa;
+    display: block;
+    margin: 4px 0;
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-t-elegante .wb-t-line {
+    width: 48px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #8b7faa, transparent);
+    margin: 14px auto;
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-t-elegante .wb-t-date {
+    font-size: 10px;
+    letter-spacing: 0.55em;
+    text-transform: uppercase;
+    color: #8b7faa;
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-t-elegante .wb-t-geo {
+    position: absolute;
+    inset: 18px;
+    border: 1px solid rgba(139, 127, 170, 0.12);
+    pointer-events: none;
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-template-badge {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    z-index: 2;
+    font-weight: 400;
+    border: 1px solid;
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-badge-clasica {
+    background: rgba(184, 154, 106, 0.15);
+    color: var(--color-wb-gold);
+    border-color: rgba(184, 154, 106, 0.3);
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-badge-romantica {
+    background: rgba(212, 135, 138, 0.15);
+    color: #b85c60;
+    border-color: rgba(212, 135, 138, 0.3);
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-badge-elegante {
+    background: rgba(139, 127, 170, 0.15);
+    color: #6b5f8a;
+    border-color: rgba(139, 127, 170, 0.3);
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-template-info {
+    padding: 28px 4px 0;
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-template-name {
+    font-family: var(--font-wb-serif);
+    font-size: 26px;
+    font-style: italic;
+    color: var(--color-wb-brown);
+    margin-bottom: 8px;
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-template-desc {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--color-wb-brown-mid);
+    margin-bottom: 20px;
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-template-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--color-wb-blush-deep);
+    text-decoration: none;
+    border-bottom: 1px solid var(--color-wb-blush-pale);
+    transition: border-color 0.3s;
+    cursor: pointer;
+    background: none;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    padding-bottom: 2px;
+    font-family: var(--font-body);
+  }
+
+  #WbTemplatesGrid-{{ section.id }} .wb-template-cta:hover {
+    border-bottom-color: var(--color-wb-blush-deep);
+  }
+
+  @media (max-width: 1024px) {
+    #WbTemplatesGrid-{{ section.id }} .wb-templates-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    #WbTemplatesGrid-{{ section.id }} .wb-templates-intro {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    #WbTemplatesGrid-{{ section.id }} {
+      padding: 72px 24px;
+    }
+
+    #WbTemplatesGrid-{{ section.id }} .wb-templates-grid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    #WbTemplatesGrid-{{ section.id }} .wb-template-thumb {
+      height: 380px;
+    }
+  }
+{%- endstyle -%}
+
+<div id="WbTemplatesGrid-{{ section.id }}" class="wb-templates">
+  <div class="wb-templates-intro">
+    <div>
+      <div class="wb-section-label">{{ section.settings.label_text }}</div>
+      {%- if section.settings.title != blank -%}
+        <h2 class="wb-section-title">{{ section.settings.title }}</h2>
+      {%- endif -%}
+    </div>
+    {%- if section.settings.intro_text != blank -%}
+      <p class="wb-intro-desc">{{ section.settings.intro_text }}</p>
+    {%- endif -%}
+  </div>
+
+  <div class="wb-templates-grid">
+    {%- for block in section.blocks -%}
+      <div class="wb-template-card" {{ block.shopify_attributes }}>
+        <div class="wb-template-thumb">
+          <div class="wb-template-thumb-inner wb-t-{{ block.settings.style }}">
+            {%- case block.settings.style -%}
+              {%- when 'clasica' -%}
+                <div class="wb-t-border"></div>
+                <div class="wb-t-ornament">✦ ✦ ✦</div>
+                <div class="wb-t-names">Sofia<br />&amp;<br />Andrés</div>
+                <div class="wb-t-line"></div>
+                <div class="wb-t-date">15 · Junio · 2025</div>
+
+              {%- when 'romantica' -%}
+                <div class="wb-t-glow"></div>
+                <div class="wb-t-heart">♡ ♡ ♡</div>
+                <div class="wb-t-names">Isabella<br />&amp;<br />Mateo</div>
+                <div class="wb-t-swirl"></div>
+                <div class="wb-t-date">22 · Septiembre · 2025</div>
+
+              {%- when 'elegante' -%}
+                <div class="wb-t-geo"></div>
+                <div class="wb-t-names">
+                  Valentina<br /><span class="wb-t-and">&amp;</span><br />Nicolás
+                </div>
+                <div class="wb-t-line"></div>
+                <div class="wb-t-date">08 · Marzo · 2026</div>
+            {%- endcase -%}
+          </div>
+          <div class="wb-template-badge wb-badge-{{ block.settings.style }}">
+            {{ block.settings.badge }}
+          </div>
+        </div>
+
+        <div class="wb-template-info">
+          <div class="wb-template-name">{{ block.settings.name }}</div>
+          {%- if block.settings.description != blank -%}
+            <p class="wb-template-desc">{{ block.settings.description }}</p>
+          {%- endif -%}
+          {%- if block.settings.cta_url != blank -%}
+            <a href="{{ block.settings.cta_url }}" class="wb-template-cta">
+              Ver preview y personalizar →
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Web Bodas — Plantillas",
+  "class": "section",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "label_text",
+      "label": "Section Label",
+      "default": "Plantillas"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Tres estilos,<br /><em>una sola historia</em>"
+    },
+    {
+      "type": "richtext",
+      "id": "intro_text",
+      "label": "Intro Text",
+      "default": "<p>Haz clic en cualquier plantilla para ver su preview completo y personalizar tu invitación.</p>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "template",
+      "name": "Template",
+      "settings": [
+        {
+          "type": "select",
+          "id": "style",
+          "label": "Template Style",
+          "options": [
+            { "value": "clasica", "label": "Clásica" },
+            { "value": "romantica", "label": "Romántica" },
+            { "value": "elegante", "label": "Elegante" }
+          ],
+          "default": "clasica"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "badge",
+          "label": "Badge",
+          "default": "Clásica"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "name",
+          "label": "Template Name",
+          "default": "La Clásica"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>Elegancia atemporal en tonos crema y dorado. Composición simétrica, tipografía serif sofisticada y detalles ornamentales refinados.</p>"
+        },
+        {
+          "type": "url",
+          "id": "cta_url",
+          "label": "CTA URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Web Bodas — Plantillas",
+      "blocks": [
+        {
+          "type": "template",
+          "settings": {
+            "style": "clasica",
+            "badge": "Clásica",
+            "name": "La Clásica",
+            "description": "<p>Elegancia atemporal en tonos crema y dorado. Composición simétrica, tipografía serif sofisticada y detalles ornamentales refinados.</p>"
+          }
+        },
+        {
+          "type": "template",
+          "settings": {
+            "style": "romantica",
+            "badge": "Romántica",
+            "name": "La Romántica",
+            "description": "<p>Calidez y emoción en tonos rosa y durazno. Script fluido, detalles florales y una atmósfera que transmite amor desde el primer scroll.</p>"
+          }
+        },
+        {
+          "type": "template",
+          "settings": {
+            "style": "elegante",
+            "badge": "Elegante",
+            "name": "La Elegante",
+            "description": "<p>Sofisticación moderna en tonos lavanda y perla. Minimalismo editorial con detalles geométricos y tipografía contrastante y contemporánea.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

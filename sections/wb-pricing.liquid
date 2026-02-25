@@ -1,0 +1,338 @@
+{%- style -%}
+  #WbPricing-{{ section.id }} {
+    background: var(--color-wb-ivory);
+    padding: 112px 64px;
+  }
+
+  #WbPricing-{{ section.id }} .wb-price-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  #WbPricing-{{ section.id }} .wb-section-label {
+    font-size: 10px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--color-wb-blush-deep);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  #WbPricing-{{ section.id }} .wb-section-label::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--color-wb-blush);
+  }
+
+  #WbPricing-{{ section.id }} .wb-price-card {
+    background: white;
+    border: 1px solid var(--color-wb-linen);
+    padding: 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    box-shadow: 0 12px 60px rgba(74, 55, 40, 0.07);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #WbPricing-{{ section.id }} .wb-price-card::before {
+    content: '';
+    position: absolute;
+    top: -80px;
+    right: -80px;
+    width: 280px;
+    height: 280px;
+    background: radial-gradient(circle, rgba(232, 180, 176, 0.15), transparent);
+    border-radius: 50%;
+  }
+
+  #WbPricing-{{ section.id }} .wb-price-amount {
+    font-family: var(--font-wb-serif);
+    font-size: clamp(72px, 9vw, 108px);
+    font-style: italic;
+    color: var(--color-wb-brown);
+    line-height: 1;
+  }
+
+  #WbPricing-{{ section.id }} .wb-price-currency {
+    font-size: 28px;
+    vertical-align: super;
+    margin-right: 4px;
+    color: var(--color-wb-blush-deep);
+  }
+
+  #WbPricing-{{ section.id }} .wb-price-usd {
+    font-size: 20px;
+    color: var(--color-wb-brown-soft);
+    font-family: var(--font-body);
+    font-weight: 300;
+  }
+
+  #WbPricing-{{ section.id }} .wb-price-includes {
+    margin-top: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  #WbPricing-{{ section.id }} .wb-price-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    font-size: 14px;
+    color: var(--color-wb-brown-mid);
+  }
+
+  #WbPricing-{{ section.id }} .wb-price-check {
+    width: 20px;
+    height: 20px;
+    background: var(--color-wb-blush-pale);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: var(--color-wb-blush-deep);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  #WbPricing-{{ section.id }} .wb-price-note {
+    font-size: 13px;
+    color: var(--color-wb-brown-soft);
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--color-wb-linen);
+    line-height: 1.7;
+  }
+
+  #WbPricing-{{ section.id }} .wb-price-note strong {
+    color: var(--color-wb-blush-deep);
+  }
+
+  #WbPricing-{{ section.id }} .wb-price-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  #WbPricing-{{ section.id }} .wb-price-right .wb-section-label {
+    margin-bottom: 0;
+  }
+
+  #WbPricing-{{ section.id }} .wb-price-headline {
+    font-family: var(--font-wb-serif);
+    font-size: 36px;
+    font-style: italic;
+    color: var(--color-wb-brown);
+    line-height: 1.25;
+  }
+
+  #WbPricing-{{ section.id }} .wb-price-48 {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--color-wb-gold-pale);
+    padding: 12px 20px;
+    font-size: 13px;
+    color: var(--color-wb-brown-mid);
+  }
+
+  #WbPricing-{{ section.id }} .wb-price-48 span {
+    color: var(--color-wb-brown);
+    font-weight: 500;
+  }
+
+  @media (max-width: 1024px) {
+    #WbPricing-{{ section.id }} .wb-price-card {
+      grid-template-columns: 1fr;
+      gap: 48px;
+      padding: 48px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    #WbPricing-{{ section.id }} {
+      padding: 72px 24px;
+    }
+
+    #WbPricing-{{ section.id }} .wb-price-card {
+      padding: 24px;
+      gap: 24px;
+    }
+  }
+{%- endstyle -%}
+
+<div id="WbPricing-{{ section.id }}" class="wb-pricing">
+  <div class="wb-price-inner">
+    <div class="wb-section-label">{{ section.settings.label_text }}</div>
+
+    <div class="wb-price-card">
+      <div>
+        <p style="font-size: 10px; letter-spacing: 0.45em; text-transform: uppercase; color: var(--color-wb-brown-soft); margin-bottom: 12px;">
+          {{ section.settings.price_label }}
+        </p>
+        <div class="wb-price-amount">
+          <span class="wb-price-currency">$</span>{{ section.settings.price }}<span class="wb-price-usd">USD</span>
+        </div>
+
+        <div class="wb-price-includes">
+          {%- for block in section.blocks -%}
+            <div class="wb-price-item">
+              <div class="wb-price-check">✓</div>
+              {{ block.settings.item_text }}
+            </div>
+          {%- endfor -%}
+        </div>
+
+        {%- if section.settings.price_note != blank -%}
+          <div class="wb-price-note">
+            {{ section.settings.price_note }}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="wb-price-right">
+        <div class="wb-section-label">{{ section.settings.cta_label }}</div>
+        {%- if section.settings.headline != blank -%}
+          <p class="wb-price-headline">{{ section.settings.headline }}</p>
+        {%- endif -%}
+
+        <div class="wb-price-48">
+          ⏱ &nbsp;<span>{{ section.settings.delivery_text }}</span>
+        </div>
+
+        {%- if section.settings.cta_text != blank and section.settings.cta_url != blank -%}
+          <a href="{{ section.settings.cta_url }}" style="background: var(--color-wb-blush); color: white; font-size: 11px; letter-spacing: 0.35em; text-transform: uppercase; padding: 18px 48px; text-decoration: none; font-weight: 500; transition: all 0.3s; border: none; cursor: pointer; font-family: var(--font-body); display: inline-block; margin-top: 8px;">
+            {{ section.settings.cta_text }}
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Web Bodas — Pricing",
+  "class": "section",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "label_text",
+      "label": "Section Label",
+      "default": "Inversión"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "price_label",
+      "label": "Price Label",
+      "default": "precio único · todo incluido"
+    },
+    {
+      "type": "text",
+      "id": "price",
+      "label": "Price",
+      "default": "49"
+    },
+    {
+      "type": "richtext",
+      "id": "price_note",
+      "label": "Price Note",
+      "default": "<p><strong>¿Necesitas un cambio después de recibir tu invitación?</strong><br />Con gusto lo realizamos. El tiempo de entrega de la modificación es también de <strong>48 horas</strong>, sin costo adicional.</p>"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "cta_label",
+      "label": "CTA Label",
+      "default": "¿Lista para empezar?"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "headline",
+      "label": "CTA Headline",
+      "default": "Elige tu plantilla y cuéntanos tu historia de amor"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "delivery_text",
+      "label": "Delivery Text",
+      "default": "Entrega garantizada en 48 horas"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "cta_text",
+      "label": "CTA Button Text",
+      "default": "Elegir mi plantilla"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA URL"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Inclusion",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "item_text",
+          "label": "Item Text",
+          "default": "<p>Página web personalizada en la plantilla elegida</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Web Bodas — Pricing",
+      "blocks": [
+        {
+          "type": "item",
+          "settings": {
+            "item_text": "<p>Página web personalizada en la plantilla elegida</p>"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "item_text": "<p>Entrega en máximo 48 horas tras confirmar el pago</p>"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "item_text": "<p>100% responsive: móvil, tablet y desktop</p>"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "item_text": "<p>Link personalizado listo para compartir</p>"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "item_text": "<p>Una revisión de cambios incluida sin costo</p>"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "item_text": "<p>Página activa por 12 meses</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

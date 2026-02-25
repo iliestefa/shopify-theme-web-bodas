@@ -1,0 +1,309 @@
+{%- style -%}
+  #WbHero-{{ section.id }} {
+    background: linear-gradient(160deg, #fdf8f2 0%, #f8f0e6 40%, #f2e8dd 100%);
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  #WbHero-{{ section.id }}::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  #WbHero-{{ section.id }} .wb-hero-circles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  #WbHero-{{ section.id }} .wb-circle-1 {
+    position: absolute;
+    width: 520px;
+    height: 520px;
+    border-radius: 50%;
+    border: 1px solid rgba(184, 154, 106, 0.12);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  #WbHero-{{ section.id }} .wb-circle-2 {
+    position: absolute;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    border: 1px solid rgba(232, 180, 176, 0.1);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  #WbHero-{{ section.id }} .wb-hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 120px 24px 80px;
+    max-width: 760px;
+  }
+
+  #WbHero-{{ section.id }} .wb-hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 10px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--color-wb-blush-deep);
+    margin-bottom: 36px;
+    opacity: 0;
+    animation: wb-fadeUp 0.8s ease forwards 0.2s;
+  }
+
+  #WbHero-{{ section.id }} .wb-hero-badge::before,
+  #WbHero-{{ section.id }} .wb-hero-badge::after {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: var(--color-wb-blush);
+  }
+
+  #WbHero-{{ section.id }} .wb-hero-script {
+    font-family: var(--font-wb-script);
+    font-size: clamp(28px, 5vw, 48px);
+    color: var(--color-wb-blush-deep);
+    opacity: 0;
+    animation: wb-fadeUp 0.9s ease forwards 0.4s;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+
+  #WbHero-{{ section.id }} .wb-hero-title {
+    font-family: var(--font-wb-serif);
+    font-size: clamp(48px, 7vw, 80px);
+    font-weight: 400;
+    line-height: 0.98;
+    color: var(--color-wb-brown);
+    opacity: 0;
+    animation: wb-fadeUp 0.9s ease forwards 0.55s;
+  }
+
+  #WbHero-{{ section.id }} .wb-hero-title em {
+    font-style: italic;
+    color: var(--color-wb-blush-deep);
+  }
+
+  #WbHero-{{ section.id }} .wb-hero-sub {
+    margin-top: 28px;
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--color-wb-brown-mid);
+    line-height: 1.8;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 0;
+    animation: wb-fadeUp 0.9s ease forwards 0.8s;
+  }
+
+  #WbHero-{{ section.id }} .wb-hero-actions {
+    margin-top: 48px;
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: wb-fadeUp 0.9s ease forwards 1s;
+  }
+
+  #WbHero-{{ section.id }} .wb-hero-actions a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #WbHero-{{ section.id }} .wb-hero-scroll {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--color-wb-brown-soft);
+    opacity: 0;
+    animation: wb-fadeIn 1s ease forwards 1.5s;
+  }
+
+  #WbHero-{{ section.id }} .wb-hero-scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--color-wb-blush), transparent);
+    animation: wb-grow 2s ease-in-out infinite;
+  }
+
+  @keyframes wb-fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes wb-fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes wb-grow {
+    0%, 100% {
+      transform: scaleY(1);
+      transform-origin: top;
+    }
+    50% {
+      transform: scaleY(0.3);
+      transform-origin: top;
+    }
+  }
+
+  @media (max-width: 767px) {
+    #WbHero-{{ section.id }} {
+      min-height: 70vh;
+    }
+
+    #WbHero-{{ section.id }} .wb-hero-content {
+      padding: 60px 16px 60px;
+    }
+
+    #WbHero-{{ section.id }} .wb-hero-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #WbHero-{{ section.id }} .wb-hero-actions a {
+      width: 100%;
+    }
+  }
+{%- endstyle -%}
+
+<div id="WbHero-{{ section.id }}" class="wb-hero">
+  <div class="wb-hero-circles">
+    <div class="wb-circle-1"></div>
+    <div class="wb-circle-2"></div>
+  </div>
+
+  <div class="wb-hero-content">
+    {%- if section.settings.badge_text != blank -%}
+      <div class="wb-hero-badge">{{ section.settings.badge_text }}</div>
+    {%- endif -%}
+
+    {%- if section.settings.script_text != blank -%}
+      <p class="wb-hero-script">{{ section.settings.script_text }}</p>
+    {%- endif -%}
+
+    {%- if section.settings.heading != blank -%}
+      <h1 class="wb-hero-title">{{ section.settings.heading }}</h1>
+    {%- endif -%}
+
+    {%- if section.settings.subheading != blank -%}
+      <p class="wb-hero-sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    <div class="wb-hero-actions">
+      {%- if section.settings.btn_primary_text != blank and section.settings.btn_primary_url != blank -%}
+        <a href="{{ section.settings.btn_primary_url }}" class="wb-btn-primary">
+          {{ section.settings.btn_primary_text }}
+        </a>
+      {%- endif -%}
+
+      {%- if section.settings.btn_ghost_text != blank and section.settings.btn_ghost_url != blank -%}
+        <a href="{{ section.settings.btn_ghost_url }}" class="wb-btn-ghost">
+          {{ section.settings.btn_ghost_text }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="wb-hero-scroll">
+    Explorar
+    <div class="wb-hero-scroll-line"></div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Web Bodas — Hero",
+  "class": "section",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "badge_text",
+      "label": "Badge",
+      "default": "Invitaciones Digitales de Boda"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "script_text",
+      "label": "Script/Decorative text",
+      "default": "Para el día más especial"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Tu historia de amor, <em>contada con elegancia</em>"
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "<p>Páginas web de invitación diseñadas a medida. Elige tu plantilla favorita, comparte tus datos y recíbela lista para compartir en solo 48 horas.</p>"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "btn_primary_text",
+      "label": "Primary Button Text",
+      "default": "Ver Plantillas"
+    },
+    {
+      "type": "url",
+      "id": "btn_primary_url",
+      "label": "Primary Button URL"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "btn_ghost_text",
+      "label": "Secondary Button Text",
+      "default": "¿Cómo funciona?"
+    },
+    {
+      "type": "url",
+      "id": "btn_ghost_url",
+      "label": "Secondary Button URL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Web Bodas — Hero"
+    }
+  ]
+}
+{% endschema %}

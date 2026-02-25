@@ -1,0 +1,251 @@
+{%- style -%}
+  #WbTestimonials-{{ section.id }} {
+    background: var(--color-wb-blush-pale);
+    padding: 112px 64px;
+  }
+
+  #WbTestimonials-{{ section.id }} .wb-test-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  #WbTestimonials-{{ section.id }} .wb-section-label {
+    font-size: 10px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--color-wb-blush-deep);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  #WbTestimonials-{{ section.id }} .wb-section-label::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--color-wb-blush);
+  }
+
+  #WbTestimonials-{{ section.id }} .wb-section-title {
+    font-family: var(--font-wb-serif);
+    font-size: clamp(36px, 4.5vw, 56px);
+    font-weight: 400;
+    line-height: 1.05;
+    color: var(--color-wb-brown);
+  }
+
+  #WbTestimonials-{{ section.id }} .wb-section-title em {
+    font-style: italic;
+    color: var(--color-wb-blush-deep);
+  }
+
+  #WbTestimonials-{{ section.id }} .wb-test-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-top: 72px;
+  }
+
+  #WbTestimonials-{{ section.id }} .wb-test-card {
+    background: white;
+    padding: 44px 36px;
+    border: 1px solid var(--color-wb-linen);
+    position: relative;
+    box-shadow: 0 4px 24px rgba(74, 55, 40, 0.05);
+  }
+
+  #WbTestimonials-{{ section.id }} .wb-test-card::before {
+    content: '"';
+    font-family: var(--font-wb-serif);
+    font-size: 90px;
+    color: rgba(232, 180, 176, 0.25);
+    position: absolute;
+    top: -20px;
+    left: 20px;
+    line-height: 1;
+  }
+
+  #WbTestimonials-{{ section.id }} .wb-test-quote {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--color-wb-brown-mid);
+    margin-bottom: 28px;
+  }
+
+  #WbTestimonials-{{ section.id }} .wb-test-author {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  #WbTestimonials-{{ section.id }} .wb-test-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--color-wb-blush-pale);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-wb-serif);
+    font-style: italic;
+    font-size: 17px;
+    color: var(--color-wb-blush-deep);
+    border: 1px solid var(--color-wb-blush);
+    flex-shrink: 0;
+  }
+
+  #WbTestimonials-{{ section.id }} .wb-test-name {
+    font-family: var(--font-wb-serif);
+    font-style: italic;
+    color: var(--color-wb-brown);
+    font-size: 17px;
+  }
+
+  #WbTestimonials-{{ section.id }} .wb-test-template {
+    font-size: 11px;
+    color: var(--color-wb-brown-soft);
+    letter-spacing: 0.1em;
+  }
+
+  @media (max-width: 1024px) {
+    #WbTestimonials-{{ section.id }} .wb-test-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 767px) {
+    #WbTestimonials-{{ section.id }} {
+      padding: 72px 24px;
+    }
+
+    #WbTestimonials-{{ section.id }} .wb-test-grid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+      margin-top: 40px;
+    }
+  }
+{%- endstyle -%}
+
+<div id="WbTestimonials-{{ section.id }}" class="wb-testimonials">
+  <div class="wb-test-inner">
+    <div class="wb-section-label">{{ section.settings.label_text }}</div>
+
+    {%- if section.settings.title != blank -%}
+      <h2 class="wb-section-title">{{ section.settings.title }}</h2>
+    {%- endif -%}
+
+    <div class="wb-test-grid">
+      {%- for block in section.blocks -%}
+        <div class="wb-test-card" {{ block.shopify_attributes }}>
+          {%- if block.settings.quote != blank -%}
+            <p class="wb-test-quote">{{ block.settings.quote }}</p>
+          {%- endif -%}
+
+          <div class="wb-test-author">
+            {%- if block.settings.avatar_initial != blank -%}
+              <div class="wb-test-avatar">{{ block.settings.avatar_initial }}</div>
+            {%- endif -%}
+
+            <div>
+              {%- if block.settings.author_name != blank -%}
+                <div class="wb-test-name">{{ block.settings.author_name }}</div>
+              {%- endif -%}
+
+              {%- if block.settings.template_name != blank -%}
+                <div class="wb-test-template">{{ block.settings.template_name }}</div>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Web Bodas — Testimonials",
+  "class": "section",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "label_text",
+      "label": "Section Label",
+      "default": "Parejas felices"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Ellos ya dijeron <em>sí</em>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "quote",
+          "label": "Quote",
+          "default": "<p>Superó todas nuestras expectativas. La recibimos en menos de 24 horas y nuestros invitados no paraban de decir lo hermosa que era. ¡La recomendamos totalmente!</p>"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "avatar_initial",
+          "label": "Avatar Initial",
+          "default": "C"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "author_name",
+          "label": "Author Name",
+          "default": "Camila &amp; Rodrigo"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "template_name",
+          "label": "Template Used",
+          "default": "Plantilla Clásica"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Web Bodas — Testimonials",
+      "blocks": [
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "<p>Superó todas nuestras expectativas. La recibimos en menos de 24 horas y nuestros invitados no paraban de decir lo hermosa que era. ¡La recomendamos totalmente!</p>",
+            "avatar_initial": "C",
+            "author_name": "Camila &amp; Rodrigo",
+            "template_name": "Plantilla Clásica"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "<p>Pedimos un pequeño cambio en los colores y lo tuvieron listo al día siguiente. El proceso fue súper fácil y el resultado fue exactamente lo que soñábamos.</p>",
+            "avatar_initial": "L",
+            "author_name": "Luciana &amp; Felipe",
+            "template_name": "Plantilla Romántica"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "<p>Buscábamos algo moderno y diferente. La plantilla Elegante fue perfecta para nosotros. Todos nuestros amigos preguntaron quién la hizo. ¡Vale cada centavo!</p>",
+            "avatar_initial": "V",
+            "author_name": "Valentina &amp; Marco",
+            "template_name": "Plantilla Elegante"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
