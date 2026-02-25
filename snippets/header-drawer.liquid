@@ -47,7 +47,7 @@
     x-show="drawerIsOpen"
     style="display: none;"
   >
-    <div class="relative h-full grid grid-rows-[auto_1fr_auto] overflow-x-hidden">
+    <div class="relative h-full grid grid-rows-[auto_1fr] overflow-x-hidden">
       <div class="h-[80px] flex items-center border-b border-b-gray-200 border-opacity-20">
         <button
           type="button"
@@ -100,40 +100,6 @@
         </nav>
       </div>
 
-      <div
-        class="w-full flex flex-col gap-y-5 p-5"
-        style="background-color: rgba(var(--color-foreground), .03);"
-      >
-        {%- if shop.customer_accounts_enabled -%}
-          <a
-            href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
-            class="flex flex-row items-center gap-3 w-max"
-          >
-            {%- render 'icon-account', class: 'w-4' -%}
-            <span>
-              {%- if customer -%}
-                {{- 'customer.account_fallback' | t }}
-              {%- else -%}
-                {{- 'customer.log_in' | t }}
-              {%- endif -%}
-            </span>
-          </a>
-        {%- endif -%}
-
-        {%- if localization.available_countries or localization.available_languages -%}
-          <div class="flex flex-row flex-wrap gap-4">
-            {%- if localization.available_countries and localization.available_countries.size > 1 -%}
-              {%- render 'country-selector', local_position: 'HeaderDrawer' -%}
-            {% endif %}
-
-            {%- if localization.available_languages and localization.available_languages.size > 1 -%}
-              {%- render 'language-selector', local_position: 'HeaderDrawer' -%}
-            {%- endif -%}
-          </div>
-        {%- endif -%}
-
-        {%- render 'social-icons' -%}
-      </div>
     </div>
   </div>
 </div>

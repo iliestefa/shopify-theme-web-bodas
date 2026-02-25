@@ -2,76 +2,50 @@
   data-sticky-type="{{ section.settings.sticky_header_type }}"
   class="relative block bg-wb-parchment border-b border-wb-linen"
 >
-  <header class="c-container grid grid-cols-[1fr_2fr_1fr] lg:grid-cols-[1fr_auto_1fr] gap-4 py-4">
-    {%- render 'header-drawer' -%}
-
-    <div class="flex lg-down:justify-center">
-      <a href="{{ routes.root_url }}" class="flex">
-        {%- if settings.logo != blank -%}
-          {%- capture logo_style -%}
-            max-width: {{ settings.logo_width }}px;
-          {%- endcapture -%}
-
-          {%- render 'image-element',
-            image: settings.logo,
-            fixed_width: 500,
-            preload: true,
-            class: 'header__heading-logo motion-reduce',
-            style: logo_style
-          -%}
-        {%- else -%}
-          <span class="font-wb-serif text-[24px] font-normal text-wb-brown">{{ shop.name }}</span>
-        {%- endif -%}
-      </a>
-    </div>
-
-    {%- render 'header-menu' -%}
-
-    <div class="flex flex-row justify-end items-center gap-5">
-      {%- if section.settings.enable_country_selector or section.settings.enable_language_selector -%}
-        <div class="hidden lg:flex flex-row items-center gap-4">
-          {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%}
-            {%- render 'country-selector', local_position: 'Header' -%}
-          {% endif %}
-
-          {%- if section.settings.enable_language_selector and localization.available_languages.size > 1 -%}
-            {%- render 'language-selector', local_position: 'Header' -%}
-          {%- endif -%}
-        </div>
+  <header class="max-w-300 mx-auto flex justify-between items-center px-16 py-5 md-down:px-6 md-down:py-4">
+    <a href="{{ routes.root_url }}" class="font-wb-serif text-[19px] italic text-wb-brown tracking-[0.04em]">
+      {%- if settings.logo != blank -%}
+        {%- capture logo_style -%}
+          max-width: {{ settings.logo_width }}px;
+        {%- endcapture -%}
+        {%- render 'image-element',
+          image: settings.logo,
+          fixed_width: 500,
+          preload: true,
+          class: 'header__heading-logo motion-reduce',
+          style: logo_style
+        -%}
+      {%- else -%}
+        {{ shop.name }}
       {%- endif -%}
+    </a>
 
-      {% render 'header-search' %}
+    <div class="flex items-center gap-10">
+      {%- render 'header-menu' -%}
 
-      {%- if shop.customer_accounts_enabled -%}
+      {%- if section.settings.cta_url != blank and section.settings.cta_text != blank -%}
         <a
-          href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
-          class="flex group"
+          href="{{ section.settings.cta_url }}"
+          class="hidden lg:inline-flex text-[11px] tracking-[0.2em] uppercase bg-wb-blush text-white px-7 py-2.5 hover:bg-wb-blush-deep transition-colors duration-300"
         >
-          {%- render 'icon-account', class: 'h-8 transition-transform group-hover:scale-105 text-wb-brown' -%}
-          <span class="sr-only">
-            {%- if customer -%}
-              {{- 'customer.account_fallback' | t -}}
-            {%- else -%}
-              {{- 'customer.log_in' | t -}}
-            {%- endif -%}
-          </span>
+          {{ section.settings.cta_text }}
         </a>
       {%- endif -%}
 
-      <a
-        href="{{ routes.cart_url }}"
-        class="flex js-cart-drawer-trigger relative group"
+      <button
+        type="button"
+        class="js-cart-drawer-trigger relative flex items-center text-wb-brown hover:text-wb-blush transition-colors duration-300"
+        aria-label="{{ 'sections.header.cart' | t }}"
       >
-        {%- render 'icon-cart', class: 'h-8 transition-transform group-hover:scale-105 text-wb-brown' -%}
-        <span class="sr-only">{{ 'templates.cart.cart' | t }}</span>
-        <div
-          class="cart-count-container hide-if-cart-empty absolute -bottom-2 -right-2 rounded-full w-6 h-6 bg-wb-blush body-4 flex justify-center items-center show-md"
-        >
-          <span aria-hidden="true" class="cart-count text-white font-bold text-[11px]">
-            {{- cart.item_count -}}
+        {%- render 'icon-cart', class: 'w-5 h-5' -%}
+        {%- if cart.item_count > 0 -%}
+          <span class="absolute -top-2 -right-2 w-4 h-4 rounded-full bg-wb-blush text-white text-[9px] flex items-center justify-center leading-none cart-count">
+            {{ cart.item_count }}
           </span>
-        </div>
-      </a>
+        {%- endif -%}
+      </button>
+
+      {%- render 'header-drawer' -%}
     </div>
   </header>
 </sticky-header>
@@ -178,7 +152,18 @@
       "type": "link_list",
       "id": "menu",
       "default": "main-menu",
-      "label": "Menu"
+      "label": "Menú"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "cta_text",
+      "label": "Botón CTA — Texto",
+      "default": "Ver plantillas"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Botón CTA — URL"
     },
     {
       "type": "select",
@@ -199,91 +184,8 @@
       ],
       "default": "on-scroll-up",
       "label": "Sticky header"
-    },
-    {
-      "type": "header",
-      "content": "Color scheme"
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "Section color scheme",
-      "default": "scheme-1"
-    },
-    {
-      "type": "color_scheme",
-      "id": "menu_color_scheme",
-      "label": "Menu color scheme",
-      "default": "scheme-1"
-    },
-    {
-      "type": "header",
-      "content": "Country/region selector",
-      "info": "To add a country/region, go to your [market settings.](/admin/settings/markets)"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_country_selector",
-      "default": true,
-      "label": "Enable country/region selector"
-    },
-    {
-      "type": "header",
-      "content": "Language selector",
-      "info": "To add a language, go to your [language settings.](/admin/settings/languages)"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_language_selector",
-      "default": true,
-      "label": "Enable language selector"
     }
   ],
-  "blocks": [
-    {
-      "type": "mega-menu",
-      "name": "Mega Menu",
-      "settings": [
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Title",
-          "default": "Mega menu"
-        },
-        {
-          "type": "range",
-          "id": "index",
-          "min": 1,
-          "max": 10,
-          "step": 1,
-          "label": "Mega menu index",
-          "info": "The index determines the order of the mega menu.",
-          "default": 1
-        },
-        {
-          "type": "link_list",
-          "id": "menu",
-          "default": "main-menu",
-          "label": "Megamenu main menu"
-        },
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Megamenu image"
-        },
-        {
-          "type": "url",
-          "id": "cta_link",
-          "label": "CTA Link"
-        },
-        {
-          "type": "richtext",
-          "id": "description",
-          "label": "Megamenu description",
-          "default": "<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa iste porro, inventore perferendis nam impedit facere ea adipisci autem iusto ratione doloremque repellat, asperiores, cum eligendi itaque necessitatibus mollitia commodi.</p>"
-        }
-      ]
-    }
-  ]
+  "blocks": []
 }
 {% endschema %}

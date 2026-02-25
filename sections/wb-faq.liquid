@@ -1,39 +1,39 @@
-<div class="py-28 px-8 xl:px-24 md-down:px-6 md-down:py-18 xs-down:px-4 xs-down:py-16 max-w-desk mx-auto">
-  <div class="wb-section-label mb-5">{{ section.settings.label_text }}</div>
+<div class="bg-wb-parchment py-28 md-down:py-16 xs-down:py-14">
+  <div class="c-container">
+    <div class="wb-section-label mb-5">{{ section.settings.label_text }}</div>
 
-  {%- if section.settings.title != blank -%}
-    <div class="wb-section-title">{{ section.settings.title }}</div>
-  {%- endif -%}
+    {%- if section.settings.title != blank -%}
+      <div class="wb-section-title">{{ section.settings.title }}</div>
+    {%- endif -%}
 
-  <div class="grid grid-cols-2 lg-down:grid-cols-1 gap-0 mt-18 md-down:mt-10" x-data="wbFaqComp_{{ section.id }}" x-cloak>
-    {%- for block in section.blocks -%}
-      <div class="wb-faq-item border-b border-wb-linen cursor-pointer" :class="{ 'wb-open': openItems[{{ forloop.index0 }}] }" @click="toggleItem({{ forloop.index0 }})" {{ block.shopify_attributes }}>
-        <div class="flex justify-between items-start gap-4 py-7 lg-down:py-7">
-          <span class="font-wb-serif text-[19px] italic text-wb-brown flex-1">{{ block.settings.question }}</span>
-          <span class="wb-toggle text-wb-blush shrink-0 text-[20px] font-normal transition-transform duration-300 leading-none">+</span>
+    <div class="grid grid-cols-2 lg-down:grid-cols-1 gap-0 mt-16 md-down:mt-10">
+      {%- for block in section.blocks -%}
+        <div
+          class="border-b border-wb-linen cursor-pointer{% if forloop.index_is_odd %} pr-12 border-r lg-down:pr-0 lg-down:border-r-0{% else %} pl-12 lg-down:pl-0{% endif %}"
+          x-data="{ open: false }"
+          {{ block.shopify_attributes }}
+        >
+          <div class="flex justify-between items-start gap-4 py-6 md-down:py-5" @click="open = !open">
+            <span class="font-wb-serif text-[17px] italic text-wb-brown flex-1 md-down:text-[16px]">{{ block.settings.question }}</span>
+            <span
+              class="text-wb-blush shrink-0 text-[20px] font-normal leading-none transition-transform duration-300"
+              :class="{ 'rotate-45': open }"
+            >+</span>
+          </div>
+          <div
+            class="overflow-hidden transition-all duration-400 ease-in-out"
+            x-ref="answer"
+            :style="open ? 'max-height:' + $refs.answer.scrollHeight + 'px' : 'max-height:0px'"
+          >
+            <div class="richtext text-sm leading-[1.75] text-wb-brown-mid pb-5 [&_p]:text-wb-brown-mid [&_p]:mb-0 [&_p]:whitespace-normal [&_a]:text-wb-brown-mid [&_a]:no-underline">
+              {{ block.settings.answer }}
+            </div>
+          </div>
         </div>
-        <div class="wb-faq-a max-h-0 overflow-hidden transition-all duration-400 ease-in-out">
-          <div class="richtext text-[14px] leading-[1.75] text-wb-brown-mid pb-4">{{ block.settings.answer }}</div>
-        </div>
-      </div>
-    {%- endfor -%}
+      {%- endfor -%}
+    </div>
   </div>
 </div>
-
-<script>
-  document.addEventListener('alpine:init', () => {
-    Alpine.data('wbFaqComp_{{ section.id }}', () => ({
-      openItems: [],
-      toggleItem(index) {
-        if (this.openItems[index]) {
-          this.openItems[index] = false;
-        } else {
-          this.openItems[index] = true;
-        }
-      }
-    }));
-  }, { once: true });
-</script>
 
 {% schema %}
 {

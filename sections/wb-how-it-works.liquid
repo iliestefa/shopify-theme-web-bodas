@@ -1,138 +1,32 @@
-{%- style -%}
-  #WbHowItWorks-{{ section.id }} {
-    background: var(--color-wb-ivory);
-    padding: 112px 64px;
-  }
-
-  #WbHowItWorks-{{ section.id }} .wb-how-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  #WbHowItWorks-{{ section.id }} .wb-section-label {
-    font-size: 10px;
-    letter-spacing: 0.5em;
-    text-transform: uppercase;
-    color: var(--color-wb-blush-deep);
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  #WbHowItWorks-{{ section.id }} .wb-section-label::before {
-    content: '';
-    width: 24px;
-    height: 1px;
-    background: var(--color-wb-blush);
-  }
-
-  #WbHowItWorks-{{ section.id }} .wb-section-title {
-    font-family: var(--font-wb-serif);
-    font-size: clamp(36px, 4.5vw, 56px);
-    font-weight: 400;
-    line-height: 1.05;
-    color: var(--color-wb-brown);
-  }
-
-  #WbHowItWorks-{{ section.id }} .wb-section-title em {
-    font-style: italic;
-    color: var(--color-wb-blush-deep);
-  }
-
-  #WbHowItWorks-{{ section.id }} .wb-how-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 48px;
-    margin-top: 72px;
-  }
-
-  #WbHowItWorks-{{ section.id }} .wb-how-step {
-    position: relative;
-  }
-
-  #WbHowItWorks-{{ section.id }} .wb-how-num {
-    font-family: var(--font-wb-serif);
-    font-size: 11px;
-    font-style: italic;
-    color: var(--color-wb-blush);
-    letter-spacing: 0.2em;
-    margin-bottom: 20px;
-  }
-
-  #WbHowItWorks-{{ section.id }} .wb-how-icon {
-    width: 52px;
-    height: 52px;
-    background: white;
-    border: 1px solid var(--color-wb-linen);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 20px rgba(74, 55, 40, 0.06);
-  }
-
-  #WbHowItWorks-{{ section.id }} .wb-how-step h3 {
-    font-family: var(--font-wb-serif);
-    font-size: 22px;
-    font-style: italic;
-    color: var(--color-wb-brown);
-    margin-bottom: 10px;
-  }
-
-  #WbHowItWorks-{{ section.id }} .wb-how-step p {
-    font-size: 14px;
-    line-height: 1.75;
-    color: var(--color-wb-brown-mid);
-  }
-
-  @media (max-width: 1024px) {
-    #WbHowItWorks-{{ section.id }} .wb-how-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 32px;
-    }
-  }
-
-  @media (max-width: 767px) {
-    #WbHowItWorks-{{ section.id }} {
-      padding: 72px 24px;
-    }
-
-    #WbHowItWorks-{{ section.id }} .wb-how-grid {
-      grid-template-columns: 1fr;
-      gap: 24px;
-      margin-top: 40px;
-    }
-  }
-{%- endstyle -%}
-
-<div id="WbHowItWorks-{{ section.id }}" class="wb-how-works">
-  <div class="wb-how-inner">
+<div id="como-funciona" class="bg-wb-ivory py-28 md-down:py-18">
+  <div class="c-container">
     <div class="wb-section-label">{{ section.settings.label_text }}</div>
 
     {%- if section.settings.title != blank -%}
-      <h2 class="wb-section-title">{{ section.settings.title }}</h2>
+      <h2 class="wb-section-title mt-5">{{ section.settings.title }}</h2>
     {%- endif -%}
 
-    <div class="wb-how-grid">
+    <div class="grid grid-cols-4 gap-12 mt-18 lg-down:grid-cols-2 lg-down:gap-8 md-down:grid-cols-1 md-down:gap-6 md-down:mt-10">
       {%- for block in section.blocks -%}
-        <div class="wb-how-step" {{ block.shopify_attributes }}>
+        <div class="relative" {{ block.shopify_attributes }}>
           {%- if block.settings.step_number != blank -%}
-            <div class="wb-how-num">— {{ block.settings.step_number }}</div>
+            <div class="font-wb-serif text-[11px] italic text-wb-blush tracking-[0.2em] mb-5">— {{ block.settings.step_number }}</div>
           {%- endif -%}
 
           {%- if block.settings.icon != blank -%}
-            <div class="wb-how-icon">{{ block.settings.icon }}</div>
+            <div class="w-13 h-13 bg-white border border-wb-linen rounded-full flex items-center justify-center text-[22px] mb-5 shadow-[0_4px_20px_rgba(74,55,40,0.06)]">
+              {{ block.settings.icon }}
+            </div>
           {%- endif -%}
 
           {%- if block.settings.heading != blank -%}
-            <h3>{{ block.settings.heading }}</h3>
+            <h3 class="font-wb-serif text-[22px] italic text-wb-brown mb-2.5">{{ block.settings.heading }}</h3>
           {%- endif -%}
 
           {%- if block.settings.description != blank -%}
-            <p>{{ block.settings.description }}</p>
+            <div class="richtext text-[14px] leading-[1.75] text-wb-brown-mid [&_p]:text-wb-brown-mid [&_p]:mb-0 [&_p]:whitespace-normal [&_a]:text-wb-brown-mid [&_a]:no-underline">
+              {{ block.settings.description }}
+            </div>
           {%- endif -%}
         </div>
       {%- endfor -%}

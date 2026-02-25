@@ -1,250 +1,62 @@
-{%- style -%}
-  #WbHero-{{ section.id }} {
-    background: linear-gradient(160deg, #fdf8f2 0%, #f8f0e6 40%, #f2e8dd 100%);
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
+<div
+  class="relative z-0 min-h-screen flex items-center justify-center overflow-hidden"
+  style="background: linear-gradient(160deg, #fdf8f2 0%, #f8f0e6 40%, #f2e8dd 100%);"
+>
+  <!-- Grain overlay -->
+  <div
+    class="absolute inset-0 pointer-events-none opacity-60"
+    style="background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E\");"
+  ></div>
 
-  #WbHero-{{ section.id }}::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");
-    opacity: 0.6;
-    pointer-events: none;
-  }
-
-  #WbHero-{{ section.id }} .wb-hero-circles {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-  }
-
-  #WbHero-{{ section.id }} .wb-circle-1 {
-    position: absolute;
-    width: 520px;
-    height: 520px;
-    border-radius: 50%;
-    border: 1px solid rgba(184, 154, 106, 0.12);
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  #WbHero-{{ section.id }} .wb-circle-2 {
-    position: absolute;
-    width: 700px;
-    height: 700px;
-    border-radius: 50%;
-    border: 1px solid rgba(232, 180, 176, 0.1);
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  #WbHero-{{ section.id }} .wb-hero-content {
-    position: relative;
-    z-index: 2;
-    text-align: center;
-    padding: 120px 24px 80px;
-    max-width: 760px;
-  }
-
-  #WbHero-{{ section.id }} .wb-hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 10px;
-    letter-spacing: 0.5em;
-    text-transform: uppercase;
-    color: var(--color-wb-blush-deep);
-    margin-bottom: 36px;
-    opacity: 0;
-    animation: wb-fadeUp 0.8s ease forwards 0.2s;
-  }
-
-  #WbHero-{{ section.id }} .wb-hero-badge::before,
-  #WbHero-{{ section.id }} .wb-hero-badge::after {
-    content: '';
-    width: 32px;
-    height: 1px;
-    background: var(--color-wb-blush);
-  }
-
-  #WbHero-{{ section.id }} .wb-hero-script {
-    font-family: var(--font-wb-script);
-    font-size: clamp(28px, 5vw, 48px);
-    color: var(--color-wb-blush-deep);
-    opacity: 0;
-    animation: wb-fadeUp 0.9s ease forwards 0.4s;
-    line-height: 1.2;
-    margin-bottom: 12px;
-  }
-
-  #WbHero-{{ section.id }} .wb-hero-title {
-    font-family: var(--font-wb-serif);
-    font-size: clamp(48px, 7vw, 80px);
-    font-weight: 400;
-    line-height: 0.98;
-    color: var(--color-wb-brown);
-    opacity: 0;
-    animation: wb-fadeUp 0.9s ease forwards 0.55s;
-  }
-
-  #WbHero-{{ section.id }} .wb-hero-title em {
-    font-style: italic;
-    color: var(--color-wb-blush-deep);
-  }
-
-  #WbHero-{{ section.id }} .wb-hero-sub {
-    margin-top: 28px;
-    font-size: 15px;
-    font-weight: 300;
-    color: var(--color-wb-brown-mid);
-    line-height: 1.8;
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-    opacity: 0;
-    animation: wb-fadeUp 0.9s ease forwards 0.8s;
-  }
-
-  #WbHero-{{ section.id }} .wb-hero-actions {
-    margin-top: 48px;
-    display: flex;
-    gap: 16px;
-    justify-content: center;
-    flex-wrap: wrap;
-    opacity: 0;
-    animation: wb-fadeUp 0.9s ease forwards 1s;
-  }
-
-  #WbHero-{{ section.id }} .wb-hero-actions a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  #WbHero-{{ section.id }} .wb-hero-scroll {
-    position: absolute;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    font-size: 9px;
-    letter-spacing: 0.4em;
-    text-transform: uppercase;
-    color: var(--color-wb-brown-soft);
-    opacity: 0;
-    animation: wb-fadeIn 1s ease forwards 1.5s;
-  }
-
-  #WbHero-{{ section.id }} .wb-hero-scroll-line {
-    width: 1px;
-    height: 40px;
-    background: linear-gradient(to bottom, var(--color-wb-blush), transparent);
-    animation: wb-grow 2s ease-in-out infinite;
-  }
-
-  @keyframes wb-fadeUp {
-    from {
-      opacity: 0;
-      transform: translateY(24px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes wb-fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  @keyframes wb-grow {
-    0%, 100% {
-      transform: scaleY(1);
-      transform-origin: top;
-    }
-    50% {
-      transform: scaleY(0.3);
-      transform-origin: top;
-    }
-  }
-
-  @media (max-width: 767px) {
-    #WbHero-{{ section.id }} {
-      min-height: 70vh;
-    }
-
-    #WbHero-{{ section.id }} .wb-hero-content {
-      padding: 60px 16px 60px;
-    }
-
-    #WbHero-{{ section.id }} .wb-hero-actions {
-      flex-direction: column;
-      align-items: center;
-    }
-
-    #WbHero-{{ section.id }} .wb-hero-actions a {
-      width: 100%;
-    }
-  }
-{%- endstyle -%}
-
-<div id="WbHero-{{ section.id }}" class="wb-hero">
-  <div class="wb-hero-circles">
-    <div class="wb-circle-1"></div>
-    <div class="wb-circle-2"></div>
+  <!-- Decorative circles — ocultos en móvil para no saturar -->
+  <div class="absolute inset-0 pointer-events-none md-down:hidden">
+    <div class="absolute w-[520px] h-[520px] rounded-full border border-[rgba(184,154,106,0.12)] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+    <div class="absolute w-[700px] h-[700px] rounded-full border border-[rgba(232,180,176,0.1)] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
   </div>
 
-  <div class="wb-hero-content">
+  <!-- Content -->
+  <div class="relative z-10 text-center px-6 pt-28 pb-16 max-w-190 mx-auto md-down:pt-20 md-down:pb-14 xs-down:pt-16 xs-down:px-4">
+
     {%- if section.settings.badge_text != blank -%}
-      <div class="wb-hero-badge">{{ section.settings.badge_text }}</div>
+      <div class="wb-hero-badge inline-flex items-center gap-3 text-[10px] tracking-[0.5em] uppercase text-wb-blush-deep mb-8 opacity-0 animate-[wb-fadeUp_0.8s_ease_forwards_0.2s] md-down:mb-6">
+        <span class="block w-8 h-px bg-wb-blush"></span>
+        {{ section.settings.badge_text }}
+        <span class="block w-8 h-px bg-wb-blush"></span>
+      </div>
     {%- endif -%}
 
     {%- if section.settings.script_text != blank -%}
-      <p class="wb-hero-script">{{ section.settings.script_text }}</p>
+      <p class="wb-script opacity-0 animate-[wb-fadeUp_0.9s_ease_forwards_0.4s] mb-3">{{ section.settings.script_text }}</p>
     {%- endif -%}
 
     {%- if section.settings.heading != blank -%}
-      <h1 class="wb-hero-title">{{ section.settings.heading }}</h1>
+      <h1 class="wb-section-title opacity-0 animate-[wb-fadeUp_0.9s_ease_forwards_0.55s]">{{ section.settings.heading }}</h1>
     {%- endif -%}
 
     {%- if section.settings.subheading != blank -%}
-      <p class="wb-hero-sub">{{ section.settings.subheading }}</p>
+      <div class="richtext mt-6 text-[15px] font-light text-wb-brown-mid leading-[1.8] max-w-[500px] mx-auto opacity-0 animate-[wb-fadeUp_0.9s_ease_forwards_0.8s] [&_p]:text-wb-brown-mid [&_p]:mb-0 [&_p]:whitespace-normal [&_a]:text-wb-brown-mid [&_a]:no-underline md-down:text-[14px] md-down:max-w-full">
+        {{ section.settings.subheading }}
+      </div>
     {%- endif -%}
 
-    <div class="wb-hero-actions">
+    <div class="mt-10 flex gap-4 justify-center flex-wrap opacity-0 animate-[wb-fadeUp_0.9s_ease_forwards_1s] md-down:flex-col md-down:items-center md-down:mt-8 md-down:gap-3">
       {%- if section.settings.btn_primary_text != blank and section.settings.btn_primary_url != blank -%}
-        <a href="{{ section.settings.btn_primary_url }}" class="wb-btn-primary">
+        <a href="{{ section.settings.btn_primary_url }}" class="wb-btn-primary md-down:w-full md-down:max-w-70">
           {{ section.settings.btn_primary_text }}
         </a>
       {%- endif -%}
-
       {%- if section.settings.btn_ghost_text != blank and section.settings.btn_ghost_url != blank -%}
-        <a href="{{ section.settings.btn_ghost_url }}" class="wb-btn-ghost">
+        <a href="{{ section.settings.btn_ghost_url }}" class="wb-btn-ghost md-down:w-full md-down:max-w-70 md-down:text-center">
           {{ section.settings.btn_ghost_text }}
         </a>
       {%- endif -%}
     </div>
   </div>
 
-  <div class="wb-hero-scroll">
+  <!-- Scroll indicator — oculto en móvil -->
+  <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2.5 text-[9px] tracking-[0.4em] uppercase text-wb-brown-soft opacity-0 animate-[wb-fadeIn_1s_ease_forwards_1.5s] md-down:hidden">
     Explorar
-    <div class="wb-hero-scroll-line"></div>
+    <div class="w-px h-10 bg-gradient-to-b from-wb-blush to-transparent animate-[wb-grow_2s_ease-in-out_infinite]"></div>
   </div>
 </div>
 

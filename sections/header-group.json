@@ -1,56 +1,25 @@
 /*
-* ------------------------------------------------------------
-* IMPORTANT: The contents of this file are auto-generated.
-*
-* This file may be updated by the Shopify admin theme editor
-* or related systems. Please exercise caution as any changes
-* made to this file may be overwritten.
-* ------------------------------------------------------------
-*/
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "name": "t:sections.header.name",
   "type": "header",
   "sections": {
-    "announcement-bar": {
-      "type": "announcement-bar",
-      "settings": {
-        "color_scheme": "scheme-4",
-        "show_social": true,
-        "announcement_message": "<p>Welcome to our <a href=\"#\">Store.<\/a><\/p>",
-        "enable_country_selector": true,
-        "enable_language_selector": true
-      }
-    },
     "header": {
       "type": "header",
-      "blocks": {
-        "mega_menu_Kzk6Pp": {
-          "type": "mega-menu",
-          "settings": {
-            "title": "Mega menu",
-            "index": 1,
-            "menu": "main-menu",
-            "image": "shopify:\/\/shop_images\/theme_cover_image.jpg",
-            "cta_link": "",
-            "description": "<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa iste porro, inventore perferendis nam impedit facere ea <a href=\"#\" title=\"#\"><strong>adipisci <\/strong><\/a>autem iusto ratione doloremque repellat.<\/p>"
-          }
-        }
-      },
-      "block_order": [
-        "mega_menu_Kzk6Pp"
-      ],
       "settings": {
         "menu": "main-menu",
-        "sticky_header_type": "on-scroll-up",
-        "color_scheme": "scheme-3",
-        "menu_color_scheme": "scheme-3",
-        "enable_country_selector": false,
-        "enable_language_selector": false
+        "sticky_header_type": "on-scroll-up"
       }
     }
   },
   "order": [
-    "announcement-bar",
     "header"
   ]
 }

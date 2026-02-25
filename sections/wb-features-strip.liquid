@@ -1,79 +1,14 @@
-{%- style -%}
-  #WbFeaturesStrip-{{ section.id }} {
-    background: white;
-    border-top: 1px solid var(--color-wb-linen);
-    border-bottom: 1px solid var(--color-wb-linen);
-    padding: 32px 60px;
-    display: flex;
-    justify-content: center;
-    gap: 64px;
-    flex-wrap: wrap;
-  }
-
-  #WbFeaturesStrip-{{ section.id }} .wb-feature-item {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    font-size: 13px;
-    color: var(--color-wb-brown-mid);
-  }
-
-  #WbFeaturesStrip-{{ section.id }} .wb-fi-icon {
-    width: 48px;
-    height: 48px;
-    background: var(--color-wb-blush-pale);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    flex-shrink: 0;
-  }
-
-  #WbFeaturesStrip-{{ section.id }} .wb-fi-icon.emoji {
-    background: var(--color-wb-blush-pale);
-    font-size: 28px;
-  }
-
-  #WbFeaturesStrip-{{ section.id }} .wb-feature-item strong {
-    font-family: var(--font-wb-serif);
-    font-style: italic;
-    color: var(--color-wb-brown);
-    font-size: 17px;
-    font-weight: 400;
-    display: block;
-    line-height: 1;
-  }
-
-  @media (max-width: 1024px) {
-    #WbFeaturesStrip-{{ section.id }} {
-      padding: 20px 24px;
-      gap: 28px;
-    }
-  }
-
-  @media (max-width: 767px) {
-    #WbFeaturesStrip-{{ section.id }} {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 20px;
-      padding: 16px;
-    }
-  }
-{%- endstyle -%}
-
-<div id="WbFeaturesStrip-{{ section.id }}" class="wb-features-strip">
+<div class="bg-white border-t border-wb-linen border-b py-7 px-10 flex justify-center gap-10 flex-wrap md-down:grid md-down:grid-cols-2 md-down:px-8 md-down:gap-5 md-down:py-6 xs-down:px-5">
   {%- for block in section.blocks -%}
-    <div class="wb-feature-item" {{ block.shopify_attributes }}>
+    <div class="flex items-center gap-3.5 text-[13px] text-wb-brown-mid md-down:text-[12px]" {{ block.shopify_attributes }}>
       {%- if block.settings.icon != blank -%}
-        <div class="wb-fi-icon {% if block.settings.is_emoji %}emoji{% endif %}">
+        <div class="w-9 h-9 bg-wb-blush-pale rounded-full flex items-center justify-center text-[15px] shrink-0">
           {{ block.settings.icon }}
         </div>
       {%- endif -%}
-
       <div>
         {%- if block.settings.title != blank -%}
-          <strong>{{ block.settings.title }}</strong>
+          <strong class="font-wb-serif italic text-wb-brown text-[16px] font-normal block leading-none md-down:text-[15px]">{{ block.settings.title }}</strong>
         {%- endif -%}
         {%- if block.settings.label != blank -%}
           {{ block.settings.label }}
@@ -99,11 +34,6 @@
           "default": "⏱"
         },
         {
-          "type": "checkbox",
-          "id": "is_emoji",
-          "label": "Is emoji (no background circle)"
-        },
-        {
           "type": "inline_richtext",
           "id": "title",
           "label": "Title",
@@ -126,7 +56,6 @@
           "type": "feature",
           "settings": {
             "icon": "⏱",
-            "is_emoji": true,
             "title": "48 horas",
             "label": "entrega garantizada"
           }
@@ -135,7 +64,6 @@
           "type": "feature",
           "settings": {
             "icon": "✏️",
-            "is_emoji": true,
             "title": "1 revisión",
             "label": "sin costo adicional"
           }
@@ -144,7 +72,6 @@
           "type": "feature",
           "settings": {
             "icon": "📱",
-            "is_emoji": true,
             "title": "Responsive",
             "label": "móvil y desktop"
           }
@@ -153,7 +80,6 @@
           "type": "feature",
           "settings": {
             "icon": "🔗",
-            "is_emoji": true,
             "title": "Link listo",
             "label": "para compartir"
           }

@@ -1,91 +1,43 @@
-<footer class="border-t border-wb-linen bg-wb-parchment">
-  <div class="c-container flex flex-col gap-y-12 py-12">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
-      {%- for block in section.blocks -%}
-        <div
-          class="col-span-1 flex flex-col gap-y-5 lg:gap-y-8"
-          {{ block.shopify_attributes }}
-        >
-          {%- if block.settings.heading != blank -%}
-            <h2 class="font-wb-serif text-[16px] font-normal text-wb-brown">{{- block.settings.heading -}}</h2>
-          {%- endif -%}
+<footer class="bg-wb-brown">
+  <div class="max-w-300 mx-auto px-16 py-14 flex justify-between items-center flex-wrap gap-7 md-down:flex-col md-down:text-center md-down:px-6 md-down:py-10">
 
-          {%- case block.type -%}
-            {%- when '@app' -%}
-              {% render block %}
-            {%- when 'text' -%}
-              {%- render 'footer-block-text', block: block -%}
-            {%- when 'link_list' -%}
-              {%- render 'footer-block-link-list', block: block -%}
-            {%- when 'brand_information' -%}
-              {%- render 'footer-block-brand-information', block: block -%}
-          {%- endcase -%}
-        </div>
-      {%- endfor -%}
-    </div>
-
-    {%- if section.settings.newsletter_enable -%}
-      <div class="w-full flex flex-col gap-y-5 max-w-[500px] mx-auto">
-        {%- if section.settings.newsletter_heading != blank -%}
-          <h2 class="font-wb-serif text-[16px] font-normal text-wb-brown text-center">{{ section.settings.newsletter_heading }}</h2>
-        {%- endif -%}
-
-        {%- render 'newsletter-form', local_position: 'Footer' -%}
-      </div>
-    {%- endif -%}
-  </div>
-
-  {%- assign enable_localization = false -%}
-  {%- if section.settings.enable_country_selector or section.settings.enable_language_selector -%}
-    {%- assign enable_localization = true -%}
-  {%- endif -%}
-
-  <div class="w-full border-t border-wb-linen py-8">
-    <div class="c-container flex flex-col gap-8">
-      {%- if enable_localization or section.settings.payment_enable -%}
-        <div class="flex flex-col md:flex-row md:items-center {% if enable_localization %} md:justify-between {% else %} md:justify-center {% endif %} gap-8">
-          {%- if enable_localization -%}
-            <div class="flex flex-row gap-4 items-center">
-              {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%}
-                {%- render 'country-selector', local_position: 'Footer' -%}
-              {% endif %}
-
-              {%- if section.settings.enable_language_selector and localization.available_languages.size > 1 -%}
-                {%- render 'language-selector', local_position: 'Footer' -%}
-              {%- endif -%}
-            </div>
-          {%- endif -%}
-
-          {%- if section.settings.payment_enable -%}
-            <ul class="flex flex-row items-center gap-2" role="list" aria-label="{{ 'sections.footer.payment' | t }}">
-              {%- for type in shop.enabled_payment_types -%}
-                <li class="max-w-10">
-                  {{- type | payment_type_svg_tag: class: 'max-w-full' -}}
-                </li>
-              {%- endfor -%}
-            </ul>
-          {%- endif -%}
-        </div>
+    <div class="font-wb-serif text-[20px] italic text-white/85">
+      {%- if settings.logo != blank -%}
+        {%- capture logo_style -%}
+          max-width: {{ settings.logo_width }}px; filter: brightness(0) invert(1); opacity: 0.85;
+        {%- endcapture -%}
+        {%- render 'image-element',
+          image: settings.logo,
+          fixed_width: 300,
+          class: 'header__heading-logo',
+          style: logo_style
+        -%}
+      {%- else -%}
+        {{ shop.name }}
       {%- endif -%}
-
-      <div class="flex flex-col gap-y-3">
-        {%- if section.settings.copyright != blank -%}
-          <small class="body-4 text-wb-brown-mid">{{ section.settings.copyright }}</small>
-        {%- endif -%}
-
-        {%- if section.settings.show_policy -%}
-          <ul class="flex flex-row flex-wrap gap-3 body-4 text-wb-brown-mid">
-            {%- for policy in shop.policies -%}
-              {%- if policy != blank -%}
-                <li>
-                  <a class="hover:underline hover:text-wb-blush transition-colors" href="{{ policy.url }}">{{ policy.title }}</a>
-                </li>
-              {%- endif -%}
-            {%- endfor -%}
-          </ul>
-        {%- endif -%}
-      </div>
     </div>
+
+    {%- if section.settings.copyright != blank -%}
+      <small class="text-[12px] tracking-[0.05em] text-white/55">{{ section.settings.copyright }}</small>
+    {%- endif -%}
+
+    {%- if section.settings.menu != blank -%}
+      <ul class="flex flex-wrap gap-7 md-down:justify-center" role="list">
+        {%- for link in section.settings.menu.links -%}
+          {%- unless link.url contains '/search' or link.url == routes.search_url -%}
+            <li>
+              <a
+                href="{{ link.url }}"
+                class="text-[11px] tracking-[0.2em] uppercase text-white/40 hover:text-wb-blush transition-colors duration-300"
+              >
+                {{- link.title | escape -}}
+              </a>
+            </li>
+          {%- endunless -%}
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
   </div>
 </footer>
 
@@ -98,195 +50,21 @@
   "limit": 1,
   "settings": [
     {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "Color scheme",
-      "default": "scheme-1"
-    },
-    {
-      "type": "header",
-      "content": "Email Signup",
-      "info": "Subscribers added automatically to your “accepted marketing” customer list. [Learn more](https://help.shopify.com/manual/customers/manage-customers)"
-    },
-    {
-      "type": "checkbox",
-      "id": "newsletter_enable",
-      "default": true,
-      "label": "Show email signup"
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menú de footer",
+      "default": "footer"
     },
     {
       "type": "inline_richtext",
-      "id": "newsletter_heading",
-      "default": "Subscribe to our emails",
-      "label": "Heading"
-    },
-    {
-      "type": "header",
-      "content": "Social media icons",
-      "info": "To display your social media accounts, link them in your [theme settings](/editor?context=theme&category=social%20media)."
-    },
-    {
-      "type": "checkbox",
-      "id": "show_social",
-      "default": true,
-      "label": "Show social media icons"
-    },
-    {
-      "type": "header",
-      "content": "Country/region selector",
-      "info": "To add a country/region, go to your [market settings.](/admin/settings/markets)"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_country_selector",
-      "default": true,
-      "label": "Enable country/region selector"
-    },
-    {
-      "type": "header",
-      "content": "Language selector",
-      "info": "To add a language, go to your [language settings.](/admin/settings/languages)"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_language_selector",
-      "default": true,
-      "label": "Enable language selector"
-    },
-    {
-      "type": "header",
-      "content": "Payment methods"
-    },
-    {
-      "type": "checkbox",
-      "id": "payment_enable",
-      "default": true,
-      "label": "Show payment icons"
-    },
-    {
-      "type": "header",
-      "content": "Copyright"
-    },
-    {
-      "type": "richtext",
       "id": "copyright",
       "label": "Copyright",
-      "default": "<p>© 2024, Test Store</p>"
-    },
-    {
-      "type": "header",
-      "content": "Policy links",
-      "info": "To add store policies, go to your [policy settings](/admin/settings/legal)."
-    },
-    {
-      "type": "checkbox",
-      "id": "show_policy",
-      "default": false,
-      "label": "Show policy links"
-    }
-  ],
-  "blocks": [
-    {
-      "type": "@app"
-    },
-    {
-      "type": "link_list",
-      "name": "Link list",
-      "settings": [
-        {
-          "type": "inline_richtext",
-          "id": "heading",
-          "default": "Quick links",
-          "label": "Heading"
-        },
-        {
-          "type": "link_list",
-          "id": "menu",
-          "default": "footer",
-          "label": "Menu"
-        }
-      ]
-    },
-    {
-      "type": "brand_information",
-      "name": "Brand information",
-      "settings": [
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Image"
-        },
-        {
-          "type": "inline_richtext",
-          "id": "heading",
-          "label": "Heading",
-          "default": "Logo"
-        },
-        {
-          "type": "richtext",
-          "id": "description",
-          "label": "Description",
-          "default": "<p>Share contact information, store details, and brand content with your customers.</p>"
-        },
-        {
-          "type": "range",
-          "id": "image_width",
-          "min": 50,
-          "max": 550,
-          "step": 5,
-          "default": 150,
-          "unit": "px",
-          "label": "Image width"
-        },
-        {
-          "type": "header",
-          "content": "Social media icons"
-        },
-        {
-          "type": "checkbox",
-          "id": "show_social",
-          "default": true,
-          "label": "Show social media icons",
-          "info": "To display your social media accounts, link them in your [theme settings](/editor?context=theme&category=social%20media)."
-        }
-      ]
-    },
-    {
-      "type": "text",
-      "name": "Text",
-      "settings": [
-        {
-          "type": "inline_richtext",
-          "id": "heading",
-          "default": "Heading",
-          "label": "Heading"
-        },
-        {
-          "type": "richtext",
-          "id": "subtext",
-          "default": "<p>Share contact information, store details, and brand content with your customers.</p>",
-          "label": "Description"
-        }
-      ]
+      "default": "© 2025 · Diseñado con amor para cada historia"
     }
   ],
   "presets": [
     {
-      "name": "Footer",
-      "blocks": [
-        {
-          "type": "brand_information"
-        },
-        {
-          "type": "link_list"
-        },
-        {
-          "type": "link_list"
-        },
-        {
-          "type": "text"
-        }
-      ]
+      "name": "Footer"
     }
   ]
 }
