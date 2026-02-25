@@ -325,7 +325,7 @@
     <div>
       <div class="wb-section-label">{{ section.settings.label_text }}</div>
       {%- if section.settings.title != blank -%}
-        <h2 class="wb-section-title">{{ section.settings.title }}</h2>
+        <div class="wb-section-title richtext">{{ section.settings.title }}</div>
       {%- endif -%}
     </div>
     {%- if section.settings.intro_text != blank -%}
@@ -395,10 +395,10 @@
       "default": "Plantillas"
     },
     {
-      "type": "richtext",
+      "type": "inline_richtext",
       "id": "title",
       "label": "Section Title",
-      "default": "<p>Tres estilos,<br><em>una sola historia</em></p>"
+      "default": "Tres estilos, <em>una sola historia</em>"
     },
     {
       "type": "richtext",
@@ -452,6 +452,11 @@
   "presets": [
     {
       "name": "Web Bodas — Plantillas",
+      "settings": {
+        "label_text": "Plantillas",
+        "title": "Tres estilos, <em>una sola historia</em>",
+        "intro_text": "<p>Haz clic en cualquier plantilla para ver su preview completo y personalizar tu invitación.</p>"
+      },
       "blocks": [
         {
           "type": "template",
