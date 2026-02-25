@@ -25,7 +25,8 @@
     Alpine.data('wbFaqComp_{{ section.id }}', () => ({
       openItems: {},
       toggleItem(index) {
-        this.$set(this.openItems, index, !this.openItems[index]);
+        this.openItems[index] = !this.openItems[index];
+        this.$nextTick(() => {});
       }
     }));
   }, { once: true });

@@ -17,7 +17,7 @@ strong {
 
 .richtext {
   p {
-    @apply whitespace-pre-wrap mb-[1rem];
+    @apply whitespace-pre-wrap mb-[1rem] text-wb-brown;
 
     &:empty {
       @apply h-0;
@@ -33,7 +33,7 @@ strong {
   }
 
   a {
-    @apply underline underline-offset-2;
+    @apply underline underline-offset-2 text-wb-blush hover:text-wb-blush-deep transition-colors;
   }
 }
 
