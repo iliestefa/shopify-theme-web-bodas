@@ -23,10 +23,13 @@
 <script>
   document.addEventListener('alpine:init', () => {
     Alpine.data('wbFaqComp_{{ section.id }}', () => ({
-      openItems: {},
+      openItems: [],
       toggleItem(index) {
-        this.openItems[index] = !this.openItems[index];
-        this.$nextTick(() => {});
+        if (this.openItems[index]) {
+          this.openItems[index] = false;
+        } else {
+          this.openItems[index] = true;
+        }
       }
     }));
   }, { once: true });
