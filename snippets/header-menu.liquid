@@ -1,70 +1,14 @@
 <nav class="hidden lg:flex">
   <ul class="flex flex-row items-center gap-8" role="list">
     {%- for link in section.settings.menu.links -%}
-      {%- assign main_link_index = forloop.index -%}
-      {%- assign mega_menu_block = blank -%}
-      {%- assign mega_menu_blocks = section.blocks | where: 'type', 'mega-menu' -%}
-      {%- for block in mega_menu_blocks -%}
-        {%- if block.settings.index == main_link_index -%}
-          {%- assign mega_menu_block = block -%}
-          {%- break -%}
-        {%- endif -%}
-      {%- endfor -%}
-
       <li>
-        {%- if link.links != blank or mega_menu_block != blank -%}
-          <div
-            x-data="
-              {
-                isMenuOpen: false,
-                onToggleMenu() {
-                  this.isMenuOpen = !this.isMenuOpen;
-                },
-                onCloseMenu() {
-                  if (!this.isMenuOpen) return;
-                  this.isMenuOpen = false;
-                }
-              }
-            "
-            x-on:click.outside="onCloseMenu()"
-            @keydown.escape.window="onCloseMenu()"
-          >
-            <button
-              class="flex flex-row items-center gap-2"
-              x-on:click="onToggleMenu()"
-              x-ref="navLinkMenu"
-              :aria-expanded="isMenuOpen"
-            >
-              <span class="{% if link.child_active %} font-semibold{% endif %}">
-                {{- link.title | escape -}}
-              </span>
-
-              <span
-                class="transition-transform"
-                :class="{ 'rotate-180': isMenuOpen }"
-                aria-hidden="true"
-              >
-                {%- render 'icon-caret' -%}
-              </span>
-            </button>
-
-            {%- if mega_menu_block != blank -%}
-              {%- render 'header-mega-menu', block: mega_menu_block -%}
-            {%- else -%}
-              {%- render 'header-dropdown-menu', link: link -%}
-            {%- endif -%}
-          </div>
-        {%- else -%}
-          <a
-            href="{{ link.url }}"
-            class="{% if link.current %} font-semibold{% endif %}"
-            {% if link.current %}
-              aria-current="page"
-            {% endif %}
-          >
-            {{- link.title | escape -}}
-          </a>
-        {%- endif -%}
+        <a
+          href="{{ link.url }}"
+          class="text-[12px] tracking-[0.2em] uppercase text-wb-brown-soft hover:text-wb-brown transition-colors duration-300{% if link.current %} text-wb-brown font-medium{% endif %}"
+          {% if link.current %}aria-current="page"{% endif %}
+        >
+          {{- link.title | escape -}}
+        </a>
       </li>
     {%- endfor -%}
   </ul>
