@@ -82,18 +82,18 @@
           "type": "step",
           "settings": {
             "step_number": "02",
-            "icon": "✍️",
-            "heading": "Completa tus datos",
-            "description": "<p>Llena el formulario con todos los detalles de tu boda: nombres, fecha, lugar y programa.</p>"
+            "icon": "💳",
+            "heading": "Realiza el pago",
+            "description": "<p>Pago seguro y sencillo. En cuanto lo confirmemos, se enviará un email con el link del formulario.</p>"
           }
         },
         "step_3": {
           "type": "step",
           "settings": {
             "step_number": "03",
-            "icon": "💳",
-            "heading": "Realiza el pago",
-            "description": "<p>Pago seguro y sencillo. En cuanto lo confirmemos, comenzamos a crear tu invitación.</p>"
+            "icon": "✍️",
+            "heading": "Completa tus datos",
+            "description": "<p>Llena el formulario con todos los detalles de tu boda: nombres, fecha, lugar y programa.</p>"
           }
         },
         "step_4": {
@@ -102,7 +102,7 @@
             "step_number": "04",
             "icon": "🎁",
             "heading": "Recibe en 48 hrs",
-            "description": "<p>Tu invitación personalizada llegará a tu correo, lista para compartir con tus invitados.</p>"
+            "description": "<p>El link de tu invitación personalizada llegará a tu correo, lista para compartir con tus invitados.</p>"
           }
         }
       },
@@ -126,7 +126,8 @@
             "style": "clasica",
             "badge": "Clásica",
             "name": "La Clásica",
-            "description": "<p>Elegancia atemporal en tonos crema y dorado. Composición simétrica, tipografía serif sofisticada y detalles ornamentales refinados.</p>"
+            "description": "<p>Elegancia atemporal en tonos crema y dorado. Composición simétrica, tipografía serif sofisticada y detalles ornamentales refinados.</p>",
+            "cta_url": ""
           }
         },
         "template_2": {
@@ -135,7 +136,8 @@
             "style": "romantica",
             "badge": "Romántica",
             "name": "La Romántica",
-            "description": "<p>Calidez y emoción en tonos rosa y durazno. Script fluido, detalles florales y una atmósfera que transmite amor desde el primer scroll.</p>"
+            "description": "<p>Calidez y emoción en tonos rosa y durazno. Script fluido, detalles florales y una atmósfera que transmite amor desde el primer scroll.</p>",
+            "cta_url": ""
           }
         },
         "template_3": {
@@ -144,7 +146,8 @@
             "style": "elegante",
             "badge": "Elegante",
             "name": "La Elegante",
-            "description": "<p>Sofisticación moderna en tonos lavanda y perla. Minimalismo editorial con detalles geométricos y tipografía contrastante y contemporánea.</p>"
+            "description": "<p>Sofisticación moderna en tonos lavanda y perla. Minimalismo editorial con detalles geométricos y tipografía contrastante y contemporánea.</p>",
+            "cta_url": ""
           }
         }
       },
@@ -210,8 +213,8 @@
       "settings": {
         "label_text": "Inversión",
         "price_label": "precio único · todo incluido",
-        "price": "49",
-        "price_note": "<p><strong>¿Necesitas un cambio después de recibir tu invitación?</strong><br />Con gusto lo realizamos. El tiempo de entrega de la modificación es también de <strong>48 horas</strong>, sin costo adicional.</p>",
+        "price": "50",
+        "price_note": "<p><strong>¿Necesitas un cambio después de recibir tu invitación?</strong><br/>Con gusto lo realizamos. El tiempo de entrega de la modificación es también de <strong>48 horas</strong>, sin costo adicional.</p>",
         "cta_label": "¿Lista para empezar?",
         "headline": "Elige tu plantilla y cuéntanos tu historia de amor",
         "delivery_text": "Entrega garantizada en 48 horas",
@@ -302,7 +305,7 @@
           "type": "faq_item",
           "settings": {
             "question": "¿Por cuánto tiempo estará activa?",
-            "answer": "<p>La página permanece activa por 12 meses desde la fecha de entrega, más que suficiente para toda la duración de tu boda y celebraciones.</p>"
+            "answer": "<p>La página permanece activa por 6 meses desde la fecha de entrega, más que suficiente para toda la duración de tu boda y celebraciones. Si necesitas mas tiempo se puede agregar como extra.</p>"
           }
         }
       },
