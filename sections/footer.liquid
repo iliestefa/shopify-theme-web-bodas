@@ -1,6 +1,5 @@
 <footer class="bg-wb-brown">
   <div class="c-container py-14 flex justify-between items-center flex-wrap gap-7 md-down:flex-col md-down:text-center md-down:py-10">
-
     <div class="font-wb-serif text-[20px] italic text-white/85">
       {%- if settings.logo != blank -%}
         {%- capture logo_style -%}
@@ -21,38 +20,28 @@
       <small class="text-[12px] tracking-[0.05em] text-white/55">{{ section.settings.copyright }}</small>
     {%- endif -%}
 
-    {%- if section.settings.menu != blank -%}
-      <ul class="flex flex-wrap gap-7 md-down:justify-center" role="list">
-        {%- for link in section.settings.menu.links -%}
-          {%- unless link.url contains '/search' or link.url == routes.search_url -%}
-            <li>
-              <a
-                href="{{ link.url }}"
-                class="text-[11px] tracking-[0.2em] uppercase text-white/40 hover:text-wb-blush transition-colors duration-300"
-              >
-                {{- link.title | escape -}}
-              </a>
-            </li>
-          {%- endunless -%}
-        {%- endfor -%}
-      </ul>
-    {%- endif -%}
-
     {%- if settings.social_instagram_link != blank or settings.social_tiktok_link != blank -%}
       <div class="flex items-center gap-5">
         {%- if settings.social_instagram_link != blank -%}
-          <a href="{{ settings.social_instagram_link }}" aria-label="Instagram" class="text-white/55 hover:text-white transition-colors duration-300">
+          <a
+            href="{{ settings.social_instagram_link }}"
+            aria-label="Instagram"
+            class="text-white/55 hover:text-white transition-colors duration-300"
+          >
             {%- render 'icon', icon: 'instagram' -%}
           </a>
         {%- endif -%}
         {%- if settings.social_tiktok_link != blank -%}
-          <a href="{{ settings.social_tiktok_link }}" aria-label="TikTok" class="text-white/55 hover:text-white transition-colors duration-300">
+          <a
+            href="{{ settings.social_tiktok_link }}"
+            aria-label="TikTok"
+            class="text-white/55 hover:text-white transition-colors duration-300"
+          >
             {%- render 'icon', icon: 'tiktok' -%}
           </a>
         {%- endif -%}
       </div>
     {%- endif -%}
-
   </div>
 </footer>
 
@@ -64,12 +53,6 @@
   },
   "limit": 1,
   "settings": [
-    {
-      "type": "link_list",
-      "id": "menu",
-      "label": "Menú de footer",
-      "default": "footer"
-    },
     {
       "type": "inline_richtext",
       "id": "copyright",
