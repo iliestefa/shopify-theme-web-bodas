@@ -50,11 +50,11 @@
         "settings": {
           "background": "#eff0f5",
           "background_gradient": "",
-          "text": "#0e1b4d",
-          "button": "#4770db",
+          "text": "#4a3728",
+          "button": "#e8b4b0",
           "button_label": "#eff0f5",
-          "secondary_button_label": "#0e1b4d",
-          "shadow": "#0e1b4d"
+          "secondary_button_label": "#7a5f4e",
+          "shadow": "#7a5f4e"
         }
       },
       "scheme-2": {
