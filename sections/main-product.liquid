@@ -1,20 +1,17 @@
 <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
-{%- if product.quantity_price_breaks_configured? -%}
-  <script src="{{ 'price-per-item.js' | asset_url }}" defer="defer"></script>
-{%- endif -%}
 
 <section
   id="MainProduct-{{ section.id }}"
-  class="py-10 gradient color-{{ section.settings.color_scheme }}"
+  class="bg-wb-parchment py-16 md:py-24"
   data-section="{{ section.id }}"
 >
   <div class="c-container">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-10 product">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-20 items-start">
+
       <div class="w-full">
         <a class="skip-to-content-link sr-only" href="#ProductInfo-{{ section.id }}">
           {{- 'accessibility.skip_to_product_info' | t -}}
         </a>
-
         {%- render 'product-media-gallery' -%}
       </div>
 
@@ -23,49 +20,87 @@
           id="ProductInfo-{{ section.id }}"
           data-section="{{ section.id }}"
           data-url="{{ product.url }}"
-          class="product__info-container space-y-3 {% if section.settings.enable_sticky_info %} md:sticky md:top-12 {% endif %}"
+          class="flex flex-col gap-8 {% if section.settings.enable_sticky_info %} md:sticky md:top-28 {% endif %}"
         >
           {%- assign product_form_id = 'product-form-' | append: section.id -%}
 
-          {%- for block in section.blocks -%}
-            {%- case block.type -%}
-              {%- when '@app' -%}
-                {% render block %}
-              {%- when 'text' -%}
-                {%- render 'product-block-text', product: product, block: block -%}
-              {%- when 'title' -%}
-                {%- render 'product-block-title', product: product, block: block -%}
-              {%- when 'sku' -%}
-                {%- render 'product-block-sku', product: product, block: block -%}
-              {%- when 'price' -%}
-                {%- render 'product-block-price', product: product, block: block -%}
-              {%- when 'rating' -%}
-                {%- render 'product-block-rating', product: product -%}
-              {%- when 'variant_picker' -%}
-                {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
-              {%- when 'quantity_selector' -%}
-                {%- render 'product-block-quantity-selector',
-                  product: product,
-                  block: block,
-                  product_form_id: product_form_id
-                -%}
-              {%- when 'buy_buttons' -%}
-                {%- render 'buy-buttons',
-                  block: block,
-                  product: product,
-                  product_form_id: product_form_id,
-                  section_id: section.id
-                -%}
-              {%- when 'collapsible_tab' -%}
-                {%- render 'product-block-collapsible-tab', product: product, block: block -%}
-              {%- when 'description' -%}
-                {%- render 'product-block-description', product: product, block: block -%}
-              {%- when 'icon-with-text' -%}
-                {%- render 'product-block-icon-with-text', product: product, block: block -%}
-            {%- endcase -%}
-          {%- endfor -%}
+          <div class="flex flex-col gap-3 border-b border-wb-linen pb-8">
+            {%- if product.vendor != blank -%}
+              <p class="text-[11px] tracking-[0.2em] uppercase text-wb-blush">{{ product.vendor }}</p>
+            {%- endif -%}
+
+            <h1 class="font-wb-serif text-[42px] italic text-wb-brown leading-tight md-down:text-[32px]">
+              {{ product.title }}
+            </h1>
+
+            <div id="price-{{ section.id }}" role="status">
+              {%- render 'price', product: product, use_variant: true, show_badges: true, price_class: 'price--large' -%}
+            </div>
+          </div>
+
+          {%- if product.description != blank -%}
+            <div class="richtext text-[15px] leading-relaxed text-wb-brown-mid">
+              {{ product.description }}
+            </div>
+          {%- endif -%}
+
+          {%- unless product.has_only_default_variant -%}
+            <div>
+              {% render 'product-variant-picker', product: product, product_form_id: product_form_id %}
+            </div>
+          {%- endunless -%}
+
+          <div class="flex flex-col gap-4">
+            {%- form 'product', product, id: product_form_id, novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+              <input
+                type="hidden"
+                name="id"
+                value="{{ product.selected_or_first_available_variant.id }}"
+                {% if product.selected_or_first_available_variant.available == false %}disabled{% endif %}
+                class="product-variant-id"
+              >
+              <input type="hidden" name="quantity" value="1">
+
+              <button
+                id="ProductSubmitButton-{{ section.id }}"
+                type="submit"
+                name="add"
+                class="js-add-to-cart w-full text-[11px] tracking-[0.2em] uppercase bg-wb-blush text-white py-4 hover:bg-wb-blush-deep transition-colors duration-300 font-medium"
+                {% if product.selected_or_first_available_variant.available == false %}disabled{% endif %}
+              >
+                {%- if product.selected_or_first_available_variant.available == false -%}
+                  Agotado
+                {%- else -%}
+                  Elegir esta plantilla
+                {%- endif -%}
+              </button>
+
+              {{- form | payment_button -}}
+            {%- endform -%}
+
+            <p class="text-[12px] tracking-[0.05em] text-wb-brown-soft text-center">
+              Entrega en 48 horas · Link personalizado listo para compartir
+            </p>
+          </div>
+
+          <div class="border-t border-wb-linen pt-6 grid grid-cols-3 gap-4 text-center">
+            <div class="flex flex-col items-center gap-1.5">
+              <span class="text-[20px]">⏱</span>
+              <span class="text-[11px] tracking-[0.1em] uppercase text-wb-brown-mid">48 horas</span>
+            </div>
+            <div class="flex flex-col items-center gap-1.5">
+              <span class="text-[20px]">✏️</span>
+              <span class="text-[11px] tracking-[0.1em] uppercase text-wb-brown-mid">1 revisión</span>
+            </div>
+            <div class="flex flex-col items-center gap-1.5">
+              <span class="text-[20px]">📱</span>
+              <span class="text-[11px] tracking-[0.1em] uppercase text-wb-brown-mid">100% responsive</span>
+            </div>
+          </div>
+
         </product-info>
       </div>
+
     </div>
   </div>
 </section>
@@ -76,12 +111,6 @@
   "class": "section",
   "settings": [
     {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "Color Scheme",
-      "default": "scheme-1"
-    },
-    {
       "type": "checkbox",
       "id": "enable_sticky_info",
       "default": true,
@@ -91,214 +120,6 @@
   "blocks": [
     {
       "type": "@app"
-    },
-    {
-      "type": "text",
-      "name": "Text",
-      "settings": [
-        {
-          "type": "inline_richtext",
-          "id": "text",
-          "default": "Text block",
-          "label": "Text"
-        },
-        {
-          "type": "select",
-          "id": "text_style",
-          "options": [
-            {
-              "value": "body",
-              "label": "Body"
-            },
-            {
-              "value": "uppercase",
-              "label": "Uppercase"
-            }
-          ],
-          "default": "body",
-          "label": "Text Style"
-        }
-      ]
-    },
-    {
-      "type": "title",
-      "name": "Title",
-      "limit": 1
-    },
-    {
-      "type": "price",
-      "name": "Price",
-      "limit": 1
-    },
-    {
-      "type": "sku",
-      "name": "SKU",
-      "limit": 1,
-      "settings": [
-        {
-          "type": "select",
-          "id": "text_style",
-          "options": [
-            {
-              "value": "body",
-              "label": "Body"
-            },
-            {
-              "value": "uppercase",
-              "label": "Uppercase"
-            }
-          ],
-          "default": "body",
-          "label": "Text style"
-        }
-      ]
-    },
-    {
-      "type": "quantity_selector",
-      "name": "Quantity selector",
-      "limit": 1
-    },
-    {
-      "type": "variant_picker",
-      "name": "Variant picker",
-      "limit": 1,
-      "settings": [
-        {
-          "id": "swatch_shape",
-          "label": "Swatch shape",
-          "type": "select",
-          "info": "Enable [swatches](https://help.shopify.com/en/manual/online-store/themes/theme-structure/theme-settings#options-with-swatches) on product options.",
-          "options": [
-            {
-              "value": "circle",
-              "label": "Circle"
-            },
-            {
-              "value": "none",
-              "label": "None"
-            }
-          ],
-          "default": "circle"
-        }
-      ]
-    },
-    {
-      "type": "buy_buttons",
-      "name": "Buy buttons",
-      "limit": 1,
-      "settings": [
-        {
-          "type": "checkbox",
-          "id": "show_dynamic_checkout",
-          "default": true,
-          "label": "Show dynamic checkout buttons",
-          "info": "Using the payment methods available on your store, customers see their preferred option, like PayPal or Apple Pay. [Learn more](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
-        }
-      ]
-    },
-    {
-      "type": "description",
-      "name": "Description",
-      "limit": 1
-    },
-    {
-      "type": "collapsible_tab",
-      "name": "Collapsible row",
-      "settings": [
-        {
-          "type": "text",
-          "id": "heading",
-          "default": "Collapsible row",
-          "label": "Heading"
-        },
-        {
-          "type": "richtext",
-          "id": "content",
-          "label": "Content",
-          "default": "<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia eius, aperiam omnis labore suscipit inventore expedita aliquid, iusto autem ea laudantium illum non odit! Vitae sint laudantium nam placeat natus!</p>"
-        },
-        {
-          "type": "page",
-          "id": "page",
-          "label": "Page content"
-        }
-      ]
-    },
-    {
-      "type": "rating",
-      "name": "Product Rating",
-      "limit": 1,
-      "settings": [
-        {
-          "type": "paragraph",
-          "content": "To display a rating, add a product rating app. [Learn more](https://help.shopify.com/manual/online-store/themes/theme-structure/page-types#product-rating-block)"
-        }
-      ]
-    },
-    {
-      "type": "icon-with-text",
-      "name": "Icon with text",
-      "settings": [
-        {
-          "type": "header",
-          "content": "General Settings"
-        },
-        {
-          "type": "range",
-          "id": "image_height",
-          "min": 10,
-          "max": 200,
-          "step": 2,
-          "unit": "px",
-          "label": "Image height",
-          "default": 30
-        },
-        {
-          "type": "header",
-          "content": "First Column"
-        },
-        {
-          "type": "image_picker",
-          "id": "image_1",
-          "label": "First image"
-        },
-        {
-          "type": "inline_richtext",
-          "id": "heading_1",
-          "default": "Heading",
-          "label": "First heading"
-        },
-        {
-          "type": "header",
-          "content": "Second Column"
-        },
-        {
-          "type": "image_picker",
-          "id": "image_2",
-          "label": "Second image"
-        },
-        {
-          "type": "inline_richtext",
-          "id": "heading_2",
-          "default": "Heading",
-          "label": "Second heading"
-        },
-        {
-          "type": "header",
-          "content": "Third Column"
-        },
-        {
-          "type": "image_picker",
-          "id": "image_3",
-          "label": "Third image"
-        },
-        {
-          "type": "inline_richtext",
-          "id": "heading_3",
-          "default": "Heading",
-          "label": "Third heading"
-        }
-      ]
     }
   ]
 }

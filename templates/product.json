@@ -3,44 +3,13 @@
     "main": {
       "type": "main-product",
       "blocks": {
-        "vendor": {
-          "type": "text",
-          "settings": {
-            "text": "{{ product.vendor }}",
-            "text_style": "body"
-          }
-        },
         "title": {
           "type": "title",
-          "settings": {
-          }
-        },
-        "sku_QRke7Q": {
-          "type": "sku",
-          "settings": {
-            "text_style": "body"
-          }
-        },
-        "rating": {
-          "type": "rating",
-          "settings": {
-          }
+          "settings": {}
         },
         "price": {
           "type": "price",
-          "settings": {
-          }
-        },
-        "variant_picker": {
-          "type": "variant_picker",
-          "settings": {
-            "swatch_shape": "circle"
-          }
-        },
-        "quantity_selector": {
-          "type": "quantity_selector",
-          "settings": {
-          }
+          "settings": {}
         },
         "buy_buttons": {
           "type": "buy_buttons",
@@ -50,63 +19,21 @@
         },
         "description": {
           "type": "description",
-          "settings": {
-          }
-        },
-        "collapsible_tab_7XHXDr": {
-          "type": "collapsible_tab",
-          "settings": {
-            "heading": "Collapsible row",
-            "content": "<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia eius, aperiam omnis labore suscipit inventore expedita aliquid, iusto autem ea laudantium illum non odit! Vitae sint laudantium nam placeat natus!<\/p>",
-            "page": "contact"
-          }
-        },
-        "icon_with_text_tbW7eY": {
-          "type": "icon-with-text",
-          "settings": {
-            "image_height": 30,
-            "image_1": "shopify:\/\/shop_images\/Logo.png",
-            "heading_1": "Free Shipping",
-            "image_2": "shopify:\/\/shop_images\/Logo.png",
-            "heading_2": "Easy Exchanges",
-            "image_3": "shopify:\/\/shop_images\/Logo.png",
-            "heading_3": "Easy Returns"
-          }
+          "settings": {}
         }
       },
       "block_order": [
-        "vendor",
         "title",
-        "sku_QRke7Q",
-        "rating",
         "price",
-        "variant_picker",
-        "quantity_selector",
         "buy_buttons",
-        "description",
-        "collapsible_tab_7XHXDr",
-        "icon_with_text_tbW7eY"
+        "description"
       ],
       "settings": {
-        "color_scheme": "scheme-1",
         "enable_sticky_info": true
-      }
-    },
-    "related-products": {
-      "type": "related-products",
-      "settings": {
-        "color_scheme": "scheme-1",
-        "heading": "You may also like",
-        "products_to_show": 4,
-        "columns_desktop": 4,
-        "columns_mobile": "2",
-        "show_secondary_image": true,
-        "show_vendor": true
       }
     }
   },
   "order": [
-    "main",
-    "related-products"
+    "main"
   ]
 }
