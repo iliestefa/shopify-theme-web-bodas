@@ -60,37 +60,6 @@
         </a>
       {%- endfor -%}
     </div>
-  {%- else -%}
-    <!-- Fallback: bloques manuales si no hay colección configurada -->
-    <div class="c-container grid grid-cols-3 gap-8 lg-down:grid-cols-1 lg-down:gap-6">
-      {%- for block in section.blocks -%}
-        <a
-          href="{{ block.settings.cta_url | default: '#' }}"
-          class="group cursor-pointer no-underline block transition-transform duration-400 ease-out hover:-translate-y-1.5"
-          {{ block.shopify_attributes }}
-        >
-          <div class="relative h-115 overflow-hidden border border-wb-linen shadow-[0_8px_40px_rgba(74,55,40,0.07)] md-down:h-95">
-            <div class="w-full h-full flex flex-col items-center justify-center px-8 py-10 text-center transition-transform duration-500 ease-out group-hover:scale-[1.02] bg-wb-ivory">
-              <div class="font-wb-serif text-[26px] italic text-wb-brown">{{ block.settings.name }}</div>
-            </div>
-            {%- if block.settings.badge != blank -%}
-              <div class="absolute top-3.5 right-3.5 z-10 text-[9px] tracking-[0.25em] uppercase px-3.5 py-1.5 border font-normal bg-wb-gold-pale text-wb-gold border-wb-linen">
-                {{ block.settings.badge }}
-              </div>
-            {%- endif -%}
-          </div>
-          <div class="pt-7 pb-0 px-1">
-            <div class="font-wb-serif text-[26px] italic text-wb-brown mb-2">{{ block.settings.name }}</div>
-            {%- if block.settings.description != blank -%}
-              <div class="richtext text-[13px] leading-[1.7] text-wb-brown-mid mb-5 [&_p]:text-wb-brown-mid [&_p]:mb-0">{{ block.settings.description }}</div>
-            {%- endif -%}
-            <span class="inline-flex items-center gap-2 text-[11px] tracking-[0.3em] uppercase text-wb-blush-deep border-b border-wb-blush-pale pb-0.5 group-hover:border-wb-blush-deep transition-colors duration-300">
-              Ver preview y personalizar →
-            </span>
-          </div>
-        </a>
-      {%- endfor -%}
-    </div>
   {%- endif -%}
 </div>
 
@@ -130,37 +99,6 @@
       "max": 12,
       "step": 1,
       "default": 6
-    }
-  ],
-  "blocks": [
-    {
-      "type": "template",
-      "name": "Plantilla manual (fallback)",
-      "settings": [
-        {
-          "type": "inline_richtext",
-          "id": "badge",
-          "label": "Badge",
-          "default": "Clásica"
-        },
-        {
-          "type": "inline_richtext",
-          "id": "name",
-          "label": "Nombre",
-          "default": "La Clásica"
-        },
-        {
-          "type": "richtext",
-          "id": "description",
-          "label": "Descripción",
-          "default": "<p>Elegancia atemporal en tonos crema y dorado.</p>"
-        },
-        {
-          "type": "url",
-          "id": "cta_url",
-          "label": "URL del producto"
-        }
-      ]
     }
   ],
   "presets": [
