@@ -134,9 +134,21 @@
         }
       },
       "block_order": [
-        "inc_1", "inc_2", "inc_3", "inc_4", "inc_5", "inc_6", "inc_7", "inc_8",
-        "step_1", "step_2", "step_3", "step_4",
-        "g_1", "g_2", "g_3"
+        "inc_1",
+        "inc_2",
+        "inc_3",
+        "inc_4",
+        "inc_5",
+        "inc_6",
+        "inc_7",
+        "inc_8",
+        "step_1",
+        "step_2",
+        "step_3",
+        "step_4",
+        "g_1",
+        "g_2",
+        "g_3"
       ],
       "settings": {
         "badge": "Invitación Digital de Boda",
@@ -152,9 +164,21 @@
         "steps_title": "Cómo funciona",
         "note": "<strong>🔗 Link personalizado incluido</strong> — Tu invitación vivirá en una URL limpia y fácil de compartir por WhatsApp, Instagram o correo. Sin apps, sin descargas."
       }
+    },
+    "wb_templates_grid_XFaN99": {
+      "type": "wb-templates-grid",
+      "name": "Web Bodas — Plantillas",
+      "settings": {
+        "label_text": "Plantillas",
+        "title": "Tres estilos, <em>una sola historia</em>",
+        "intro_text": "<p>Haz clic en cualquier plantilla para ver su preview completo y personalizar tu invitación.</p>",
+        "collection": "invitaciones-de-boda",
+        "products_limit": 6
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "wb_templates_grid_XFaN99"
   ]
 }

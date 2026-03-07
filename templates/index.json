@@ -119,12 +119,12 @@
     },
     "wb_templates_grid": {
       "type": "wb-templates-grid",
-      "blocks": {},
-      "block_order": [],
       "settings": {
         "label_text": "Plantillas",
         "title": "Tres estilos, <em>una sola historia</em>",
-        "intro_text": "<p>Haz clic en cualquier plantilla para ver su preview completo y personalizar tu invitación.</p>"
+        "intro_text": "<p>Haz clic en cualquier plantilla para ver su preview completo y personalizar tu invitación.</p>",
+        "collection": "invitaciones-de-boda",
+        "products_limit": 6
       }
     },
     "wb_pricing": {
