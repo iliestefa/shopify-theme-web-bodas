@@ -21,7 +21,7 @@
     <!-- MacBook: ≥1300px -->
     <div class="pdp-macbook-wrap hidden xl:flex flex-col items-center w-[90%] max-w-225">
       <div class="sticky top-0 w-full z-10">
-        <div class="w-full bg-[#1d1d1f] rounded-t-[10px] pt-2.5 px-2.5" style="box-shadow: 0 0 0 1px #0a0a0a, 0 0 0 2.5px #2a2a2c, 0 16px 48px rgba(0,0,0,.5);">
+        <div class="w-full bg-[#1d1d1f] rounded-t-[10px] pt-2.5 px-2.5 pdp-mock-glow" style="box-shadow: 0 0 0 1px #0a0a0a, 0 0 0 2.5px #2a2a2c, 0 16px 48px rgba(0,0,0,.5);">
           <div class="flex items-center gap-1.5 px-2 pb-2 pt-0.5">
             <div class="w-2 h-2 rounded-full bg-[#ff5f57]"></div>
             <div class="w-2 h-2 rounded-full bg-[#ffbd2e]"></div>
@@ -42,12 +42,17 @@
       </div>
       <div class="w-full h-2 rounded-b-sm bg-linear-to-b from-[#c8c0b8] to-[#b0a8a0]" style="box-shadow: 0 2px 8px rgba(0,0,0,.2), 0 0 0 1px rgba(0,0,0,.15);"></div>
       <div class="w-[68%] h-0.75 rounded-b bg-linear-to-b from-[#b8b0a8] to-[#a8a098] mx-auto" style="box-shadow: 0 2px 6px rgba(0,0,0,.15);"></div>
+      <!-- Scroll hint -->
+      <div class="flex flex-col items-center gap-1 mt-5 pdp-scroll-hint">
+        <span class="text-[9px] tracking-[.3em] uppercase text-wb-brown-soft/60">Scroll</span>
+        <svg width="12" height="16" viewBox="0 0 12 16" fill="none" class="text-wb-brown-soft/50"><rect x="4.5" y="1" width="3" height="7" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M6 10v4M4 12.5l2 2 2-2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
     </div>
 
     <!-- iPad: 1024–1299px -->
     <div class="pdp-ipad-wrap hidden xl:hidden lg:flex flex-col items-center w-4/5 mx-auto">
       <div class="sticky top-0 w-full z-10">
-        <div class="w-full bg-[#1c1c1e] rounded-[20px] px-2.5 py-4" style="box-shadow: 0 0 0 1px #0a0a0a, 0 0 0 2px #2a2a2c, 0 20px 50px rgba(0,0,0,.4);">
+        <div class="w-full bg-[#1c1c1e] rounded-[20px] px-2.5 py-4 pdp-mock-glow" style="box-shadow: 0 0 0 1px #0a0a0a, 0 0 0 2px #2a2a2c, 0 20px 50px rgba(0,0,0,.4);">
           <div class="w-1.5 h-1.5 rounded-full bg-[#2a2a2c] mx-auto mb-2"></div>
           <div class="pdp-screen bg-white rounded-sm overflow-hidden" id="pdpIpadScreen">
             {%- if demo_url != '' -%}
@@ -58,6 +63,11 @@
           </div>
           <div class="w-9 h-1 bg-[#2a2a2c] rounded-[3px] mx-auto mt-2.5"></div>
         </div>
+      </div>
+      <!-- Scroll hint -->
+      <div class="flex flex-col items-center gap-1 mt-5 pdp-scroll-hint">
+        <span class="text-[9px] tracking-[.3em] uppercase text-wb-brown-soft/60">Scroll</span>
+        <svg width="12" height="16" viewBox="0 0 12 16" fill="none" class="text-wb-brown-soft/50"><rect x="4.5" y="1" width="3" height="7" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M6 10v4M4 12.5l2 2 2-2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
     </div>
 
@@ -85,8 +95,11 @@
           <span class="text-[12px] text-wb-brown-soft">{{ section.settings.stars_label }}</span>
         </div>
 
-        <div id="price-{{ section.id }}" role="status" class="[&_.price__badges]:hidden [&_.price]:flex [&_.price]:max-lg:justify-center [&_.price__sale]:max-lg:justify-center [&_.price__regular]:max-lg:justify-center [&_.price__compare]:max-lg:justify-center">
-          {%- render 'price', product: product, use_variant: true, show_badges: false, price_class: 'price--large' -%}
+        <div class="flex items-baseline gap-2 max-lg:justify-center">
+          <span class="text-[11px] tracking-[.2em] uppercase text-wb-brown-soft/70 font-medium">USD</span>
+          <div id="price-{{ section.id }}" role="status" class="[&_.price__badges]:hidden [&_.price]:flex [&_.price]:max-lg:justify-center [&_.price__sale]:max-lg:justify-center [&_.price__regular]:max-lg:justify-center [&_.price__compare]:max-lg:justify-center">
+            {%- render 'price', product: product, use_variant: true, show_badges: false, price_class: 'price--large' -%}
+          </div>
         </div>
 
         {%- if product.description != blank -%}
@@ -275,9 +288,9 @@
 </section>
 
 <style>
-/* MacBook screen heights — JS overrides for 1300-1700 range */
+/* MacBook screen heights */
 @media (min-width: 1701px) { #pdpMacScreen { height: 500px !important; } }
-@media (min-width: 1300px) and (max-width: 1700px) { #pdpMacScreen { height: 350px; } }
+@media (min-width: 1280px) and (max-width: 1700px) { #pdpMacScreen { height: 350px; } }
 
 /* iframe: 1440px wide, scaled to container via JS */
 .pdp-iframe {
@@ -318,6 +331,22 @@
 
 /* Reveal */
 .pdp-reveal.pdp-visible { opacity: 1 !important; transform: none !important; }
+
+/* Efecto scroll hint en mockups */
+@keyframes pdp-glow-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(232,180,176,0); }
+  50% { box-shadow: 0 0 32px 8px rgba(232,180,176,0.45); }
+}
+@keyframes pdp-scroll-bounce {
+  0%, 100% { transform: translateY(0); opacity: 0.7; }
+  50% { transform: translateY(6px); opacity: 1; }
+}
+.pdp-mock-glow {
+  animation: pdp-glow-pulse 2.2s ease-in-out 0.8s 3;
+}
+.pdp-scroll-hint {
+  animation: pdp-scroll-bounce 1.5s ease-in-out 1.2s 4;
+}
 </style>
 
 <script>

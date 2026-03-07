@@ -8,125 +8,90 @@
       {%- endif -%}
     </div>
     {%- if section.settings.intro_text != blank -%}
-      <div class="richtext text-[15px] leading-[1.8] text-wb-brown-mid max-w-[340px] lg-down:max-w-full [&_p]:text-wb-brown-mid [&_p]:mb-0 [&_p]:whitespace-normal [&_a]:text-wb-brown-mid [&_a]:no-underline">
+      <div class="richtext text-[15px] leading-[1.8] text-wb-brown-mid max-w-85 lg-down:max-w-full [&_p]:text-wb-brown-mid [&_p]:mb-0 [&_p]:whitespace-normal [&_a]:text-wb-brown-mid [&_a]:no-underline">
         {{ section.settings.intro_text }}
       </div>
     {%- endif -%}
   </div>
 
-  <!-- Grid -->
-  <div class="c-container grid grid-cols-3 gap-8 lg-down:grid-cols-1 lg-down:gap-6">
-    {%- for block in section.blocks -%}
-      <div
-        class="cursor-pointer transition-transform duration-400 ease-out hover:-translate-y-1.5"
-        {{ block.shopify_attributes }}
-      >
-        <!-- Thumbnail -->
-        <div class="relative h-[460px] overflow-hidden border border-wb-linen shadow-[0_8px_40px_rgba(74,55,40,0.07)] md-down:h-[380px]">
-          <!-- Inner content -->
-          <div
-            class="
-              w-full h-full flex flex-col items-center justify-center px-8 py-10 text-center transition-transform duration-500 ease-out hover:scale-[1.02]
-              {%- if block.settings.style == 'clasica' -%} bg-gradient-to-br from-[#faf7f2] to-[#f0e8da]
-              {%- elsif block.settings.style == 'romantica' -%} bg-gradient-to-br from-[#fdf5f5] to-[#f5e4e4]
-              {%- elsif block.settings.style == 'elegante' -%} bg-gradient-to-br from-[#f6f4f8] to-[#ece8f2]
-              {%- endif -%}
-            "
-          >
-            {%- case block.settings.style -%}
-              {%- when 'clasica' -%}
-                <!-- Inner border -->
-                <div class="absolute inset-3.5 border border-[rgba(184,154,106,0.2)] pointer-events-none"></div>
-                <!-- Ornament -->
-                <div class="text-[22px] text-[rgba(184,154,106,0.35)] mb-3 tracking-[0.3em]">✦ ✦ ✦</div>
-                <!-- Names -->
-                <div class="font-wb-serif text-[30px] italic text-[#4a3728] leading-[1.1]">
-                  Sofia<br>
-                  &amp;<br>
-                  Andrés
-                </div>
-                <!-- Line -->
-                <div class="w-12 h-px bg-wb-gold my-3.5 mx-auto"></div>
-                <!-- Date -->
-                <div class="text-[10px] tracking-[0.4em] uppercase text-wb-gold">15 · Junio · 2025</div>
+  <!-- Grid de productos -->
+  {%- assign products_collection = collections[section.settings.collection] -%}
+  {%- if products_collection != blank and products_collection.products_count > 0 -%}
+    <div class="c-container grid grid-cols-3 gap-8 lg-down:grid-cols-1 lg-down:gap-6">
+      {%- for product in products_collection.products limit: section.settings.products_limit -%}
+        {%- assign product_image_alt = product.title | escape -%}
+        <a
+          href="{{ product.url }}"
+          class="group cursor-pointer no-underline block transition-transform duration-400 ease-out hover:-translate-y-1.5"
+        >
+          <!-- Thumbnail -->
+          <div class="relative h-115 overflow-hidden border border-wb-linen shadow-[0_8px_40px_rgba(74,55,40,0.07)] md-down:h-95">
+            {%- if product.featured_image != blank -%}
+              {%- render 'image',
+                image: product.featured_image,
+                class: 'w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.02]',
+                alt: product_image_alt,
+                widths: '480,640,900'
+              -%}
+            {%- else -%}
+              <div class="w-full h-full flex items-center justify-center bg-wb-ivory text-wb-brown-soft text-[13px] italic font-wb-serif">
+                {{ product.title }}
+              </div>
+            {%- endif -%}
 
-              {%- when 'romantica' -%}
-                <!-- Glow -->
-                <div
-                  class="absolute w-[220px] h-[220px] rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-                  style="background: radial-gradient(circle, rgba(212,135,138,0.12), transparent);"
-                ></div>
-                <!-- Heart -->
-                <div class="text-[18px] text-[#d4878a] mb-2.5">♡ ♡ ♡</div>
-                <!-- Names -->
-                <div class="font-wb-script text-[46px] text-[#9b4f54] leading-[1.05]">
-                  Isabella<br>
-                  &amp;<br>
-                  Mateo
-                </div>
-                <!-- Swirl line -->
-                <div
-                  class="w-[60px] h-px my-3 mx-auto"
-                  style="background: linear-gradient(to right, transparent, #d4878a, transparent);"
-                ></div>
-                <!-- Date -->
-                <div class="text-[10px] tracking-[0.35em] uppercase text-[#c4777a]">22 · Septiembre · 2025</div>
-
-              {%- when 'elegante' -%}
-                <!-- Geo border -->
-                <div class="absolute inset-[18px] border border-[rgba(139,127,170,0.12)] pointer-events-none"></div>
-                <!-- Names -->
-                <div class="font-wb-serif text-[22px] tracking-[0.15em] text-[#3d3550] uppercase leading-[1.4]">
-                  Valentina<br>
-                  <span class="font-wb-script text-[38px] text-[#8b7faa] normal-case tracking-normal block my-1"
-                    >&amp;</span
-                  ><br>
-                  Nicolás
-                </div>
-                <!-- Line -->
-                <div
-                  class="w-12 h-px my-3.5 mx-auto"
-                  style="background: linear-gradient(to right, transparent, #8b7faa, transparent);"
-                ></div>
-                <!-- Date -->
-                <div class="text-[10px] tracking-[0.55em] uppercase text-[#8b7faa]">08 · Marzo · 2026</div>
-            {%- endcase -%}
+            <!-- Badge tipo -->
+            {%- if product.type != blank -%}
+              <div class="absolute top-3.5 right-3.5 z-10 text-[9px] tracking-[0.25em] uppercase px-3.5 py-1.5 border font-normal bg-wb-gold-pale text-wb-gold border-wb-linen">
+                {{ product.type }}
+              </div>
+            {%- endif -%}
           </div>
 
-          <!-- Badge -->
-          <div
-            class="
-              absolute top-3.5 right-3.5 z-10 text-[9px] tracking-[0.25em] uppercase px-3.5 py-1.5 border font-normal
-              {%- if block.settings.style == 'clasica' -%} bg-[rgba(184,154,106,0.15)] text-wb-gold border-[rgba(184,154,106,0.3)]
-              {%- elsif block.settings.style == 'romantica' -%} bg-[rgba(212,135,138,0.15)] text-[#b85c60] border-[rgba(212,135,138,0.3)]
-              {%- elsif block.settings.style == 'elegante' -%} bg-[rgba(139,127,170,0.15)] text-[#6b5f8a] border-[rgba(139,127,170,0.3)]
-              {%- endif -%}
-            "
-          >
-            {{ block.settings.badge }}
-          </div>
-        </div>
-
-        <!-- Info -->
-        <div class="pt-7 pb-0 px-1">
-          <div class="font-wb-serif text-[26px] italic text-wb-brown mb-2">{{ block.settings.name }}</div>
-          {%- if block.settings.description != blank -%}
-            <div class="richtext text-[13px] leading-[1.7] text-wb-brown-mid mb-5 [&_p]:text-wb-brown-mid [&_p]:mb-0 [&_p]:whitespace-normal [&_a]:text-wb-brown-mid [&_a]:no-underline">
-              {{ block.settings.description }}
-            </div>
-          {%- endif -%}
-          {%- if block.settings.cta_url != blank -%}
-            <a
-              href="{{ block.settings.cta_url }}"
-              class="inline-flex items-center gap-2 text-[11px] tracking-[0.3em] uppercase text-wb-blush-deep no-underline border-b border-wb-blush-pale pb-0.5 hover:border-wb-blush-deep transition-colors duration-300"
-            >
+          <!-- Info -->
+          <div class="pt-7 pb-0 px-1">
+            <div class="font-wb-serif text-[26px] italic text-wb-brown mb-2">{{ product.title }}</div>
+            {%- if product.description != blank -%}
+              <p class="text-[13px] leading-[1.7] text-wb-brown-mid mb-5">{{ product.description | strip_html | truncate: 130 }}</p>
+            {%- endif -%}
+            <span class="inline-flex items-center gap-2 text-[11px] tracking-[0.3em] uppercase text-wb-blush-deep no-underline border-b border-wb-blush-pale pb-0.5 group-hover:border-wb-blush-deep transition-colors duration-300">
               Ver preview y personalizar →
-            </a>
-          {%- endif -%}
-        </div>
-      </div>
-    {%- endfor -%}
-  </div>
+            </span>
+          </div>
+        </a>
+      {%- endfor -%}
+    </div>
+  {%- else -%}
+    <!-- Fallback: bloques manuales si no hay colección configurada -->
+    <div class="c-container grid grid-cols-3 gap-8 lg-down:grid-cols-1 lg-down:gap-6">
+      {%- for block in section.blocks -%}
+        <a
+          href="{{ block.settings.cta_url | default: '#' }}"
+          class="group cursor-pointer no-underline block transition-transform duration-400 ease-out hover:-translate-y-1.5"
+          {{ block.shopify_attributes }}
+        >
+          <div class="relative h-115 overflow-hidden border border-wb-linen shadow-[0_8px_40px_rgba(74,55,40,0.07)] md-down:h-95">
+            <div class="w-full h-full flex flex-col items-center justify-center px-8 py-10 text-center transition-transform duration-500 ease-out group-hover:scale-[1.02] bg-wb-ivory">
+              <div class="font-wb-serif text-[26px] italic text-wb-brown">{{ block.settings.name }}</div>
+            </div>
+            {%- if block.settings.badge != blank -%}
+              <div class="absolute top-3.5 right-3.5 z-10 text-[9px] tracking-[0.25em] uppercase px-3.5 py-1.5 border font-normal bg-wb-gold-pale text-wb-gold border-wb-linen">
+                {{ block.settings.badge }}
+              </div>
+            {%- endif -%}
+          </div>
+          <div class="pt-7 pb-0 px-1">
+            <div class="font-wb-serif text-[26px] italic text-wb-brown mb-2">{{ block.settings.name }}</div>
+            {%- if block.settings.description != blank -%}
+              <div class="richtext text-[13px] leading-[1.7] text-wb-brown-mid mb-5 [&_p]:text-wb-brown-mid [&_p]:mb-0">{{ block.settings.description }}</div>
+            {%- endif -%}
+            <span class="inline-flex items-center gap-2 text-[11px] tracking-[0.3em] uppercase text-wb-blush-deep border-b border-wb-blush-pale pb-0.5 group-hover:border-wb-blush-deep transition-colors duration-300">
+              Ver preview y personalizar →
+            </span>
+          </div>
+        </a>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
 </div>
 
 {% schema %}
@@ -137,38 +102,41 @@
     {
       "type": "inline_richtext",
       "id": "label_text",
-      "label": "Section Label",
+      "label": "Label de sección",
       "default": "Plantillas"
     },
     {
       "type": "inline_richtext",
       "id": "title",
-      "label": "Section Title",
+      "label": "Título",
       "default": "Tres estilos, <em>una sola historia</em>"
     },
     {
       "type": "richtext",
       "id": "intro_text",
-      "label": "Intro Text",
+      "label": "Texto intro",
       "default": "<p>Haz clic en cualquier plantilla para ver su preview completo y personalizar tu invitación.</p>"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Colección de plantillas"
+    },
+    {
+      "type": "range",
+      "id": "products_limit",
+      "label": "Máximo de productos a mostrar",
+      "min": 1,
+      "max": 12,
+      "step": 1,
+      "default": 6
     }
   ],
   "blocks": [
     {
       "type": "template",
-      "name": "Template",
+      "name": "Plantilla manual (fallback)",
       "settings": [
-        {
-          "type": "select",
-          "id": "style",
-          "label": "Template Style",
-          "options": [
-            { "value": "clasica", "label": "Clásica" },
-            { "value": "romantica", "label": "Romántica" },
-            { "value": "elegante", "label": "Elegante" }
-          ],
-          "default": "clasica"
-        },
         {
           "type": "inline_richtext",
           "id": "badge",
@@ -178,60 +146,26 @@
         {
           "type": "inline_richtext",
           "id": "name",
-          "label": "Template Name",
+          "label": "Nombre",
           "default": "La Clásica"
         },
         {
           "type": "richtext",
           "id": "description",
-          "label": "Description",
-          "default": "<p>Elegancia atemporal en tonos crema y dorado. Composición simétrica, tipografía serif sofisticada y detalles ornamentales refinados.</p>"
+          "label": "Descripción",
+          "default": "<p>Elegancia atemporal en tonos crema y dorado.</p>"
         },
         {
           "type": "url",
           "id": "cta_url",
-          "label": "CTA URL"
+          "label": "URL del producto"
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "Web Bodas — Plantillas",
-      "settings": {
-        "label_text": "Plantillas",
-        "title": "Tres estilos, <em>una sola historia</em>",
-        "intro_text": "<p>Haz clic en cualquier plantilla para ver su preview completo y personalizar tu invitación.</p>"
-      },
-      "blocks": [
-        {
-          "type": "template",
-          "settings": {
-            "style": "clasica",
-            "badge": "Clásica",
-            "name": "La Clásica",
-            "description": "<p>Elegancia atemporal en tonos crema y dorado. Composición simétrica, tipografía serif sofisticada y detalles ornamentales refinados.</p>"
-          }
-        },
-        {
-          "type": "template",
-          "settings": {
-            "style": "romantica",
-            "badge": "Romántica",
-            "name": "La Romántica",
-            "description": "<p>Calidez y emoción en tonos rosa y durazno. Script fluido, detalles florales y una atmósfera que transmite amor desde el primer scroll.</p>"
-          }
-        },
-        {
-          "type": "template",
-          "settings": {
-            "style": "elegante",
-            "badge": "Elegante",
-            "name": "La Elegante",
-            "description": "<p>Sofisticación moderna en tonos lavanda y perla. Minimalismo editorial con detalles geométricos y tipografía contrastante y contemporánea.</p>"
-          }
-        }
-      ]
+      "name": "Web Bodas — Plantillas"
     }
   ]
 }

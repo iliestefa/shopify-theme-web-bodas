@@ -84,9 +84,16 @@
                 {%- if link.links != blank or mega_menu_block != blank -%}
                   {%- render 'header-drawer-submenu-1', link: link, mega_menu_block: mega_menu_block -%}
                 {%- else -%}
+                  {%- assign link_href = link.url -%}
+                  {%- if link.url contains '#' and link.url != blank -%}
+                    {%- unless link.url contains 'http' -%}
+                      {%- assign link_href = routes.root_url | append: link.url -%}
+                    {%- endunless -%}
+                  {%- endif -%}
                   <a
-                    href="{{ link.url }}"
+                    href="{{ link_href }}"
                     class="flex px-8 py-4 body-2"
+                    @click="closeDrawer()"
                     {% if link.current %}
                       aria-current="page"
                     {% endif %}
