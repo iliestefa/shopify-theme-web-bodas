@@ -1,109 +1,677 @@
 <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
 
+{%- assign demo_url = product.metafields.custom.demo_url | default: '' -%}
+
 <section
   id="MainProduct-{{ section.id }}"
-  class="bg-wb-parchment py-16 md:py-24"
   data-section="{{ section.id }}"
+  class="pdp-layout"
 >
-  <div class="c-container">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-20 items-start">
 
-      <div class="w-full">
-        <a class="skip-to-content-link sr-only" href="#ProductInfo-{{ section.id }}">
-          {{- 'accessibility.skip_to_product_info' | t -}}
-        </a>
-        {%- render 'product-media-gallery' -%}
-      </div>
+  <!-- ══ COLUMNA IZQUIERDA: mockups ══ -->
+  <div class="pdp-col-left">
 
-      <div class="w-full">
-        <product-info
-          id="ProductInfo-{{ section.id }}"
-          data-section="{{ section.id }}"
-          data-url="{{ product.url }}"
-          class="flex flex-col gap-8 {% if section.settings.enable_sticky_info %} md:sticky md:top-28 {% endif %}"
-        >
-          {%- assign product_form_id = 'product-form-' | append: section.id -%}
-
-          <div class="flex flex-col gap-3 border-b border-wb-linen pb-8">
-            {%- if product.vendor != blank -%}
-              <p class="text-[11px] tracking-[0.2em] uppercase text-wb-blush">{{ product.vendor }}</p>
+    <!-- MacBook: ≥1300px -->
+    <div class="pdp-macbook-wrap">
+      <div class="pdp-macbook-sticky">
+        <div class="pdp-macbook-lid">
+          <div class="pdp-macbook-topbar">
+            <div class="pdp-mb-dot pdp-mb-dot--red"></div>
+            <div class="pdp-mb-dot pdp-mb-dot--yellow"></div>
+            <div class="pdp-mb-dot pdp-mb-dot--green"></div>
+            {%- if demo_url != '' -%}
+              <div class="pdp-mb-url">{{ demo_url | remove: 'https://' | remove: 'http://' | split: '/' | first }}</div>
+            {%- else -%}
+              <div class="pdp-mb-url">preview.invitacion.com</div>
             {%- endif -%}
-
-            <h1 class="font-wb-serif text-[42px] italic text-wb-brown leading-tight md-down:text-[32px]">
-              {{ product.title }}
-            </h1>
-
-            <div id="price-{{ section.id }}" role="status">
-              {%- render 'price', product: product, use_variant: true, show_badges: true, price_class: 'price--large' -%}
-            </div>
           </div>
-
-          {%- if product.description != blank -%}
-            <div class="richtext text-[15px] leading-relaxed text-wb-brown-mid">
-              {{ product.description }}
-            </div>
-          {%- endif -%}
-
-          {%- unless product.has_only_default_variant -%}
-            <div>
-              {% render 'product-variant-picker', product: product, product_form_id: product_form_id %}
-            </div>
-          {%- endunless -%}
-
-          <div class="flex flex-col gap-4">
-            {%- form 'product', product, id: product_form_id, novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
-              <input
-                type="hidden"
-                name="id"
-                value="{{ product.selected_or_first_available_variant.id }}"
-                {% if product.selected_or_first_available_variant.available == false %}disabled{% endif %}
-                class="product-variant-id"
-              >
-              <input type="hidden" name="quantity" value="1">
-
-              <button
-                id="ProductSubmitButton-{{ section.id }}"
-                type="submit"
-                name="add"
-                class="js-add-to-cart w-full text-[11px] tracking-[0.2em] uppercase bg-wb-blush text-white py-4 hover:bg-wb-blush-deep transition-colors duration-300 font-medium"
-                {% if product.selected_or_first_available_variant.available == false %}disabled{% endif %}
-              >
-                {%- if product.selected_or_first_available_variant.available == false -%}
-                  Agotado
-                {%- else -%}
-                  Elegir esta plantilla
-                {%- endif -%}
-              </button>
-
-              {{- form | payment_button -}}
-            {%- endform -%}
-
-            <p class="text-[12px] tracking-[0.05em] text-wb-brown-soft text-center">
-              Entrega en 48 horas · Link personalizado listo para compartir
-            </p>
+          <div class="pdp-macbook-screen" id="pdpMacScreen">
+            {%- if demo_url != '' -%}
+              <iframe src="{{ demo_url }}" width="100%" height="100%" frameborder="0" loading="lazy" title="{{ product.title | escape }} — Preview"></iframe>
+            {%- else -%}
+              <div class="pdp-screen-placeholder">
+                <span>Vista previa disponible tras la compra</span>
+              </div>
+            {%- endif -%}
           </div>
+          <div class="pdp-macbook-chin"></div>
+        </div>
+      </div>
+      <div class="pdp-macbook-base"></div>
+      <div class="pdp-macbook-foot"></div>
+    </div>
 
-          <div class="border-t border-wb-linen pt-6 grid grid-cols-3 gap-4 text-center">
-            <div class="flex flex-col items-center gap-1.5">
-              <span class="text-[20px]">⏱</span>
-              <span class="text-[11px] tracking-[0.1em] uppercase text-wb-brown-mid">48 horas</span>
-            </div>
-            <div class="flex flex-col items-center gap-1.5">
-              <span class="text-[20px]">✏️</span>
-              <span class="text-[11px] tracking-[0.1em] uppercase text-wb-brown-mid">1 revisión</span>
-            </div>
-            <div class="flex flex-col items-center gap-1.5">
-              <span class="text-[20px]">📱</span>
-              <span class="text-[11px] tracking-[0.1em] uppercase text-wb-brown-mid">100% responsive</span>
-            </div>
+    <!-- iPad: 1024px–1299px -->
+    <div class="pdp-ipad-wrap">
+      <div class="pdp-ipad-sticky">
+        <div class="pdp-ipad-frame">
+          <div class="pdp-ipad-camera"></div>
+          <div class="pdp-ipad-screen" id="pdpIpadScreen">
+            {%- if demo_url != '' -%}
+              <iframe src="{{ demo_url }}" width="100%" height="100%" frameborder="0" loading="lazy" title="{{ product.title | escape }} — Preview"></iframe>
+            {%- else -%}
+              <div class="pdp-screen-placeholder">
+                <span>Vista previa disponible</span>
+              </div>
+            {%- endif -%}
           </div>
+          <div class="pdp-ipad-home"></div>
+        </div>
+      </div>
+    </div>
 
-        </product-info>
+    <!-- iPhone: <1024px -->
+    <div class="pdp-iphone-wrap">
+      <div class="pdp-iphone-sticky">
+        <div class="pdp-iphone-frame">
+          <div class="pdp-iphone-island"></div>
+          <div class="pdp-iphone-btn-r"></div>
+          <div class="pdp-iphone-btn-l1"></div>
+          <div class="pdp-iphone-btn-l2"></div>
+          <div class="pdp-iphone-btn-l3"></div>
+          <div class="pdp-iphone-screen" id="pdpIphoneScreen">
+            {%- if demo_url != '' -%}
+              <iframe src="{{ demo_url }}" width="100%" height="100%" frameborder="0" loading="lazy" title="{{ product.title | escape }} — Preview"></iframe>
+            {%- else -%}
+              <div class="pdp-screen-placeholder">
+                <span>Vista previa disponible</span>
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /col-left -->
+
+  <!-- ══ COLUMNA DERECHA: info producto ══ -->
+  <div class="pdp-col-right">
+
+    <product-info
+      id="ProductInfo-{{ section.id }}"
+      data-section="{{ section.id }}"
+      data-url="{{ product.url }}"
+    >
+      {%- assign product_form_id = 'product-form-' | append: section.id -%}
+
+      <!-- Hero superior: badge, título, estrellas, precio, descripción -->
+      <div class="pdp-hero-top pdp-reveal">
+        <div class="pdp-badge">Invitación Digital de Boda</div>
+
+        {%- if product.vendor != blank -%}
+          <p class="pdp-vendor">{{ product.vendor }}</p>
+        {%- endif -%}
+
+        <h1 class="pdp-product-name">{{ product.title }}</h1>
+
+        <div class="pdp-stars-row">
+          <span class="pdp-stars">★★★★★</span>
+          <span class="pdp-stars-label">5.0 &nbsp;·&nbsp; 24 parejas felices</span>
+        </div>
+
+        <div class="pdp-price-block" id="price-{{ section.id }}" role="status">
+          {%- render 'price', product: product, use_variant: true, show_badges: true, price_class: 'price--large' -%}
+        </div>
+
+        {%- if product.description != blank -%}
+          <p class="pdp-tagline">{{ product.description | strip_html | truncate: 200 }}</p>
+        {%- endif -%}
       </div>
 
-    </div>
-  </div>
+      <!-- Botones CTA + pills -->
+      <div class="pdp-hero-actions pdp-reveal">
+        <div class="pdp-hero-btns">
+          {%- form 'product', product, id: product_form_id, novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+            <input
+              type="hidden"
+              name="id"
+              value="{{ product.selected_or_first_available_variant.id }}"
+              {% if product.selected_or_first_available_variant.available == false %}disabled{% endif %}
+              class="product-variant-id"
+            >
+            <input type="hidden" name="quantity" value="1">
+
+            <button
+              id="ProductSubmitButton-{{ section.id }}"
+              type="submit"
+              name="add"
+              class="pdp-btn-primary js-add-to-cart"
+              {% if product.selected_or_first_available_variant.available == false %}disabled{% endif %}
+            >
+              {%- if product.selected_or_first_available_variant.available == false -%}
+                Agotado
+              {%- else -%}
+                Quiero esta plantilla →
+              {%- endif -%}
+            </button>
+          {%- endform -%}
+
+          {%- if demo_url != '' -%}
+            <a href="{{ demo_url }}" target="_blank" rel="noopener noreferrer" class="pdp-btn-outline">
+              Ver demo completa
+            </a>
+          {%- endif -%}
+        </div>
+
+        <div class="pdp-pills">
+          <div class="pdp-pill">📱 Responsive</div>
+          <div class="pdp-pill">🔗 Link personalizado</div>
+          <div class="pdp-pill">✏️ 1 revisión incluida</div>
+          <div class="pdp-pill">📅 Activa 6 meses</div>
+        </div>
+      </div>
+
+      <!-- Contenido detallado -->
+      <div class="pdp-content">
+
+        <!-- Qué incluye -->
+        <div class="pdp-block pdp-reveal">
+          <div class="pdp-block-title">Qué incluye esta plantilla</div>
+          <div class="pdp-sections-grid">
+            <div class="pdp-sec-item">
+              <span class="pdp-sec-icon">💍</span>
+              <div>
+                <div class="pdp-sec-name">Hero con nombres y fecha</div>
+                <div class="pdp-sec-desc">Portada con ornamentos dorados, nombres de los novios y fecha de la boda.</div>
+              </div>
+            </div>
+            <div class="pdp-sec-item">
+              <span class="pdp-sec-icon">📍</span>
+              <div>
+                <div class="pdp-sec-name">Ceremonia y recepción</div>
+                <div class="pdp-sec-desc">Dos tarjetas con horario, nombre del lugar, dirección y link a Google Maps.</div>
+              </div>
+            </div>
+            <div class="pdp-sec-item">
+              <span class="pdp-sec-icon">⏳</span>
+              <div>
+                <div class="pdp-sec-name">Cuenta regresiva en vivo</div>
+                <div class="pdp-sec-desc">Contador animado en tiempo real: días, horas, minutos y segundos.</div>
+              </div>
+            </div>
+            <div class="pdp-sec-item">
+              <span class="pdp-sec-icon">📋</span>
+              <div>
+                <div class="pdp-sec-name">Programa del día completo</div>
+                <div class="pdp-sec-desc">Timeline con todos los momentos del evento, hora a hora con íconos.</div>
+              </div>
+            </div>
+            <div class="pdp-sec-item">
+              <span class="pdp-sec-icon">👗</span>
+              <div>
+                <div class="pdp-sec-name">Dress code con paleta visual</div>
+                <div class="pdp-sec-desc">Indicaciones de vestimenta y paleta de colores con swatches.</div>
+              </div>
+            </div>
+            <div class="pdp-sec-item">
+              <span class="pdp-sec-icon">🎵</span>
+              <div>
+                <div class="pdp-sec-name">Playlist colaborativa de Spotify</div>
+                <div class="pdp-sec-desc">Botón para que tus invitados agreguen canciones directamente.</div>
+              </div>
+            </div>
+            <div class="pdp-sec-item">
+              <span class="pdp-sec-icon">🎁</span>
+              <div>
+                <div class="pdp-sec-name">Sección de regalos</div>
+                <div class="pdp-sec-desc">Espacio para comunicar tus preferencias de regalo de forma delicada.</div>
+              </div>
+            </div>
+            <div class="pdp-sec-item">
+              <span class="pdp-sec-icon">💌</span>
+              <div>
+                <div class="pdp-sec-name">Formulario RSVP</div>
+                <div class="pdp-sec-desc">Confirmación de asistencia: nombre, asistirás, cantidad de personas y mensaje.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cómo funciona -->
+        <div class="pdp-block pdp-reveal">
+          <div class="pdp-block-title">Cómo funciona</div>
+          <div class="pdp-steps">
+            <div class="pdp-step">
+              <div class="pdp-step-num">01</div>
+              <div class="pdp-step-line"></div>
+              <div class="pdp-step-body">
+                <div class="pdp-step-title">Compras y recibes el link de personalización</div>
+                <div class="pdp-step-desc">Una vez confirmado el pago te enviamos un link donde podrás ingresar todos los datos: nombres, fecha, lugares, programa, dress code, Spotify y más.</div>
+              </div>
+            </div>
+            <div class="pdp-step">
+              <div class="pdp-step-num">02</div>
+              <div class="pdp-step-line"></div>
+              <div class="pdp-step-body">
+                <div class="pdp-step-title">Envías tu información personalizada</div>
+                <div class="pdp-step-desc">Completas el formulario con todos los detalles y nos lo envías. Cuanto más completa sea la info, mejor el resultado.</div>
+              </div>
+            </div>
+            <div class="pdp-step">
+              <div class="pdp-step-num">03</div>
+              <div class="pdp-step-line"></div>
+              <div class="pdp-step-body">
+                <div class="pdp-step-title">Recibes tu invitación en máximo 48 horas</div>
+                <div class="pdp-step-desc">Te enviamos por correo el link de tu página lista para compartir. Activa por <strong>6 meses</strong>.</div>
+              </div>
+            </div>
+            <div class="pdp-step">
+              <div class="pdp-step-num">04</div>
+              <div class="pdp-step-line"></div>
+              <div class="pdp-step-body">
+                <div class="pdp-step-title">¿Quieres un cambio? Sin costo adicional</div>
+                <div class="pdp-step-desc">Tienes una revisión incluida. Cualquier ajuste también en máximo 48 horas.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Nota -->
+        <div class="pdp-note pdp-reveal">
+          <strong>🔗 Link personalizado incluido</strong><br>
+          Tu invitación vivirá en una URL limpia y fácil de compartir por WhatsApp, Instagram o correo. Sin apps, sin descargas.
+        </div>
+
+        <!-- Garantías -->
+        <div class="pdp-guarantee pdp-reveal">
+          <div class="pdp-g-item">
+            <span class="pdp-g-icon">⏱</span>
+            <div class="pdp-g-title">48 hrs garantizadas</div>
+            <div class="pdp-g-desc">Entrega máxima tras recibir tu info</div>
+          </div>
+          <div class="pdp-g-item">
+            <span class="pdp-g-icon">✏️</span>
+            <div class="pdp-g-title">1 revisión gratis</div>
+            <div class="pdp-g-desc">Cambios también en 48 hrs</div>
+          </div>
+          <div class="pdp-g-item">
+            <span class="pdp-g-icon">💌</span>
+            <div class="pdp-g-title">Soporte directo</div>
+            <div class="pdp-g-desc">Atención por WhatsApp</div>
+          </div>
+        </div>
+
+        <!-- CTA final -->
+        <div class="pdp-cta-final pdp-reveal">
+          {%- form 'product', product, id: product_form_id | append: '-final', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+            <input
+              type="hidden"
+              name="id"
+              value="{{ product.selected_or_first_available_variant.id }}"
+              {% if product.selected_or_first_available_variant.available == false %}disabled{% endif %}
+              class="product-variant-id"
+            >
+            <input type="hidden" name="quantity" value="1">
+
+            <button
+              type="submit"
+              name="add"
+              class="pdp-btn-primary js-add-to-cart"
+              {% if product.selected_or_first_available_variant.available == false %}disabled{% endif %}
+            >
+              {%- if product.selected_or_first_available_variant.available == false -%}
+                Agotado
+              {%- else -%}
+                Quiero esta plantilla →
+              {%- endif -%}
+            </button>
+          {%- endform -%}
+
+          {%- if demo_url != '' -%}
+            <a href="{{ demo_url }}" target="_blank" rel="noopener noreferrer" class="pdp-btn-outline">
+              Ver demo completa antes de comprar
+            </a>
+          {%- endif -%}
+        </div>
+
+      </div><!-- /pdp-content -->
+
+    </product-info>
+  </div><!-- /col-right -->
+
 </section>
+
+<style>
+/* ══ PDP Layout ══ */
+.pdp-layout {
+  display: grid;
+  grid-template-columns: 55% 45%;
+  min-height: 100vh;
+  padding-top: 80px; /* header height */
+}
+
+/* ── Columna izquierda ── */
+.pdp-col-left {
+  overflow-y: auto;
+  height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background: #f5efe4;
+  border-right: 1px solid #ede4d6;
+  padding: 48px 28px 60px;
+  scrollbar-width: thin;
+  scrollbar-color: #ede4d6 transparent;
+  position: sticky;
+  top: 0;
+  align-self: start;
+}
+.pdp-col-left::-webkit-scrollbar { width: 4px; }
+.pdp-col-left::-webkit-scrollbar-thumb { background: #ede4d6; border-radius: 4px; }
+
+/* ── Columna derecha ── */
+.pdp-col-right {
+  overflow-y: auto;
+  height: calc(100vh - 80px);
+  padding: 56px 52px 80px;
+  scrollbar-width: thin;
+  scrollbar-color: #ede4d6 transparent;
+  position: sticky;
+  top: 0;
+  align-self: start;
+}
+.pdp-col-right::-webkit-scrollbar { width: 4px; }
+.pdp-col-right::-webkit-scrollbar-thumb { background: #ede4d6; border-radius: 4px; }
+
+/* ══ MacBook ══ */
+.pdp-macbook-wrap {
+  width: 100%; max-width: 580px;
+  display: flex; flex-direction: column; align-items: center;
+}
+.pdp-macbook-sticky { position: sticky; top: 0; width: 100%; z-index: 10; }
+.pdp-macbook-lid {
+  width: 100%; background: #1d1d1f;
+  border-radius: 10px 10px 0 0;
+  padding: 9px 9px 0;
+  box-shadow: 0 0 0 1px #0a0a0a, 0 0 0 2.5px #2a2a2c, 0 16px 48px rgba(0,0,0,.5);
+}
+.pdp-macbook-topbar {
+  display: flex; align-items: center; gap: 5px;
+  padding: 2px 7px 7px;
+}
+.pdp-mb-dot { width: 8px; height: 8px; border-radius: 50%; }
+.pdp-mb-dot--red { background: #ff5f57; }
+.pdp-mb-dot--yellow { background: #ffbd2e; }
+.pdp-mb-dot--green { background: #27c93f; }
+.pdp-mb-url {
+  flex: 1; background: rgba(255,255,255,.07); border-radius: 4px;
+  padding: 3px 10px; font-size: 8.5px;
+  color: rgba(255,255,255,.3); letter-spacing: .05em; text-align: center;
+}
+.pdp-macbook-screen {
+  background: #fff; width: 100%;
+  overflow-y: auto; overflow-x: hidden;
+  scrollbar-width: thin; scrollbar-color: #ede4d6 transparent;
+}
+.pdp-macbook-screen::-webkit-scrollbar { width: 4px; }
+.pdp-macbook-screen::-webkit-scrollbar-thumb { background: #ede4d6; border-radius: 2px; }
+.pdp-macbook-chin {
+  width: 100%; height: 14px;
+  background: linear-gradient(to bottom, #242424, #1a1a1a);
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0 0 0 1px #0a0a0a;
+}
+.pdp-macbook-base {
+  width: 100%; height: 8px;
+  background: linear-gradient(to bottom, #c8c0b8, #b0a8a0);
+  border-radius: 0 0 2px 2px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.2), 0 0 0 1px rgba(0,0,0,.15);
+}
+.pdp-macbook-foot {
+  width: 68%; height: 3px;
+  background: linear-gradient(to bottom, #b8b0a8, #a8a098);
+  border-radius: 0 0 4px 4px;
+  margin: 0 auto;
+  box-shadow: 0 2px 6px rgba(0,0,0,.15);
+}
+
+/* ══ iPad ══ */
+.pdp-ipad-wrap {
+  display: none; width: 100%; max-width: 420px;
+  flex-direction: column; align-items: center;
+}
+.pdp-ipad-sticky { position: sticky; top: 0; width: 100%; z-index: 10; }
+.pdp-ipad-frame {
+  width: 100%; background: #1c1c1e;
+  border-radius: 20px; padding: 16px 10px;
+  box-shadow: 0 0 0 1px #0a0a0a, 0 0 0 2px #2a2a2c, 0 20px 50px rgba(0,0,0,.4);
+}
+.pdp-ipad-camera {
+  width: 6px; height: 6px; background: #2a2a2c; border-radius: 50%;
+  margin: 0 auto 8px;
+}
+.pdp-ipad-screen {
+  background: #fff; border-radius: 4px;
+  overflow-y: auto; overflow-x: hidden;
+  scrollbar-width: thin; scrollbar-color: #ede4d6 transparent;
+}
+.pdp-ipad-screen::-webkit-scrollbar { width: 4px; }
+.pdp-ipad-screen::-webkit-scrollbar-thumb { background: #ede4d6; border-radius: 2px; }
+.pdp-ipad-home {
+  width: 36px; height: 4px; background: #2a2a2c; border-radius: 3px;
+  margin: 10px auto 0;
+}
+
+/* ══ iPhone ══ */
+.pdp-iphone-wrap {
+  display: none; flex-direction: column; align-items: center;
+}
+.pdp-iphone-sticky { position: sticky; top: 0; z-index: 10; }
+.pdp-iphone-frame {
+  position: relative; background: #1c1c1e; border-radius: 44px;
+  padding: 12px; width: 240px;
+  box-shadow: 0 0 0 1px #0a0a0a, 0 0 0 2px #2a2a2c, 0 24px 60px rgba(0,0,0,.5);
+}
+.pdp-iphone-island {
+  position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+  width: 90px; height: 26px; background: #1c1c1e; border-radius: 20px; z-index: 10;
+}
+.pdp-iphone-btn-r { position: absolute; right: -3px; top: 90px; width: 3px; height: 52px; background: #161618; border-radius: 0 3px 3px 0; }
+.pdp-iphone-btn-l1 { position: absolute; left: -3px; top: 72px; width: 3px; height: 30px; background: #161618; border-radius: 3px 0 0 3px; }
+.pdp-iphone-btn-l2 { position: absolute; left: -3px; top: 116px; width: 3px; height: 46px; background: #161618; border-radius: 3px 0 0 3px; }
+.pdp-iphone-btn-l3 { position: absolute; left: -3px; top: 174px; width: 3px; height: 46px; background: #161618; border-radius: 3px 0 0 3px; }
+.pdp-iphone-screen {
+  background: #fff; border-radius: 32px;
+  overflow-y: scroll; scrollbar-width: none; -ms-overflow-style: none;
+  height: 460px;
+}
+.pdp-iphone-screen::-webkit-scrollbar { display: none; }
+
+/* Screen placeholder */
+.pdp-screen-placeholder {
+  display: flex; align-items: center; justify-content: center;
+  height: 100%; min-height: 200px;
+  color: #a88b78; font-size: 11px; letter-spacing: .1em; text-align: center; padding: 20px;
+}
+
+/* Screen heights */
+@media (min-width: 1400px) { .pdp-macbook-screen { height: 280px; } }
+@media (min-width: 1200px) and (max-width: 1399px) { .pdp-macbook-screen { height: 260px; } }
+@media (min-width: 1024px) and (max-width: 1199px) { .pdp-macbook-screen { height: 210px; } }
+@media (min-width: 768px) and (max-width: 1023px) { .pdp-ipad-screen { height: 220px; } }
+@media (min-width: 600px) and (max-width: 767px) { .pdp-ipad-screen { height: 200px; } }
+
+/* ══ Device visibility by breakpoint ══ */
+.pdp-macbook-wrap { display: flex; }
+.pdp-ipad-wrap { display: none; }
+.pdp-iphone-wrap { display: none; }
+
+@media (max-width: 1299px) and (min-width: 1024px) {
+  .pdp-layout { grid-template-columns: 50% 50%; }
+  .pdp-macbook-wrap { display: none; }
+  .pdp-ipad-wrap { display: flex; width: 80%; margin: 0 auto; }
+  .pdp-iphone-wrap { display: none; }
+}
+
+@media (max-width: 1023px) {
+  .pdp-layout {
+    display: flex; flex-direction: column;
+    padding-top: 72px; min-height: auto;
+  }
+  .pdp-col-left {
+    order: 2; position: static; height: auto;
+    border-right: none; overflow-y: visible;
+    padding: 20px 20px 28px;
+    background: #faf6f0;
+    justify-content: center;
+  }
+  .pdp-col-right {
+    order: 1; height: auto; overflow-y: visible;
+    padding: 0; display: flex; flex-direction: column;
+  }
+  .pdp-macbook-wrap { display: none; }
+  .pdp-ipad-wrap { display: none; }
+  .pdp-iphone-wrap { display: flex; }
+  .pdp-hero-top { text-align: center; padding: 24px 20px 20px; }
+  .pdp-hero-actions { padding: 20px 20px 0; text-align: center; }
+  .pdp-content { padding: 0 20px 60px; }
+  .pdp-stars-row { justify-content: center; }
+  .pdp-price-block { text-align: center; }
+  .pdp-hero-btns { flex-direction: column; align-items: stretch; }
+  .pdp-btn-primary, .pdp-btn-outline { width: 100%; text-align: center; }
+  .pdp-pills { justify-content: center; }
+  .pdp-sections-grid { grid-template-columns: 1fr; }
+  .pdp-guarantee { grid-template-columns: 1fr; }
+  .pdp-g-item { border-right: none; border-bottom: 1px solid #ede4d6; }
+  .pdp-g-item:last-child { border-bottom: none; }
+}
+
+/* ══ Right column content styles ══ */
+.pdp-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #f0e6d2;
+  font-size: 10px; letter-spacing: .35em; text-transform: uppercase;
+  color: #b89a6a; padding: 6px 14px; margin-bottom: 12px;
+}
+.pdp-vendor {
+  font-size: 11px; letter-spacing: .2em; text-transform: uppercase;
+  color: #e8b4b0; margin-bottom: 4px;
+}
+.pdp-product-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(44px, 4.5vw, 72px); font-weight: 400; line-height: .9;
+  color: #4a3728; margin-bottom: 10px; font-style: italic;
+}
+.pdp-stars-row {
+  display: flex; align-items: center; gap: 10px;
+  justify-content: flex-start; margin-bottom: 6px;
+}
+.pdp-stars { color: #b89a6a; font-size: 13px; letter-spacing: 2px; }
+.pdp-stars-label { font-size: 12px; color: #a88b78; }
+.pdp-price-block { margin: 6px 0; }
+.pdp-tagline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px; font-style: italic; color: #7a5f4e; line-height: 1.5;
+  margin: 8px 0 0;
+}
+.pdp-hero-actions { margin-top: 20px; }
+.pdp-hero-btns { display: flex; gap: 12px; flex-wrap: nowrap; justify-content: flex-start; margin-bottom: 16px; }
+.pdp-btn-primary {
+  background: #e8b4b0; color: #fff;
+  font-size: 10px; letter-spacing: .3em; text-transform: uppercase;
+  padding: 14px 28px; border: none; cursor: pointer; white-space: nowrap;
+  font-weight: 500; transition: background .3s; display: inline-block;
+  text-decoration: none;
+}
+.pdp-btn-primary:hover { background: #c9847e; }
+.pdp-btn-outline {
+  background: transparent; color: #7a5f4e;
+  font-size: 10px; letter-spacing: .25em; text-transform: uppercase;
+  padding: 14px 22px; border: 1px solid #ede4d6; cursor: pointer; white-space: nowrap;
+  transition: all .3s; display: inline-block; text-decoration: none;
+}
+.pdp-btn-outline:hover { border-color: #e8b4b0; color: #c9847e; }
+.pdp-pills { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-start; }
+.pdp-pill {
+  display: flex; align-items: center; gap: 7px;
+  background: #fff; border: 1px solid #ede4d6;
+  padding: 7px 14px; font-size: 12px; color: #7a5f4e;
+}
+.pdp-content { margin-top: 40px; }
+.pdp-block { margin-bottom: 56px; }
+.pdp-block-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px; font-style: italic; color: #4a3728;
+  margin-bottom: 20px; padding-bottom: 14px;
+  border-bottom: 1px solid #ede4d6;
+  display: flex; align-items: center; gap: 12px;
+}
+.pdp-block-title::before { content: ''; width: 16px; height: 2px; background: #e8b4b0; flex-shrink: 0; }
+.pdp-sections-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.pdp-sec-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 16px 18px; background: #fff; border: 1px solid #ede4d6;
+  transition: border-color .25s;
+}
+.pdp-sec-item:hover { border-color: #f5dbd9; }
+.pdp-sec-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.pdp-sec-name { font-size: 13px; font-weight: 500; color: #4a3728; margin-bottom: 3px; }
+.pdp-sec-desc { font-size: 12px; color: #a88b78; line-height: 1.5; }
+.pdp-steps { display: flex; flex-direction: column; }
+.pdp-step { display: grid; grid-template-columns: 36px 1px 1fr; gap: 0 20px; padding-bottom: 28px; }
+.pdp-step:last-child { padding-bottom: 0; }
+.pdp-step-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px; font-style: italic; color: #e8b4b0;
+  text-align: right; padding-top: 2px; line-height: 1;
+}
+.pdp-step-line { background: #ede4d6; position: relative; }
+.pdp-step-line::before {
+  content: ''; position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+  width: 7px; height: 7px; background: #e8b4b0; border-radius: 50%;
+}
+.pdp-step-body { padding-left: 4px; }
+.pdp-step-title { font-size: 14px; font-weight: 500; color: #4a3728; margin-bottom: 4px; }
+.pdp-step-desc { font-size: 13px; color: #7a5f4e; line-height: 1.65; }
+.pdp-note {
+  background: #f0e6d2; border: 1px solid rgba(184,154,106,.2);
+  padding: 18px 22px; font-size: 13px; color: #7a5f4e; line-height: 1.7;
+}
+.pdp-note strong { color: #4a3728; }
+.pdp-guarantee {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  border: 1px solid #ede4d6; background: #fff; margin-top: 24px;
+}
+.pdp-g-item { padding: 20px 16px; text-align: center; border-right: 1px solid #ede4d6; }
+.pdp-g-item:last-child { border-right: none; }
+.pdp-g-icon { font-size: 20px; margin-bottom: 6px; display: block; }
+.pdp-g-title { font-size: 12px; font-weight: 500; color: #4a3728; margin-bottom: 2px; }
+.pdp-g-desc { font-size: 11px; color: #a88b78; line-height: 1.4; }
+.pdp-cta-final { display: flex; flex-direction: column; gap: 10px; margin-top: 48px; }
+
+/* Reveal animation */
+.pdp-reveal { opacity: 0; transform: translateY(20px); transition: opacity .7s ease, transform .7s ease; }
+.pdp-reveal.pdp-visible { opacity: 1; transform: none; }
+</style>
+
+<script>
+(function() {
+  // Tamaño dinámico: height = width - 300
+  function resizePdpScreens() {
+    var mb = document.getElementById('pdpMacScreen');
+    var ip = document.getElementById('pdpIpadScreen');
+    if (mb && mb.offsetParent) {
+      var w = mb.offsetWidth;
+      mb.style.height = Math.max(160, w - 300) + 'px';
+    }
+    if (ip && ip.offsetParent) {
+      var w = ip.offsetWidth;
+      ip.style.height = Math.max(160, w - 300) + 'px';
+    }
+  }
+  resizePdpScreens();
+  window.addEventListener('resize', resizePdpScreens);
+
+  // Reveal on scroll
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) e.target.classList.add('pdp-visible');
+    });
+  }, { threshold: 0.06 });
+  document.querySelectorAll('.pdp-reveal').forEach(function(el) { obs.observe(el); });
+})();
+</script>
 
 {% schema %}
 {
