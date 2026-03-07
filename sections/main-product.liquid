@@ -16,7 +16,7 @@
 >
 
   <!-- ══ COLUMNA IZQUIERDA: mockups desktop ══ -->
-  <div class="hidden lg:flex flex-col items-center justify-center bg-wb-ivory border-r border-wb-linen px-7 py-12 sticky top-0 self-start" style="height: calc(100vh - var(--header-h, 80px));">
+  <div class="hidden lg:flex flex-col items-center justify-center bg-wb-ivory border-r border-wb-linen px-7 py-12 sticky top-0 self-start" style="height: 100vh;">
 
     <!-- MacBook: ≥1300px -->
     <div class="pdp-macbook-wrap hidden xl:flex flex-col items-center w-[90%] max-w-225">
@@ -85,7 +85,7 @@
           <span class="text-[12px] text-wb-brown-soft">{{ section.settings.stars_label }}</span>
         </div>
 
-        <div id="price-{{ section.id }}" role="status" class="[&_.price__badges]:hidden [&_.price]:max-lg:justify-center [&_.price]:max-lg:text-center">
+        <div id="price-{{ section.id }}" role="status" class="[&_.price__badges]:hidden [&_.price]:flex [&_.price]:max-lg:justify-center [&_.price__sale]:max-lg:justify-center [&_.price__regular]:max-lg:justify-center [&_.price__compare]:max-lg:justify-center">
           {%- render 'price', product: product, use_variant: true, show_badges: false, price_class: 'price--large' -%}
         </div>
 
@@ -315,16 +315,6 @@
 /* MacBook inline screen height */
 #pdpMacScreenMobile { height: 260px; }
 @media (min-width: 768px) and (max-width: 1023px) { #pdpMacScreenMobile { height: 320px; } }
-
-/* Precio centrado en mobile */
-@media (max-width: 1023px) {
-  #price-{{ section.id }} .price,
-  #price-{{ section.id }} .price__container {
-    display: flex;
-    justify-content: center;
-    text-align: center;
-  }
-}
 
 /* Reveal */
 .pdp-reveal.pdp-visible { opacity: 1 !important; transform: none !important; }
