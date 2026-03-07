@@ -119,43 +119,8 @@
     },
     "wb_templates_grid": {
       "type": "wb-templates-grid",
-      "blocks": {
-        "template_1": {
-          "type": "template",
-          "settings": {
-            "style": "clasica",
-            "badge": "Clásica",
-            "name": "La Clásica",
-            "description": "<p>Elegancia atemporal en tonos crema y dorado. Composición simétrica, tipografía serif sofisticada y detalles ornamentales refinados.</p>",
-            "cta_url": ""
-          }
-        },
-        "template_2": {
-          "type": "template",
-          "settings": {
-            "style": "romantica",
-            "badge": "Romántica",
-            "name": "La Romántica",
-            "description": "<p>Calidez y emoción en tonos rosa y durazno. Script fluido, detalles florales y una atmósfera que transmite amor desde el primer scroll.</p>",
-            "cta_url": ""
-          }
-        },
-        "template_3": {
-          "type": "template",
-          "settings": {
-            "style": "elegante",
-            "badge": "Elegante",
-            "name": "La Elegante",
-            "description": "<p>Sofisticación moderna en tonos lavanda y perla. Minimalismo editorial con detalles geométricos y tipografía contrastante y contemporánea.</p>",
-            "cta_url": ""
-          }
-        }
-      },
-      "block_order": [
-        "template_1",
-        "template_2",
-        "template_3"
-      ],
+      "blocks": {},
+      "block_order": [],
       "settings": {
         "label_text": "Plantillas",
         "title": "Tres estilos, <em>una sola historia</em>",
