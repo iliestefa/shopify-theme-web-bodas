@@ -50,9 +50,9 @@
       <div class="sticky top-0 w-full z-10">
         <div class="w-full bg-[#1c1c1e] rounded-[20px] px-2.5 py-4" style="box-shadow: 0 0 0 1px #0a0a0a, 0 0 0 2px #2a2a2c, 0 20px 50px rgba(0,0,0,.4);">
           <div class="w-1.5 h-1.5 rounded-full bg-[#2a2a2c] mx-auto mb-2"></div>
-          <div class="pdp-screen bg-white rounded-sm overflow-hidden" id="pdpIpadScreen" style="height: 650px;">
+          <div class="pdp-screen bg-white rounded-sm overflow-hidden" id="pdpIpadScreen">
             {%- if demo_url != '' -%}
-              <iframe src="{{ demo_url }}" frameborder="0" loading="lazy" title="{{ title_escaped }} — Preview" class="pdp-iframe origin-top-left block border-0 w-360"></iframe>
+              <iframe src="{{ demo_url }}" frameborder="0" loading="lazy" title="{{ title_escaped }} — Preview" class="pdp-iframe-tablet origin-top-left block border-0 w-5xl"></iframe>
             {%- else -%}
               <div class="flex items-center justify-center h-full text-wb-brown-soft text-[11px] tracking-widest text-center p-5">Vista previa disponible</div>
             {%- endif -%}
@@ -79,10 +79,6 @@
           {{ section.settings.badge }}
         </div>
 
-        {%- if product.vendor != blank -%}
-          <p class="text-[11px] tracking-[.2em] uppercase text-wb-blush">{{ product.vendor }}</p>
-        {%- endif -%}
-
         <h1 class="font-wb-serif text-wb-brown font-normal leading-[.9] italic max-lg:text-center" style="font-size: clamp(44px, 4.5vw, 72px);">{{ product.title }}</h1>
 
         <div class="flex items-center gap-2.5 max-lg:justify-center">
@@ -90,12 +86,22 @@
           <span class="text-[12px] text-wb-brown-soft">{{ section.settings.stars_label }}</span>
         </div>
 
-        <div id="price-{{ section.id }}" role="status" class="max-lg:text-center [&_.price__badges]:hidden">
+        <div id="price-{{ section.id }}" role="status" class="[&_.price__badges]:hidden [&_.price]:max-lg:justify-center [&_.price]:max-lg:text-center">
           {%- render 'price', product: product, use_variant: true, show_badges: false, price_class: 'price--large' -%}
         </div>
 
         {%- if product.description != blank -%}
-          <p class="font-wb-serif text-[18px] italic text-wb-brown-mid leading-relaxed max-lg:text-center">{{ product.description | strip_html | truncate: 220 }}</p>
+          <div class="max-lg:mb-8" x-data="{ expanded: false }">
+            <div class="font-wb-serif text-[18px] italic text-wb-brown-mid leading-relaxed max-lg:text-center" :class="expanded ? '' : 'line-clamp-4'">
+              {{ product.description | strip_html }}
+            </div>
+            <button
+              type="button"
+              @click="expanded = !expanded"
+              class="mt-2 text-[11px] tracking-[.2em] uppercase text-wb-blush hover:text-wb-blush-deep transition-colors duration-200 max-lg:w-full max-lg:text-center"
+              x-text="expanded ? 'Ver menos ↑' : 'Ver más ↓'"
+            ></button>
+          </div>
         {%- endif -%}
       </div>
 
@@ -110,9 +116,9 @@
             <div class="absolute -left-0.75 top-18 w-0.75 h-7.5 bg-[#161618] rounded-l-[3px]"></div>
             <div class="absolute -left-0.75 top-29 w-0.75 h-11.5 bg-[#161618] rounded-l-[3px]"></div>
             <div class="absolute -left-0.75 top-43.5 w-0.75 h-11.5 bg-[#161618] rounded-l-[3px]"></div>
-            <div class="bg-white rounded-4xl overflow-y-scroll h-115 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+            <div class="bg-white rounded-4xl overflow-hidden h-115" id="pdpIphoneScreen">
               {%- if demo_url != '' -%}
-                <iframe src="{{ demo_url }}" width="430" height="100%" frameborder="0" loading="lazy" title="{{ title_escaped }} — Preview" class="block border-0 scale-[0.614] origin-top-left h-187.5"></iframe>
+                <iframe src="{{ demo_url }}" frameborder="0" loading="lazy" title="{{ title_escaped }} — Preview" class="pdp-iframe-phone origin-top-left block border-0 w-107.5"></iframe>
               {%- else -%}
                 <div class="flex items-center justify-center h-full text-wb-brown-soft text-[11px] text-center p-5">Vista previa disponible</div>
               {%- endif -%}
@@ -290,6 +296,16 @@
   border: none;
   display: block;
 }
+.pdp-iframe-tablet {
+  transform-origin: top left;
+  border: none;
+  display: block;
+}
+.pdp-iframe-phone {
+  transform-origin: top left;
+  border: none;
+  display: block;
+}
 
 /* Slot mobile — hidden by default, flex below 1024px */
 @media (max-width: 1023px) {
@@ -317,19 +333,39 @@
 
 <script>
 (function () {
-  /* ── Escalar iframes a viewport 1440px ── */
-  function scalePdpIframes() {
-    document.querySelectorAll('.pdp-iframe').forEach(function (iframe) {
+  /* ── Escalar iframes según tipo ── */
+  function scaleIframeGroup(selector, viewportW) {
+    document.querySelectorAll(selector).forEach(function (iframe) {
       var screen = iframe.parentElement;
       if (!screen) return;
       var w = screen.offsetWidth;
       if (!w) return;
-      var scale = w / 1440;
+      var scale = w / viewportW;
       iframe.style.transform = 'scale(' + scale + ')';
       var screenH = screen.offsetHeight || parseInt(screen.style.height, 10) || 350;
       iframe.style.height = Math.ceil(screenH / scale) + 'px';
+      iframe.style.width = viewportW + 'px';
     });
   }
+
+  function scalePdpIframes() {
+    /* MacBook desktop: simula 1440px */
+    scaleIframeGroup('.pdp-iframe', 1440);
+
+    /* Tablet desktop (1024–1299px): simula 1024px, máximo 80% del contenedor */
+    var ipadScreen = document.getElementById('pdpIpadScreen');
+    if (ipadScreen) {
+      var ipadWrap = ipadScreen.closest('.pdp-ipad-wrap');
+      var containerH = ipadWrap ? ipadWrap.parentElement.offsetHeight : window.innerHeight;
+      var maxH = Math.floor(containerH * 0.8);
+      ipadScreen.style.height = Math.min(650, maxH) + 'px';
+    }
+    scaleIframeGroup('.pdp-iframe-tablet', 1024);
+
+    /* iPhone: simula 430px */
+    scaleIframeGroup('.pdp-iframe-phone', 430);
+  }
+
   scalePdpIframes();
   window.addEventListener('resize', scalePdpIframes);
 
