@@ -20,7 +20,7 @@
   endif
 -%}
 
-<div class="flex flex-row flex-wrap items-center gap-3 body-3 {{ price_class }}">
+<div class="flex flex-row flex-wrap max-lg:justify-center items-center gap-3 body-3 {{ price_class }}">
   {%- if show_compare_at_price and compare_at_price > price -%}
     <s class="text-disabled">
       {{- compare_at_price | money -}}
