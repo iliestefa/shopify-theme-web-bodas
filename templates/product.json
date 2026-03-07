@@ -52,14 +52,6 @@
             "description": "Indicaciones de vestimenta y paleta de colores con swatches."
           }
         },
-        "inc_6": {
-          "type": "include_item",
-          "settings": {
-            "icon": "🎵",
-            "name": "Playlist colaborativa de Spotify",
-            "description": "Botón para que tus invitados agreguen canciones directamente."
-          }
-        },
         "inc_7": {
           "type": "include_item",
           "settings": {
@@ -74,6 +66,14 @@
             "icon": "💌",
             "name": "Formulario RSVP",
             "description": "Confirmación de asistencia: nombre, asistirás, cantidad de personas y mensaje."
+          }
+        },
+        "inc_6": {
+          "type": "include_item",
+          "settings": {
+            "icon": "📱",
+            "name": "Diseño responsive",
+            "description": "Perfecto para que tus invitados puedan verlo desde cualquier dispositivo."
           }
         },
         "step_1": {
@@ -139,9 +139,9 @@
         "inc_3",
         "inc_4",
         "inc_5",
-        "inc_6",
         "inc_7",
         "inc_8",
+        "inc_6",
         "step_1",
         "step_2",
         "step_3",
