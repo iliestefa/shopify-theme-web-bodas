@@ -48,11 +48,11 @@
     "color_schemes": {
       "scheme-1": {
         "settings": {
-          "background": "#eff0f5",
+          "background": "#faf6f0",
           "background_gradient": "",
           "text": "#4a3728",
           "button": "#e8b4b0",
-          "button_label": "#eff0f5",
+          "button_label": "#faf6f0",
           "secondary_button_label": "#7a5f4e",
           "shadow": "#7a5f4e"
         }
