@@ -3,34 +3,133 @@
     "main": {
       "type": "main-product",
       "blocks": {
-        "title": {
-          "type": "title",
-          "settings": {}
-        },
-        "price": {
-          "type": "price",
-          "settings": {}
-        },
-        "buy_buttons": {
-          "type": "buy_buttons",
+        "inc_1": {
+          "type": "include_item",
           "settings": {
-            "show_dynamic_checkout": true
+            "icon": "💍",
+            "name": "Hero con nombres y fecha",
+            "description": "Portada con ornamentos dorados, nombres de los novios y fecha de la boda."
           }
         },
-        "description": {
-          "type": "description",
-          "settings": {}
+        "inc_2": {
+          "type": "include_item",
+          "settings": {
+            "icon": "📍",
+            "name": "Ceremonia y recepción",
+            "description": "Dos tarjetas con horario, nombre del lugar, dirección y link a Google Maps."
+          }
+        },
+        "inc_3": {
+          "type": "include_item",
+          "settings": {
+            "icon": "⏳",
+            "name": "Cuenta regresiva en vivo",
+            "description": "Contador animado en tiempo real: días, horas, minutos y segundos."
+          }
+        },
+        "inc_4": {
+          "type": "include_item",
+          "settings": {
+            "icon": "📋",
+            "name": "Programa del día completo",
+            "description": "Timeline con todos los momentos del evento, hora a hora con íconos."
+          }
+        },
+        "inc_5": {
+          "type": "include_item",
+          "settings": {
+            "icon": "👗",
+            "name": "Dress code con paleta visual",
+            "description": "Indicaciones de vestimenta y paleta de colores con swatches."
+          }
+        },
+        "inc_6": {
+          "type": "include_item",
+          "settings": {
+            "icon": "🎵",
+            "name": "Playlist colaborativa de Spotify",
+            "description": "Botón para que tus invitados agreguen canciones directamente."
+          }
+        },
+        "inc_7": {
+          "type": "include_item",
+          "settings": {
+            "icon": "🎁",
+            "name": "Sección de regalos",
+            "description": "Espacio para comunicar tus preferencias de regalo de forma delicada."
+          }
+        },
+        "inc_8": {
+          "type": "include_item",
+          "settings": {
+            "icon": "💌",
+            "name": "Formulario RSVP",
+            "description": "Confirmación de asistencia: nombre, asistirás, cantidad de personas y mensaje."
+          }
+        },
+        "step_1": {
+          "type": "step_item",
+          "settings": {
+            "number": "01",
+            "title": "Compras y recibes el link de personalización",
+            "description": "Una vez confirmado el pago te enviamos un link donde podrás ingresar todos los datos: nombres, fecha, lugares, programa, dress code, Spotify y más."
+          }
+        },
+        "step_2": {
+          "type": "step_item",
+          "settings": {
+            "number": "02",
+            "title": "Envías tu información personalizada",
+            "description": "Completas el formulario con todos los detalles y nos lo envías. Cuanto más completa sea la info, mejor el resultado."
+          }
+        },
+        "step_3": {
+          "type": "step_item",
+          "settings": {
+            "number": "03",
+            "title": "Recibes tu invitación en máximo 48 horas",
+            "description": "Te enviamos por correo el link de tu página lista para compartir. Activa por 6 meses."
+          }
+        },
+        "step_4": {
+          "type": "step_item",
+          "settings": {
+            "number": "04",
+            "title": "¿Quieres un cambio? Sin costo adicional",
+            "description": "Tienes una revisión incluida. Cualquier ajuste también en máximo 48 horas."
+          }
+        },
+        "g_1": {
+          "type": "guarantee_item",
+          "settings": {
+            "icon": "⏱",
+            "title": "48 hrs garantizadas",
+            "description": "Entrega máxima tras recibir tu info"
+          }
+        },
+        "g_2": {
+          "type": "guarantee_item",
+          "settings": {
+            "icon": "✏️",
+            "title": "1 revisión gratis",
+            "description": "Cambios también en 48 hrs"
+          }
+        },
+        "g_3": {
+          "type": "guarantee_item",
+          "settings": {
+            "icon": "💌",
+            "title": "Soporte directo",
+            "description": "Atención por WhatsApp"
+          }
         }
       },
       "block_order": [
-        "title",
-        "price",
-        "buy_buttons",
-        "description"
+        "inc_1", "inc_2", "inc_3", "inc_4", "inc_5", "inc_6", "inc_7", "inc_8",
+        "step_1", "step_2", "step_3", "step_4",
+        "g_1", "g_2", "g_3"
       ],
-      "settings": {
-        "enable_sticky_info": true
-      }
+      "settings": {}
     }
   },
   "order": [

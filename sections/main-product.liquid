@@ -1,6 +1,7 @@
 <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
 
-{%- assign demo_url = product.metafields.custom.demo_url | default: '' -%}
+{%- assign demo_url = product.metafields.custom.url | default: '' -%}
+{%- assign product_form_id = 'product-form-' | append: section.id -%}
 
 <section
   id="MainProduct-{{ section.id }}"
@@ -29,9 +30,7 @@
             {%- if demo_url != '' -%}
               <iframe src="{{ demo_url }}" width="100%" height="100%" frameborder="0" loading="lazy" title="{{ product.title | escape }} — Preview"></iframe>
             {%- else -%}
-              <div class="pdp-screen-placeholder">
-                <span>Vista previa disponible tras la compra</span>
-              </div>
+              <div class="pdp-screen-placeholder"><span>Vista previa disponible</span></div>
             {%- endif -%}
           </div>
           <div class="pdp-macbook-chin"></div>
@@ -50,9 +49,7 @@
             {%- if demo_url != '' -%}
               <iframe src="{{ demo_url }}" width="100%" height="100%" frameborder="0" loading="lazy" title="{{ product.title | escape }} — Preview"></iframe>
             {%- else -%}
-              <div class="pdp-screen-placeholder">
-                <span>Vista previa disponible</span>
-              </div>
+              <div class="pdp-screen-placeholder"><span>Vista previa disponible</span></div>
             {%- endif -%}
           </div>
           <div class="pdp-ipad-home"></div>
@@ -73,9 +70,7 @@
             {%- if demo_url != '' -%}
               <iframe src="{{ demo_url }}" width="100%" height="100%" frameborder="0" loading="lazy" title="{{ product.title | escape }} — Preview"></iframe>
             {%- else -%}
-              <div class="pdp-screen-placeholder">
-                <span>Vista previa disponible</span>
-              </div>
+              <div class="pdp-screen-placeholder"><span>Vista previa disponible</span></div>
             {%- endif -%}
           </div>
         </div>
@@ -92,11 +87,10 @@
       data-section="{{ section.id }}"
       data-url="{{ product.url }}"
     >
-      {%- assign product_form_id = 'product-form-' | append: section.id -%}
 
-      <!-- Hero superior: badge, título, estrellas, precio, descripción -->
+      <!-- ── Hero: badge, título, estrellas, precio, descripción ── -->
       <div class="pdp-hero-top pdp-reveal">
-        <div class="pdp-badge">Invitación Digital de Boda</div>
+        <div class="pdp-badge">{{ section.settings.badge }}</div>
 
         {%- if product.vendor != blank -%}
           <p class="pdp-vendor">{{ product.vendor }}</p>
@@ -106,21 +100,26 @@
 
         <div class="pdp-stars-row">
           <span class="pdp-stars">★★★★★</span>
-          <span class="pdp-stars-label">5.0 &nbsp;·&nbsp; 24 parejas felices</span>
+          <span class="pdp-stars-label">{{ section.settings.stars_label }}</span>
         </div>
 
         <div class="pdp-price-block" id="price-{{ section.id }}" role="status">
-          {%- render 'price', product: product, use_variant: true, show_badges: true, price_class: 'price--large' -%}
+          {%- render 'price', product: product, use_variant: true, show_badges: false, price_class: 'price--large' -%}
         </div>
 
         {%- if product.description != blank -%}
-          <p class="pdp-tagline">{{ product.description | strip_html | truncate: 200 }}</p>
+          <p class="pdp-tagline">{{ product.description | strip_html | truncate: 220 }}</p>
         {%- endif -%}
       </div>
 
-      <!-- Botones CTA + pills -->
+      <!-- ── iPhone slot: aparece entre descripción y botones en mobile ── -->
+      <div class="pdp-mobile-preview-slot"></div>
+
+      <!-- ── Botones CTA + pills ── -->
       <div class="pdp-hero-actions pdp-reveal">
         <div class="pdp-hero-btns">
+
+          <!-- Botón comprar → directo al checkout -->
           {%- form 'product', product, id: product_form_id, novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
             <input
               type="hidden"
@@ -130,6 +129,7 @@
               class="product-variant-id"
             >
             <input type="hidden" name="quantity" value="1">
+            <input type="hidden" name="return_to" value="/checkout">
 
             <button
               id="ProductSubmitButton-{{ section.id }}"
@@ -141,159 +141,93 @@
               {%- if product.selected_or_first_available_variant.available == false -%}
                 Agotado
               {%- else -%}
-                Quiero esta plantilla →
+                {{ section.settings.cta_label }} →
               {%- endif -%}
             </button>
           {%- endform -%}
 
+          <!-- Botón ver demo -->
           {%- if demo_url != '' -%}
             <a href="{{ demo_url }}" target="_blank" rel="noopener noreferrer" class="pdp-btn-outline">
-              Ver demo completa
+              {{ section.settings.demo_label }}
             </a>
           {%- endif -%}
         </div>
 
         <div class="pdp-pills">
-          <div class="pdp-pill">📱 Responsive</div>
-          <div class="pdp-pill">🔗 Link personalizado</div>
-          <div class="pdp-pill">✏️ 1 revisión incluida</div>
-          <div class="pdp-pill">📅 Activa 6 meses</div>
+          {%- if section.settings.pill_1 != blank -%}<div class="pdp-pill">{{ section.settings.pill_1 }}</div>{%- endif -%}
+          {%- if section.settings.pill_2 != blank -%}<div class="pdp-pill">{{ section.settings.pill_2 }}</div>{%- endif -%}
+          {%- if section.settings.pill_3 != blank -%}<div class="pdp-pill">{{ section.settings.pill_3 }}</div>{%- endif -%}
+          {%- if section.settings.pill_4 != blank -%}<div class="pdp-pill">{{ section.settings.pill_4 }}</div>{%- endif -%}
         </div>
       </div>
 
-      <!-- Contenido detallado -->
+      <!-- ── Contenido detallado ── -->
       <div class="pdp-content">
 
         <!-- Qué incluye -->
-        <div class="pdp-block pdp-reveal">
-          <div class="pdp-block-title">Qué incluye esta plantilla</div>
-          <div class="pdp-sections-grid">
-            <div class="pdp-sec-item">
-              <span class="pdp-sec-icon">💍</span>
-              <div>
-                <div class="pdp-sec-name">Hero con nombres y fecha</div>
-                <div class="pdp-sec-desc">Portada con ornamentos dorados, nombres de los novios y fecha de la boda.</div>
-              </div>
-            </div>
-            <div class="pdp-sec-item">
-              <span class="pdp-sec-icon">📍</span>
-              <div>
-                <div class="pdp-sec-name">Ceremonia y recepción</div>
-                <div class="pdp-sec-desc">Dos tarjetas con horario, nombre del lugar, dirección y link a Google Maps.</div>
-              </div>
-            </div>
-            <div class="pdp-sec-item">
-              <span class="pdp-sec-icon">⏳</span>
-              <div>
-                <div class="pdp-sec-name">Cuenta regresiva en vivo</div>
-                <div class="pdp-sec-desc">Contador animado en tiempo real: días, horas, minutos y segundos.</div>
-              </div>
-            </div>
-            <div class="pdp-sec-item">
-              <span class="pdp-sec-icon">📋</span>
-              <div>
-                <div class="pdp-sec-name">Programa del día completo</div>
-                <div class="pdp-sec-desc">Timeline con todos los momentos del evento, hora a hora con íconos.</div>
-              </div>
-            </div>
-            <div class="pdp-sec-item">
-              <span class="pdp-sec-icon">👗</span>
-              <div>
-                <div class="pdp-sec-name">Dress code con paleta visual</div>
-                <div class="pdp-sec-desc">Indicaciones de vestimenta y paleta de colores con swatches.</div>
-              </div>
-            </div>
-            <div class="pdp-sec-item">
-              <span class="pdp-sec-icon">🎵</span>
-              <div>
-                <div class="pdp-sec-name">Playlist colaborativa de Spotify</div>
-                <div class="pdp-sec-desc">Botón para que tus invitados agreguen canciones directamente.</div>
-              </div>
-            </div>
-            <div class="pdp-sec-item">
-              <span class="pdp-sec-icon">🎁</span>
-              <div>
-                <div class="pdp-sec-name">Sección de regalos</div>
-                <div class="pdp-sec-desc">Espacio para comunicar tus preferencias de regalo de forma delicada.</div>
-              </div>
-            </div>
-            <div class="pdp-sec-item">
-              <span class="pdp-sec-icon">💌</span>
-              <div>
-                <div class="pdp-sec-name">Formulario RSVP</div>
-                <div class="pdp-sec-desc">Confirmación de asistencia: nombre, asistirás, cantidad de personas y mensaje.</div>
-              </div>
+        {%- if section.settings.includes_title != blank -%}
+          <div class="pdp-block pdp-reveal">
+            <div class="pdp-block-title">{{ section.settings.includes_title }}</div>
+            <div class="pdp-sections-grid">
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'include_item' -%}
+                  <div class="pdp-sec-item" {{ block.shopify_attributes }}>
+                    <span class="pdp-sec-icon">{{ block.settings.icon }}</span>
+                    <div>
+                      <div class="pdp-sec-name">{{ block.settings.name }}</div>
+                      <div class="pdp-sec-desc">{{ block.settings.description }}</div>
+                    </div>
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
             </div>
           </div>
-        </div>
+        {%- endif -%}
 
         <!-- Cómo funciona -->
-        <div class="pdp-block pdp-reveal">
-          <div class="pdp-block-title">Cómo funciona</div>
-          <div class="pdp-steps">
-            <div class="pdp-step">
-              <div class="pdp-step-num">01</div>
-              <div class="pdp-step-line"></div>
-              <div class="pdp-step-body">
-                <div class="pdp-step-title">Compras y recibes el link de personalización</div>
-                <div class="pdp-step-desc">Una vez confirmado el pago te enviamos un link donde podrás ingresar todos los datos: nombres, fecha, lugares, programa, dress code, Spotify y más.</div>
-              </div>
-            </div>
-            <div class="pdp-step">
-              <div class="pdp-step-num">02</div>
-              <div class="pdp-step-line"></div>
-              <div class="pdp-step-body">
-                <div class="pdp-step-title">Envías tu información personalizada</div>
-                <div class="pdp-step-desc">Completas el formulario con todos los detalles y nos lo envías. Cuanto más completa sea la info, mejor el resultado.</div>
-              </div>
-            </div>
-            <div class="pdp-step">
-              <div class="pdp-step-num">03</div>
-              <div class="pdp-step-line"></div>
-              <div class="pdp-step-body">
-                <div class="pdp-step-title">Recibes tu invitación en máximo 48 horas</div>
-                <div class="pdp-step-desc">Te enviamos por correo el link de tu página lista para compartir. Activa por <strong>6 meses</strong>.</div>
-              </div>
-            </div>
-            <div class="pdp-step">
-              <div class="pdp-step-num">04</div>
-              <div class="pdp-step-line"></div>
-              <div class="pdp-step-body">
-                <div class="pdp-step-title">¿Quieres un cambio? Sin costo adicional</div>
-                <div class="pdp-step-desc">Tienes una revisión incluida. Cualquier ajuste también en máximo 48 horas.</div>
-              </div>
+        {%- if section.settings.steps_title != blank -%}
+          <div class="pdp-block pdp-reveal">
+            <div class="pdp-block-title">{{ section.settings.steps_title }}</div>
+            <div class="pdp-steps">
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'step_item' -%}
+                  <div class="pdp-step" {{ block.shopify_attributes }}>
+                    <div class="pdp-step-num">{{ block.settings.number }}</div>
+                    <div class="pdp-step-line"></div>
+                    <div class="pdp-step-body">
+                      <div class="pdp-step-title">{{ block.settings.title }}</div>
+                      <div class="pdp-step-desc">{{ block.settings.description }}</div>
+                    </div>
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
             </div>
           </div>
-        </div>
+        {%- endif -%}
 
         <!-- Nota -->
-        <div class="pdp-note pdp-reveal">
-          <strong>🔗 Link personalizado incluido</strong><br>
-          Tu invitación vivirá en una URL limpia y fácil de compartir por WhatsApp, Instagram o correo. Sin apps, sin descargas.
-        </div>
+        {%- if section.settings.note != blank -%}
+          <div class="pdp-note pdp-reveal">{{ section.settings.note }}</div>
+        {%- endif -%}
 
         <!-- Garantías -->
         <div class="pdp-guarantee pdp-reveal">
-          <div class="pdp-g-item">
-            <span class="pdp-g-icon">⏱</span>
-            <div class="pdp-g-title">48 hrs garantizadas</div>
-            <div class="pdp-g-desc">Entrega máxima tras recibir tu info</div>
-          </div>
-          <div class="pdp-g-item">
-            <span class="pdp-g-icon">✏️</span>
-            <div class="pdp-g-title">1 revisión gratis</div>
-            <div class="pdp-g-desc">Cambios también en 48 hrs</div>
-          </div>
-          <div class="pdp-g-item">
-            <span class="pdp-g-icon">💌</span>
-            <div class="pdp-g-title">Soporte directo</div>
-            <div class="pdp-g-desc">Atención por WhatsApp</div>
-          </div>
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'guarantee_item' -%}
+              <div class="pdp-g-item" {{ block.shopify_attributes }}>
+                <span class="pdp-g-icon">{{ block.settings.icon }}</span>
+                <div class="pdp-g-title">{{ block.settings.title }}</div>
+                <div class="pdp-g-desc">{{ block.settings.description }}</div>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
         </div>
 
         <!-- CTA final -->
         <div class="pdp-cta-final pdp-reveal">
-          {%- form 'product', product, id: product_form_id | append: '-final', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+          {%- assign final_form_id = 'product-form-final-' | append: section.id -%}
+          {%- form 'product', product, id: final_form_id, novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
             <input
               type="hidden"
               name="id"
@@ -302,6 +236,7 @@
               class="product-variant-id"
             >
             <input type="hidden" name="quantity" value="1">
+            <input type="hidden" name="return_to" value="/checkout">
 
             <button
               type="submit"
@@ -312,14 +247,14 @@
               {%- if product.selected_or_first_available_variant.available == false -%}
                 Agotado
               {%- else -%}
-                Quiero esta plantilla →
+                {{ section.settings.cta_label }} →
               {%- endif -%}
             </button>
           {%- endform -%}
 
           {%- if demo_url != '' -%}
             <a href="{{ demo_url }}" target="_blank" rel="noopener noreferrer" class="pdp-btn-outline">
-              Ver demo completa antes de comprar
+              {{ section.settings.demo_label_final }}
             </a>
           {%- endif -%}
         </div>
@@ -337,17 +272,16 @@
   display: grid;
   grid-template-columns: 55% 45%;
   min-height: 100vh;
-  padding-top: 80px; /* header height */
 }
 
 /* ── Columna izquierda ── */
 .pdp-col-left {
   overflow-y: auto;
-  height: calc(100vh - 80px);
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   background: #f5efe4;
   border-right: 1px solid #ede4d6;
   padding: 48px 28px 60px;
@@ -363,7 +297,7 @@
 /* ── Columna derecha ── */
 .pdp-col-right {
   overflow-y: auto;
-  height: calc(100vh - 80px);
+  height: 100vh;
   padding: 56px 52px 80px;
   scrollbar-width: thin;
   scrollbar-color: #ede4d6 transparent;
@@ -426,10 +360,15 @@
   box-shadow: 0 2px 6px rgba(0,0,0,.15);
 }
 
+/* MacBook screen heights: >1700px fijo 500px; 1300-1700 dinámico max500 min350 (via JS) */
+@media (min-width: 1701px) { .pdp-macbook-screen { height: 500px; } }
+@media (min-width: 1300px) and (max-width: 1700px) { .pdp-macbook-screen { height: 350px; } } /* JS override */
+
 /* ══ iPad ══ */
 .pdp-ipad-wrap {
-  display: none; width: 100%; max-width: 420px;
+  display: none; width: 80%; max-width: 420px;
   flex-direction: column; align-items: center;
+  margin: 0 auto;
 }
 .pdp-ipad-sticky { position: sticky; top: 0; width: 100%; z-index: 10; }
 .pdp-ipad-frame {
@@ -452,6 +391,8 @@
   width: 36px; height: 4px; background: #2a2a2c; border-radius: 3px;
   margin: 10px auto 0;
 }
+/* iPad screen height: dinámico (JS), max 500px */
+@media (min-width: 1024px) and (max-width: 1299px) { .pdp-ipad-screen { height: 350px; } }
 
 /* ══ iPhone ══ */
 .pdp-iphone-wrap {
@@ -485,34 +426,29 @@
   color: #a88b78; font-size: 11px; letter-spacing: .1em; text-align: center; padding: 20px;
 }
 
-/* Screen heights */
-@media (min-width: 1400px) { .pdp-macbook-screen { height: 280px; } }
-@media (min-width: 1200px) and (max-width: 1399px) { .pdp-macbook-screen { height: 260px; } }
-@media (min-width: 1024px) and (max-width: 1199px) { .pdp-macbook-screen { height: 210px; } }
-@media (min-width: 768px) and (max-width: 1023px) { .pdp-ipad-screen { height: 220px; } }
-@media (min-width: 600px) and (max-width: 767px) { .pdp-ipad-screen { height: 200px; } }
-
 /* ══ Device visibility by breakpoint ══ */
 .pdp-macbook-wrap { display: flex; }
 .pdp-ipad-wrap { display: none; }
 .pdp-iphone-wrap { display: none; }
 
+/* 1024–1299px: iPad */
 @media (max-width: 1299px) and (min-width: 1024px) {
   .pdp-layout { grid-template-columns: 50% 50%; }
   .pdp-macbook-wrap { display: none; }
-  .pdp-ipad-wrap { display: flex; width: 80%; margin: 0 auto; }
+  .pdp-ipad-wrap { display: flex; }
   .pdp-iphone-wrap { display: none; }
 }
 
+/* <1024px: columna única, iPhone entre descripción y botones */
 @media (max-width: 1023px) {
   .pdp-layout {
     display: flex; flex-direction: column;
-    padding-top: 72px; min-height: auto;
+    min-height: auto;
   }
   .pdp-col-left {
     order: 2; position: static; height: auto;
     border-right: none; overflow-y: visible;
-    padding: 20px 20px 28px;
+    padding: 24px 20px 32px;
     background: #faf6f0;
     justify-content: center;
   }
@@ -523,13 +459,18 @@
   .pdp-macbook-wrap { display: none; }
   .pdp-ipad-wrap { display: none; }
   .pdp-iphone-wrap { display: flex; }
-  .pdp-hero-top { text-align: center; padding: 24px 20px 20px; }
-  .pdp-hero-actions { padding: 20px 20px 0; text-align: center; }
-  .pdp-content { padding: 0 20px 60px; }
+  /* hero-top (texto+precio+desc) va arriba */
+  .pdp-hero-top { order: 1; text-align: center; padding: 28px 20px 20px; }
+  /* col-left (iPhone) se inserta visualmente en order 2 (del page-layout flex) */
+  /* hero-actions (botones) van después */
+  .pdp-hero-actions { order: 3; padding: 20px 20px 0; text-align: center; }
+  .pdp-content { order: 4; padding: 0 20px 60px; }
+  /* mobile-preview-slot ocupa el lugar del iPhone en el flujo */
+  .pdp-mobile-preview-slot { order: 2; display: block; }
   .pdp-stars-row { justify-content: center; }
   .pdp-price-block { text-align: center; }
-  .pdp-hero-btns { flex-direction: column; align-items: stretch; }
-  .pdp-btn-primary, .pdp-btn-outline { width: 100%; text-align: center; }
+  .pdp-hero-btns { flex-direction: column; align-items: stretch; gap: 10px; }
+  .pdp-btn-primary, .pdp-btn-outline { width: 100%; text-align: center; white-space: normal; }
   .pdp-pills { justify-content: center; }
   .pdp-sections-grid { grid-template-columns: 1fr; }
   .pdp-guarantee { grid-template-columns: 1fr; }
@@ -537,7 +478,10 @@
   .pdp-g-item:last-child { border-bottom: none; }
 }
 
-/* ══ Right column content styles ══ */
+/* Mobile-preview-slot oculto en desktop */
+.pdp-mobile-preview-slot { display: none; }
+
+/* ══ Right column styles ══ */
 .pdp-badge {
   display: inline-flex; align-items: center; gap: 8px;
   background: #f0e6d2;
@@ -560,6 +504,8 @@
 .pdp-stars { color: #b89a6a; font-size: 13px; letter-spacing: 2px; }
 .pdp-stars-label { font-size: 12px; color: #a88b78; }
 .pdp-price-block { margin: 6px 0; }
+/* Ocultar badge de sale en el precio */
+.pdp-price-block .price__badges { display: none; }
 .pdp-tagline {
   font-family: 'Cormorant Garamond', serif;
   font-size: 18px; font-style: italic; color: #7a5f4e; line-height: 1.5;
@@ -647,17 +593,19 @@
 
 <script>
 (function() {
-  // Tamaño dinámico: height = width - 300
+  // Tamaño dinámico de pantallas: height = width - 300, max 500, min 350 (monitor) / 160 (tablet)
   function resizePdpScreens() {
     var mb = document.getElementById('pdpMacScreen');
     var ip = document.getElementById('pdpIpadScreen');
     if (mb && mb.offsetParent) {
       var w = mb.offsetWidth;
-      mb.style.height = Math.max(160, w - 300) + 'px';
+      var h = Math.min(500, Math.max(350, w - 300));
+      mb.style.height = h + 'px';
     }
     if (ip && ip.offsetParent) {
       var w = ip.offsetWidth;
-      ip.style.height = Math.max(160, w - 300) + 'px';
+      var h = Math.min(500, Math.max(160, w - 300));
+      ip.style.height = h + 'px';
     }
   }
   resizePdpScreens();
@@ -670,6 +618,24 @@
     });
   }, { threshold: 0.06 });
   document.querySelectorAll('.pdp-reveal').forEach(function(el) { obs.observe(el); });
+
+  // Botón comprar → redirigir al checkout tras add to cart
+  document.querySelectorAll('[data-type="add-to-cart-form"]').forEach(function(form) {
+    form.addEventListener('submit', function(e) {
+      var returnTo = form.querySelector('[name="return_to"]');
+      if (returnTo && returnTo.value === '/checkout') {
+        e.preventDefault();
+        var variantId = form.querySelector('[name="id"]').value;
+        fetch('/cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: variantId, quantity: 1 })
+        }).then(function() {
+          window.location.href = '/checkout';
+        });
+      }
+    });
+  });
 })();
 </script>
 
@@ -679,13 +645,171 @@
   "class": "section",
   "settings": [
     {
-      "type": "checkbox",
-      "id": "enable_sticky_info",
-      "default": true,
-      "label": "Enable sticky content on desktop"
+      "type": "header",
+      "content": "Textos principales"
+    },
+    {
+      "type": "text",
+      "id": "badge",
+      "label": "Badge (etiqueta dorada)",
+      "default": "Invitación Digital de Boda"
+    },
+    {
+      "type": "text",
+      "id": "stars_label",
+      "label": "Texto reseñas",
+      "default": "5.0 · 24 parejas felices"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Botón comprar",
+      "default": "Quiero esta plantilla"
+    },
+    {
+      "type": "text",
+      "id": "demo_label",
+      "label": "Botón ver demo (arriba)",
+      "default": "Ver demo completa"
+    },
+    {
+      "type": "text",
+      "id": "demo_label_final",
+      "label": "Botón ver demo (abajo)",
+      "default": "Ver demo completa antes de comprar"
+    },
+    {
+      "type": "header",
+      "content": "Pills"
+    },
+    {
+      "type": "text",
+      "id": "pill_1",
+      "label": "Pill 1",
+      "default": "📱 Responsive"
+    },
+    {
+      "type": "text",
+      "id": "pill_2",
+      "label": "Pill 2",
+      "default": "🔗 Link personalizado"
+    },
+    {
+      "type": "text",
+      "id": "pill_3",
+      "label": "Pill 3",
+      "default": "✏️ 1 revisión incluida"
+    },
+    {
+      "type": "text",
+      "id": "pill_4",
+      "label": "Pill 4",
+      "default": "📅 Activa 6 meses"
+    },
+    {
+      "type": "header",
+      "content": "Secciones incluidas"
+    },
+    {
+      "type": "text",
+      "id": "includes_title",
+      "label": "Título sección",
+      "default": "Qué incluye esta plantilla"
+    },
+    {
+      "type": "header",
+      "content": "Cómo funciona"
+    },
+    {
+      "type": "text",
+      "id": "steps_title",
+      "label": "Título sección",
+      "default": "Cómo funciona"
+    },
+    {
+      "type": "header",
+      "content": "Nota"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "note",
+      "label": "Nota informativa",
+      "default": "<strong>🔗 Link personalizado incluido</strong> — Tu invitación vivirá en una URL limpia y fácil de compartir por WhatsApp, Instagram o correo. Sin apps, sin descargas."
     }
   ],
   "blocks": [
+    {
+      "type": "include_item",
+      "name": "Sección incluida",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Emoji / ícono",
+          "default": "💍"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Nombre",
+          "default": "Hero con nombres y fecha"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Descripción",
+          "default": "Portada con ornamentos dorados, nombres de los novios y fecha de la boda."
+        }
+      ]
+    },
+    {
+      "type": "step_item",
+      "name": "Paso cómo funciona",
+      "settings": [
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Número",
+          "default": "01"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Título",
+          "default": "Compras y recibes el link de personalización"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Descripción",
+          "default": "Una vez confirmado el pago te enviamos un link donde podrás ingresar todos los datos."
+        }
+      ]
+    },
+    {
+      "type": "guarantee_item",
+      "name": "Garantía",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Emoji / ícono",
+          "default": "⏱"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Título",
+          "default": "48 hrs garantizadas"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Descripción",
+          "default": "Entrega máxima tras recibir tu info"
+        }
+      ]
+    },
     {
       "type": "@app"
     }
