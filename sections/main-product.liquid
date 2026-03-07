@@ -30,23 +30,22 @@
               {%- if demo_url != '' -%}{{ demo_url | remove: 'https://' | remove: 'http://' | split: '/' | first }}{%- else -%}preview.invitacion.com{%- endif -%}
             </div>
           </div>
-          <div class="pdp-screen bg-white w-full overflow-hidden" id="pdpMacScreen">
+          <div class="pdp-screen bg-white w-full overflow-hidden relative" id="pdpMacScreen">
             {%- if demo_url != '' -%}
               <iframe src="{{ demo_url }}" frameborder="0" loading="lazy" title="{{ title_escaped }} — Preview" class="pdp-iframe origin-top-left block border-0 w-360"></iframe>
             {%- else -%}
               <div class="flex items-center justify-center h-full min-h-48 text-wb-brown-soft text-[11px] tracking-widest text-center p-5">Vista previa disponible</div>
             {%- endif -%}
+            <div class="pdp-scroll-overlay absolute inset-0 flex flex-col items-center justify-center gap-2 pointer-events-none" style="backdrop-filter: blur(3px); background: rgba(15,10,8,0.32);">
+              <svg width="28" height="36" viewBox="0 0 28 36" fill="none" style="color:#fff;opacity:.9"><rect x="9.5" y="2" width="9" height="18" rx="4.5" stroke="currentColor" stroke-width="2"/><path d="M14 22v10M9 28l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span style="font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:rgba(255,255,255,.75);">Scroll</span>
+            </div>
           </div>
           <div class="w-full h-3.5 rounded-b bg-linear-to-b from-[#242424] to-[#1a1a1a]" style="box-shadow: 0 0 0 1px #0a0a0a;"></div>
         </div>
       </div>
       <div class="w-full h-2 rounded-b-sm bg-linear-to-b from-[#c8c0b8] to-[#b0a8a0]" style="box-shadow: 0 2px 8px rgba(0,0,0,.2), 0 0 0 1px rgba(0,0,0,.15);"></div>
       <div class="w-[68%] h-0.75 rounded-b bg-linear-to-b from-[#b8b0a8] to-[#a8a098] mx-auto" style="box-shadow: 0 2px 6px rgba(0,0,0,.15);"></div>
-      <!-- Scroll hint -->
-      <div class="flex flex-col items-center gap-1 mt-5 pdp-scroll-hint">
-        <span class="text-[9px] tracking-[.3em] uppercase text-wb-brown-soft/60">Scroll</span>
-        <svg width="12" height="16" viewBox="0 0 12 16" fill="none" class="text-wb-brown-soft/50"><rect x="4.5" y="1" width="3" height="7" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M6 10v4M4 12.5l2 2 2-2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
     </div>
 
     <!-- iPad: 1024–1299px -->
@@ -54,20 +53,19 @@
       <div class="sticky top-0 w-full z-10">
         <div class="w-full bg-[#1c1c1e] rounded-[20px] px-2.5 py-4 pdp-mock-glow" style="box-shadow: 0 0 0 1px #0a0a0a, 0 0 0 2px #2a2a2c, 0 20px 50px rgba(0,0,0,.4);">
           <div class="w-1.5 h-1.5 rounded-full bg-[#2a2a2c] mx-auto mb-2"></div>
-          <div class="pdp-screen bg-white rounded-sm overflow-hidden" id="pdpIpadScreen">
+          <div class="pdp-screen bg-white rounded-sm overflow-hidden relative" id="pdpIpadScreen">
             {%- if demo_url != '' -%}
               <iframe src="{{ demo_url }}" frameborder="0" loading="lazy" title="{{ title_escaped }} — Preview" class="pdp-iframe-tablet origin-top-left block border-0 w-5xl"></iframe>
             {%- else -%}
               <div class="flex items-center justify-center h-full text-wb-brown-soft text-[11px] tracking-widest text-center p-5">Vista previa disponible</div>
             {%- endif -%}
+            <div class="pdp-scroll-overlay absolute inset-0 flex flex-col items-center justify-center gap-2 pointer-events-none" style="backdrop-filter: blur(3px); background: rgba(15,10,8,0.32);">
+              <svg width="28" height="36" viewBox="0 0 28 36" fill="none" style="color:#fff;opacity:.9"><rect x="9.5" y="2" width="9" height="18" rx="4.5" stroke="currentColor" stroke-width="2"/><path d="M14 22v10M9 28l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span style="font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:rgba(255,255,255,.75);">Scroll</span>
+            </div>
           </div>
           <div class="w-9 h-1 bg-[#2a2a2c] rounded-[3px] mx-auto mt-2.5"></div>
         </div>
-      </div>
-      <!-- Scroll hint -->
-      <div class="flex flex-col items-center gap-1 mt-5 pdp-scroll-hint">
-        <span class="text-[9px] tracking-[.3em] uppercase text-wb-brown-soft/60">Scroll</span>
-        <svg width="12" height="16" viewBox="0 0 12 16" fill="none" class="text-wb-brown-soft/50"><rect x="4.5" y="1" width="3" height="7" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M6 10v4M4 12.5l2 2 2-2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
     </div>
 
@@ -118,12 +116,16 @@
             <div class="absolute -left-0.75 top-18 w-0.75 h-7.5 bg-[#161618] rounded-l-[3px]"></div>
             <div class="absolute -left-0.75 top-29 w-0.75 h-11.5 bg-[#161618] rounded-l-[3px]"></div>
             <div class="absolute -left-0.75 top-43.5 w-0.75 h-11.5 bg-[#161618] rounded-l-[3px]"></div>
-            <div class="bg-white rounded-4xl overflow-hidden h-115" id="pdpIphoneScreen">
+            <div class="bg-white rounded-4xl overflow-hidden h-115 relative" id="pdpIphoneScreen">
               {%- if demo_url != '' -%}
                 <iframe src="{{ demo_url }}" frameborder="0" loading="lazy" title="{{ title_escaped }} — Preview" class="pdp-iframe-phone origin-top-left block border-0 w-107.5"></iframe>
               {%- else -%}
                 <div class="flex items-center justify-center h-full text-wb-brown-soft text-[11px] text-center p-5">Vista previa disponible</div>
               {%- endif -%}
+              <div class="pdp-scroll-overlay absolute inset-0 flex flex-col items-center justify-center gap-2 pointer-events-none rounded-4xl" style="backdrop-filter: blur(3px); background: rgba(15,10,8,0.32);">
+                <svg width="22" height="30" viewBox="0 0 28 36" fill="none" style="color:#fff;opacity:.9"><rect x="9.5" y="2" width="9" height="18" rx="4.5" stroke="currentColor" stroke-width="2"/><path d="M14 22v10M9 28l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span style="font-size:8px;letter-spacing:.35em;text-transform:uppercase;color:rgba(255,255,255,.75);">Scroll</span>
+              </div>
             </div>
           </div>
         </div>
@@ -140,12 +142,16 @@
                   {%- if demo_url != '' -%}{{ demo_url | remove: 'https://' | remove: 'http://' | split: '/' | first }}{%- else -%}preview.invitacion.com{%- endif -%}
                 </div>
               </div>
-              <div class="pdp-screen bg-white w-full overflow-hidden" id="pdpMacScreenMobile">
+              <div class="pdp-screen bg-white w-full overflow-hidden relative" id="pdpMacScreenMobile">
                 {%- if demo_url != '' -%}
                   <iframe src="{{ demo_url }}" frameborder="0" loading="lazy" title="{{ title_escaped }} — Preview" class="pdp-iframe origin-top-left block border-0 w-360"></iframe>
                 {%- else -%}
                   <div class="flex items-center justify-center h-48 text-wb-brown-soft text-[11px] text-center p-5">Vista previa disponible</div>
                 {%- endif -%}
+                <div class="pdp-scroll-overlay absolute inset-0 flex flex-col items-center justify-center gap-2 pointer-events-none" style="backdrop-filter: blur(3px); background: rgba(15,10,8,0.32);">
+                  <svg width="28" height="36" viewBox="0 0 28 36" fill="none" style="color:#fff;opacity:.9"><rect x="9.5" y="2" width="9" height="18" rx="4.5" stroke="currentColor" stroke-width="2"/><path d="M14 22v10M9 28l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span style="font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:rgba(255,255,255,.75);">Scroll</span>
+                </div>
               </div>
               <div class="w-full h-3.5 rounded-b bg-linear-to-b from-[#242424] to-[#1a1a1a]" style="box-shadow: 0 0 0 1px #0a0a0a;"></div>
             </div>
@@ -332,20 +338,23 @@
 /* Reveal */
 .pdp-reveal.pdp-visible { opacity: 1 !important; transform: none !important; }
 
-/* Efecto scroll hint en mockups */
-@keyframes pdp-glow-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(232,180,176,0); }
-  50% { box-shadow: 0 0 32px 8px rgba(232,180,176,0.45); }
+/* Overlay scroll hint — aparece y desaparece */
+@keyframes pdp-overlay-fade {
+  0%   { opacity: 0; }
+  15%  { opacity: 1; }
+  80%  { opacity: 1; }
+  100% { opacity: 0; pointer-events: none; }
 }
-@keyframes pdp-scroll-bounce {
-  0%, 100% { transform: translateY(0); opacity: 0.7; }
-  50% { transform: translateY(6px); opacity: 1; }
+@keyframes pdp-icon-bounce {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(7px); }
 }
-.pdp-mock-glow {
-  animation: pdp-glow-pulse 2.2s ease-in-out 0.8s 3;
+.pdp-scroll-overlay {
+  animation: pdp-overlay-fade 2.8s ease-in-out 0.5s 1 forwards;
+  opacity: 0;
 }
-.pdp-scroll-hint {
-  animation: pdp-scroll-bounce 1.5s ease-in-out 1.2s 4;
+.pdp-scroll-overlay svg {
+  animation: pdp-icon-bounce 0.9s ease-in-out 0.7s 3;
 }
 </style>
 
