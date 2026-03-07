@@ -12,12 +12,11 @@
 <section
   id="MainProduct-{{ section.id }}"
   data-section="{{ section.id }}"
-  class="grid grid-cols-1 lg:grid-cols-[55%_45%] w-full"
-  style="height: calc(100vh - var(--header-h, 80px));"
+  class="grid grid-cols-1 lg:grid-cols-[55%_45%] w-full lg:items-start"
 >
 
   <!-- ══ COLUMNA IZQUIERDA: mockups desktop ══ -->
-  <div class="hidden lg:flex flex-col items-center justify-center overflow-y-auto bg-wb-ivory border-r border-wb-linen px-7 py-12 sticky top-0 self-start" style="height: calc(100vh - var(--header-h, 80px));">
+  <div class="hidden lg:flex flex-col items-center justify-center bg-wb-ivory border-r border-wb-linen px-7 py-12 sticky top-0 self-start" style="height: calc(100vh - var(--header-h, 80px));">
 
     <!-- MacBook: ≥1300px -->
     <div class="pdp-macbook-wrap hidden xl:flex flex-col items-center w-[90%] max-w-225">
@@ -65,7 +64,7 @@
   </div><!-- /col-left -->
 
   <!-- ══ COLUMNA DERECHA: info producto ══ -->
-  <div class="overflow-y-auto px-8 lg:px-14 py-14 lg:sticky top-0 self-start" style="height: calc(100vh - var(--header-h, 80px));">
+  <div class="px-8 lg:px-14 py-14">
 
     <product-info
       id="ProductInfo-{{ section.id }}"
@@ -91,17 +90,7 @@
         </div>
 
         {%- if product.description != blank -%}
-          <div class="max-lg:mb-8" x-data="{ expanded: false }">
-            <div class="font-wb-serif text-[18px] italic text-wb-brown-mid leading-relaxed max-lg:text-center" :class="expanded ? '' : 'line-clamp-4'">
-              {{ product.description | strip_html }}
-            </div>
-            <button
-              type="button"
-              @click="expanded = !expanded"
-              class="mt-2 text-[11px] tracking-[.2em] uppercase text-wb-blush hover:text-wb-blush-deep transition-colors duration-200 max-lg:w-full max-lg:text-center"
-              x-text="expanded ? 'Ver menos ↑' : 'Ver más ↓'"
-            ></button>
-          </div>
+          <p class="font-wb-serif text-[18px] italic text-wb-brown-mid leading-relaxed max-lg:text-center max-lg:mb-8">{{ product.description | strip_html }}</p>
         {%- endif -%}
       </div>
 
@@ -327,6 +316,16 @@
 #pdpMacScreenMobile { height: 260px; }
 @media (min-width: 768px) and (max-width: 1023px) { #pdpMacScreenMobile { height: 320px; } }
 
+/* Precio centrado en mobile */
+@media (max-width: 1023px) {
+  #price-{{ section.id }} .price,
+  #price-{{ section.id }} .price__container {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
 /* Reveal */
 .pdp-reveal.pdp-visible { opacity: 1 !important; transform: none !important; }
 </style>
@@ -352,13 +351,12 @@
     /* MacBook desktop: simula 1440px */
     scaleIframeGroup('.pdp-iframe', 1440);
 
-    /* Tablet desktop (1024–1299px): simula 1024px, máximo 80% del contenedor */
+    /* Tablet desktop (1024–1299px): simula 1024px, máximo 80% de (100vh - header) */
     var ipadScreen = document.getElementById('pdpIpadScreen');
     if (ipadScreen) {
-      var ipadWrap = ipadScreen.closest('.pdp-ipad-wrap');
-      var containerH = ipadWrap ? ipadWrap.parentElement.offsetHeight : window.innerHeight;
-      var maxH = Math.floor(containerH * 0.8);
-      ipadScreen.style.height = Math.min(650, maxH) + 'px';
+      var headerH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 80;
+      var maxH = Math.floor((window.innerHeight - headerH) * 0.8);
+      ipadScreen.style.height = maxH + 'px';
     }
     scaleIframeGroup('.pdp-iframe-tablet', 1024);
 
