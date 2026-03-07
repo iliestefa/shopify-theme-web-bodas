@@ -57,26 +57,6 @@
       </div>
     </div>
 
-    <!-- iPhone: <1024px -->
-    <div class="pdp-iphone-wrap">
-      <div class="pdp-iphone-sticky">
-        <div class="pdp-iphone-frame">
-          <div class="pdp-iphone-island"></div>
-          <div class="pdp-iphone-btn-r"></div>
-          <div class="pdp-iphone-btn-l1"></div>
-          <div class="pdp-iphone-btn-l2"></div>
-          <div class="pdp-iphone-btn-l3"></div>
-          <div class="pdp-iphone-screen" id="pdpIphoneScreen">
-            {%- if demo_url != '' -%}
-              <iframe src="{{ demo_url }}" width="100%" height="100%" frameborder="0" loading="lazy" title="{{ product.title | escape }} — Preview"></iframe>
-            {%- else -%}
-              <div class="pdp-screen-placeholder"><span>Vista previa disponible</span></div>
-            {%- endif -%}
-          </div>
-        </div>
-      </div>
-    </div>
-
   </div><!-- /col-left -->
 
   <!-- ══ COLUMNA DERECHA: info producto ══ -->
@@ -112,8 +92,25 @@
         {%- endif -%}
       </div>
 
-      <!-- ── iPhone slot: aparece entre descripción y botones en mobile ── -->
-      <div class="pdp-mobile-preview-slot"></div>
+      <!-- ── iPhone slot: visible solo en mobile (<1024px), entre descripción y botones ── -->
+      <div class="pdp-mobile-preview-slot">
+        <div class="pdp-iphone-wrap">
+          <div class="pdp-iphone-frame">
+            <div class="pdp-iphone-island"></div>
+            <div class="pdp-iphone-btn-r"></div>
+            <div class="pdp-iphone-btn-l1"></div>
+            <div class="pdp-iphone-btn-l2"></div>
+            <div class="pdp-iphone-btn-l3"></div>
+            <div class="pdp-iphone-screen" id="pdpIphoneScreen">
+              {%- if demo_url != '' -%}
+                <iframe src="{{ demo_url }}" width="100%" height="100%" frameborder="0" loading="lazy" title="{{ product.title | escape }} — Preview"></iframe>
+              {%- else -%}
+                <div class="pdp-screen-placeholder"><span>Vista previa disponible</span></div>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      </div>
 
       <!-- ── Botones CTA + pills ── -->
       <div class="pdp-hero-actions pdp-reveal">
@@ -309,9 +306,13 @@
 .pdp-col-right::-webkit-scrollbar-thumb { background: #ede4d6; border-radius: 4px; }
 
 /* ══ MacBook ══ */
+/* >1700px: ancho fijo 900px */
 .pdp-macbook-wrap {
-  width: 100%; max-width: 580px;
+  width: 90%; max-width: 900px;
   display: flex; flex-direction: column; align-items: center;
+}
+@media (min-width: 1701px) {
+  .pdp-macbook-wrap { width: 900px; }
 }
 .pdp-macbook-sticky { position: sticky; top: 0; width: 100%; z-index: 10; }
 .pdp-macbook-lid {
@@ -360,13 +361,13 @@
   box-shadow: 0 2px 6px rgba(0,0,0,.15);
 }
 
-/* MacBook screen heights: >1700px fijo 500px; 1300-1700 dinámico max500 min350 (via JS) */
-@media (min-width: 1701px) { .pdp-macbook-screen { height: 500px; } }
-@media (min-width: 1300px) and (max-width: 1700px) { .pdp-macbook-screen { height: 350px; } } /* JS override */
+/* MacBook screen heights: >1700px fijo 500px; 1300-1700 JS override (min350 max500) */
+@media (min-width: 1701px) { .pdp-macbook-screen { height: 500px !important; } }
+@media (min-width: 1300px) and (max-width: 1700px) { .pdp-macbook-screen { height: 350px; } }
 
 /* ══ iPad ══ */
 .pdp-ipad-wrap {
-  display: none; width: 80%; max-width: 420px;
+  display: none; width: 80%;
   flex-direction: column; align-items: center;
   margin: 0 auto;
 }
@@ -439,34 +440,15 @@
   .pdp-iphone-wrap { display: none; }
 }
 
-/* <1024px: columna única, iPhone entre descripción y botones */
+/* <1024px: columna única — col-right ocupa todo, col-left se oculta */
 @media (max-width: 1023px) {
-  .pdp-layout {
-    display: flex; flex-direction: column;
-    min-height: auto;
-  }
-  .pdp-col-left {
-    order: 2; position: static; height: auto;
-    border-right: none; overflow-y: visible;
-    padding: 24px 20px 32px;
-    background: #faf6f0;
-    justify-content: center;
-  }
-  .pdp-col-right {
-    order: 1; height: auto; overflow-y: visible;
-    padding: 0; display: flex; flex-direction: column;
-  }
-  .pdp-macbook-wrap { display: none; }
-  .pdp-ipad-wrap { display: none; }
-  .pdp-iphone-wrap { display: flex; }
-  /* hero-top (texto+precio+desc) va arriba */
-  .pdp-hero-top { order: 1; text-align: center; padding: 28px 20px 20px; }
-  /* col-left (iPhone) se inserta visualmente en order 2 (del page-layout flex) */
-  /* hero-actions (botones) van después */
-  .pdp-hero-actions { order: 3; padding: 20px 20px 0; text-align: center; }
-  .pdp-content { order: 4; padding: 0 20px 60px; }
-  /* mobile-preview-slot ocupa el lugar del iPhone en el flujo */
-  .pdp-mobile-preview-slot { order: 2; display: block; }
+  .pdp-layout { display: block; min-height: auto; }
+  /* col-left (MacBook/iPad) oculto en mobile */
+  .pdp-col-left { display: none; }
+  .pdp-col-right { height: auto; overflow-y: visible; padding: 0; }
+  .pdp-hero-top { text-align: center; padding: 28px 20px 20px; }
+  .pdp-hero-actions { padding: 20px 20px 0; text-align: center; }
+  .pdp-content { padding: 0 20px 60px; }
   .pdp-stars-row { justify-content: center; }
   .pdp-price-block { text-align: center; }
   .pdp-hero-btns { flex-direction: column; align-items: stretch; gap: 10px; }
@@ -476,6 +458,9 @@
   .pdp-guarantee { grid-template-columns: 1fr; }
   .pdp-g-item { border-right: none; border-bottom: 1px solid #ede4d6; }
   .pdp-g-item:last-child { border-bottom: none; }
+  /* iPhone slot visible, centrado */
+  .pdp-mobile-preview-slot { display: flex; justify-content: center; padding: 24px 20px; background: #faf6f0; }
+  .pdp-iphone-wrap { display: flex; }
 }
 
 /* Mobile-preview-slot oculto en desktop */
@@ -585,6 +570,8 @@
 .pdp-g-title { font-size: 12px; font-weight: 500; color: #4a3728; margin-bottom: 2px; }
 .pdp-g-desc { font-size: 11px; color: #a88b78; line-height: 1.4; }
 .pdp-cta-final { display: flex; flex-direction: column; gap: 10px; margin-top: 48px; }
+.pdp-cta-final .pdp-btn-primary,
+.pdp-cta-final .pdp-btn-outline { width: 100%; text-align: center; white-space: normal; }
 
 /* Reveal animation */
 .pdp-reveal { opacity: 0; transform: translateY(20px); transition: opacity .7s ease, transform .7s ease; }
@@ -593,18 +580,21 @@
 
 <script>
 (function() {
-  // Tamaño dinámico de pantallas: height = width - 300, max 500, min 350 (monitor) / 160 (tablet)
+  // Tamaño dinámico de pantallas según breakpoint
   function resizePdpScreens() {
+    var vw = window.innerWidth;
     var mb = document.getElementById('pdpMacScreen');
     var ip = document.getElementById('pdpIpadScreen');
-    if (mb && mb.offsetParent) {
+    // MacBook: >1700px → CSS fija 500px (no tocar). 1300-1700 → JS min350/max500
+    if (mb && mb.offsetParent && vw <= 1700) {
       var w = mb.offsetWidth;
       var h = Math.min(500, Math.max(350, w - 300));
       mb.style.height = h + 'px';
     }
+    // iPad: 1024-1299 → JS min160/max500
     if (ip && ip.offsetParent) {
       var w = ip.offsetWidth;
-      var h = Math.min(500, Math.max(160, w - 300));
+      var h = Math.min(500, Math.max(160, w - 100));
       ip.style.height = h + 'px';
     }
   }
