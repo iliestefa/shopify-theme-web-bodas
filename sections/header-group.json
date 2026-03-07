@@ -17,7 +17,7 @@
         "menu": "main-menu",
         "cta_text": "Ver plantillas",
         "cta_url": "",
-        "sticky_header_type": "always"
+        "sticky_header_type": "on-scroll-up"
       }
     }
   },
