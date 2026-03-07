@@ -365,6 +365,16 @@
 @media (min-width: 1701px) { .pdp-macbook-screen { height: 500px !important; } }
 @media (min-width: 1300px) and (max-width: 1700px) { .pdp-macbook-screen { height: 350px; } }
 
+/* iframe zoom proporcional — simula viewport 1440px dentro de la pantalla */
+.pdp-macbook-screen iframe,
+.pdp-ipad-screen iframe {
+  width: 1440px;
+  height: 100%;
+  transform-origin: top left;
+  border: none;
+  pointer-events: auto;
+}
+
 /* ══ iPad ══ */
 .pdp-ipad-wrap {
   display: none; width: 80%;
@@ -392,8 +402,8 @@
   width: 36px; height: 4px; background: #2a2a2c; border-radius: 3px;
   margin: 10px auto 0;
 }
-/* iPad screen height: dinámico (JS), max 500px */
-@media (min-width: 1024px) and (max-width: 1299px) { .pdp-ipad-screen { height: 350px; } }
+/* iPad screen height: 650px */
+@media (min-width: 1024px) and (max-width: 1299px) { .pdp-ipad-screen { height: 650px; } }
 
 /* ══ iPhone ══ */
 .pdp-iphone-wrap {
@@ -580,26 +590,24 @@
 
 <script>
 (function() {
-  // Tamaño dinámico de pantallas según breakpoint
-  function resizePdpScreens() {
-    var vw = window.innerWidth;
-    var mb = document.getElementById('pdpMacScreen');
-    var ip = document.getElementById('pdpIpadScreen');
-    // MacBook: >1700px → CSS fija 500px (no tocar). 1300-1700 → JS min350/max500
-    if (mb && mb.offsetParent && vw <= 1700) {
-      var w = mb.offsetWidth;
-      var h = Math.min(500, Math.max(350, w - 300));
-      mb.style.height = h + 'px';
-    }
-    // iPad: 1024-1299 → JS min160/max500
-    if (ip && ip.offsetParent) {
-      var w = ip.offsetWidth;
-      var h = Math.min(500, Math.max(160, w - 100));
-      ip.style.height = h + 'px';
-    }
+  // Escalar iframes a 1440px proporcional al contenedor
+  function scalePdpIframes() {
+    var screens = [
+      document.getElementById('pdpMacScreen'),
+      document.getElementById('pdpIpadScreen')
+    ];
+    screens.forEach(function(screen) {
+      if (!screen || !screen.offsetParent) return;
+      var iframe = screen.querySelector('iframe');
+      if (!iframe) return;
+      var containerW = screen.offsetWidth;
+      var scale = containerW / 1440;
+      iframe.style.transform = 'scale(' + scale + ')';
+      iframe.style.height = (screen.offsetHeight / scale) + 'px';
+    });
   }
-  resizePdpScreens();
-  window.addEventListener('resize', resizePdpScreens);
+  scalePdpIframes();
+  window.addEventListener('resize', scalePdpIframes);
 
   // Reveal on scroll
   var obs = new IntersectionObserver(function(entries) {
@@ -609,21 +617,23 @@
   }, { threshold: 0.06 });
   document.querySelectorAll('.pdp-reveal').forEach(function(el) { obs.observe(el); });
 
-  // Botón comprar → redirigir al checkout tras add to cart
+  // Botón comprar → fetch add to cart + redirect directo a /checkout (sin abrir carrito)
   document.querySelectorAll('[data-type="add-to-cart-form"]').forEach(function(form) {
     form.addEventListener('submit', function(e) {
-      var returnTo = form.querySelector('[name="return_to"]');
-      if (returnTo && returnTo.value === '/checkout') {
-        e.preventDefault();
-        var variantId = form.querySelector('[name="id"]').value;
-        fetch('/cart/add.js', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ id: variantId, quantity: 1 })
-        }).then(function() {
-          window.location.href = '/checkout';
-        });
-      }
+      e.preventDefault();
+      e.stopPropagation();
+      var variantId = form.querySelector('[name="id"]').value;
+      var btn = form.querySelector('button[type="submit"]');
+      if (btn) btn.disabled = true;
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: parseInt(variantId, 10), quantity: 1 })
+      }).then(function() {
+        window.location.href = '/checkout';
+      }).catch(function() {
+        if (btn) btn.disabled = false;
+      });
     });
   });
 })();

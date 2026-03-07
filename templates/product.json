@@ -129,7 +129,20 @@
         "step_1", "step_2", "step_3", "step_4",
         "g_1", "g_2", "g_3"
       ],
-      "settings": {}
+      "settings": {
+        "badge": "Invitación Digital de Boda",
+        "stars_label": "5.0 · 24 parejas felices",
+        "cta_label": "Quiero esta plantilla",
+        "demo_label": "Ver demo completa",
+        "demo_label_final": "Ver demo completa antes de comprar",
+        "pill_1": "📱 Responsive",
+        "pill_2": "🔗 Link personalizado",
+        "pill_3": "✏️ 1 revisión incluida",
+        "pill_4": "📅 Activa 6 meses",
+        "includes_title": "Qué incluye esta plantilla",
+        "steps_title": "Cómo funciona",
+        "note": "<strong>🔗 Link personalizado incluido</strong> — Tu invitación vivirá en una URL limpia y fácil de compartir por WhatsApp, Instagram o correo. Sin apps, sin descargas."
+      }
     }
   },
   "order": [
