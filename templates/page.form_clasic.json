@@ -1,64 +1,272 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "main": {
       "type": "main-page",
       "settings": {}
     },
-    "rich_text_LcF8RN": {
-      "type": "rich-text",
+    "form-clasic": {
+      "type": "form-clasic",
+      "settings": {
+        "topbar_brand": "✦ Tu Invitación Digital",
+        "topbar_tag": "Formulario de Datos",
+        "hero_title": "¡Vamos a crear",
+        "hero_subtitle": "tu invitación de boda!",
+        "hero_desc": "Completa los datos a continuación y los usaremos para personalizar cada sección de tu invitación digital. Solo toma unos minutos 💌",
+        "next_label": "Continuar →",
+        "submit_label": "✦ Enviar mis datos",
+        "success_title": "¡Recibimos todo!",
+        "success_body": "Gracias por confiar en nosotros para tu gran día. Nos pondremos en contacto contigo muy pronto con tu invitación personalizada.",
+        "success_sign": "Con mucho cariño ✦"
+      },
       "blocks": {
-        "heading_tjAq8B": {
-          "type": "heading",
+        "step-novios": {
+          "type": "step",
           "settings": {
-            "heading": "test",
-            "heading_size": "h1"
+            "step_label": "Novios",
+            "step_icon": "💍",
+            "step_title": "Los Novios & Fecha",
+            "step_desc": "Aparecen en el hero principal — lo primero que ven los invitados.",
+            "preview_label": "Aparece en: Encabezado principal — título, nombres, fecha y frases de bienvenida",
+            "field_1_label": "Nombre del novio/a 1",
+            "field_1_placeholder": "Ej: Iliana",
+            "field_1_type": "text",
+            "field_1_required": true,
+            "field_2_label": "Nombre del novio/a 2",
+            "field_2_placeholder": "Ej: Gabriel",
+            "field_2_type": "text",
+            "field_2_required": true,
+            "field_3_label": "Día de la boda",
+            "field_3_placeholder": "18",
+            "field_3_type": "number",
+            "field_3_required": true,
+            "field_4_label": "Mes de la boda",
+            "field_4_placeholder": "",
+            "field_4_type": "select",
+            "field_4_options": "Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre",
+            "field_4_required": true,
+            "field_5_label": "Año de la boda",
+            "field_5_placeholder": "2026",
+            "field_5_type": "number",
+            "field_5_required": true,
+            "field_6_label": "Frase de bienvenida",
+            "field_6_placeholder": "Ej: Estamos muy felices de invitarte a nuestra boda",
+            "field_6_type": "text",
+            "field_6_required": false,
+            "show_email_field": false,
+            "show_notes_field": true,
+            "notes_label": "Subtítulo en negrita",
+            "notes_hint": "(aparece debajo del título principal)",
+            "notes_placeholder": "Ej: Un momento especial se acerca, y no estaría completo sin ti.",
+            "show_custom_image_field": false
           }
         },
-        "text_JFdnr7": {
-          "type": "text",
+        "step-evento": {
+          "type": "step",
           "settings": {
-            "text": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>"
+            "step_label": "Evento",
+            "step_icon": "📍",
+            "step_title": "Ceremonia & Recepción",
+            "step_desc": "Datos de los lugares. Aparecen en la sección Dirección.",
+            "preview_label": "Aparece en: Sección Dirección — hora, nombre del lugar, dirección y link Google Maps",
+            "field_1_label": "Ceremonia — Hora",
+            "field_1_placeholder": "17:00",
+            "field_1_type": "time",
+            "field_1_required": true,
+            "field_2_label": "Ceremonia — Nombre de la iglesia",
+            "field_2_placeholder": "Ej: Parroquia San Francisco",
+            "field_2_type": "text",
+            "field_2_required": true,
+            "field_3_label": "Ceremonia — Dirección",
+            "field_3_placeholder": "Ej: Calle Principal 123, Ciudad",
+            "field_3_type": "text",
+            "field_3_required": true,
+            "field_4_label": "Ceremonia — Link Google Maps",
+            "field_4_placeholder": "https://maps.app.goo.gl/...",
+            "field_4_type": "url",
+            "field_4_required": false,
+            "field_5_label": "Recepción — Nombre del salón",
+            "field_5_placeholder": "Ej: Salón Los Álamos",
+            "field_5_type": "text",
+            "field_5_required": true,
+            "field_6_label": "Recepción — Dirección",
+            "field_6_placeholder": "Ej: Blvd. de las Flores 456",
+            "field_6_type": "text",
+            "field_6_required": true,
+            "show_email_field": false,
+            "show_notes_field": true,
+            "notes_label": "Recepción — Hora",
+            "notes_hint": "",
+            "notes_placeholder": "19:30",
+            "show_custom_image_field": true,
+            "image_field_label": "Recepción — Link Google Maps"
           }
         },
-        "button_Xcc3Ty": {
-          "type": "button",
+        "step-programa": {
+          "type": "step",
           "settings": {
-            "button_label": "Button label",
-            "button_link": "",
-            "button_style_secondary": false,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
+            "step_label": "Programa",
+            "step_icon": "📋",
+            "step_title": "Programa del Día",
+            "step_desc": "Lista de actividades ordenadas por hora. Aparecen en la sección Programa.",
+            "preview_label": "Aparece en: Sección Programa — actividades ordenadas por hora",
+            "field_1_label": "Actividad 1",
+            "field_1_placeholder": "Ej: ⛪ 17:00 Misa",
+            "field_1_type": "text",
+            "field_1_required": false,
+            "field_2_label": "Actividad 2",
+            "field_2_placeholder": "Ej: 🥳 19:30 Recepción",
+            "field_2_type": "text",
+            "field_2_required": false,
+            "field_3_label": "Actividad 3",
+            "field_3_placeholder": "Ej: 🤵🏽👰🏾‍♀️ 19:45 Entrada de novios",
+            "field_3_type": "text",
+            "field_3_required": false,
+            "field_4_label": "Actividad 4",
+            "field_4_placeholder": "Ej: 🥂 20:00 Brindis",
+            "field_4_type": "text",
+            "field_4_required": false,
+            "field_5_label": "Actividad 5",
+            "field_5_placeholder": "Ej: 💃🏾 20:30 Baile de los novios",
+            "field_5_type": "text",
+            "field_5_required": false,
+            "field_6_label": "Actividades adicionales",
+            "field_6_placeholder": "Ej: 🍽️ 22:00 Cena · 🎉 00:30 Baile · 🪅 01:30 Piñata",
+            "field_6_type": "textarea",
+            "field_6_required": false,
+            "show_email_field": false,
+            "show_notes_field": false,
+            "show_custom_image_field": false
+          }
+        },
+        "step-extras": {
+          "type": "step",
+          "settings": {
+            "step_label": "Extras",
+            "step_icon": "✨",
+            "step_title": "Dress Code, Música & Regalos",
+            "step_desc": "Texto e imágenes de las secciones de detalle.",
+            "preview_label": "Aparece en: Secciones Dress Code, Música y Regalos",
+            "field_1_label": "Dress Code — Texto",
+            "field_1_placeholder": "Ej: Queremos que luzcas tu mejor outfit formal, evitando blancos o tonos similares…",
+            "field_1_type": "textarea",
+            "field_1_required": false,
+            "field_2_label": "Música — Texto",
+            "field_2_placeholder": "Ej: ¡Queremos que la música también la elijas tú! Agrega tus canciones a nuestra playlist…",
+            "field_2_type": "textarea",
+            "field_2_required": false,
+            "field_3_label": "Música — Link playlist Spotify",
+            "field_3_placeholder": "https://open.spotify.com/playlist/...",
+            "field_3_type": "url",
+            "field_3_required": false,
+            "field_4_label": "Regalos — Texto",
+            "field_4_placeholder": "Ej: Tu presencia es lo que más valoramos en este día…",
+            "field_4_type": "textarea",
+            "field_4_required": false,
+            "field_5_label": "Regalos — Banco o plataforma de pago",
+            "field_5_placeholder": "Ej: BBVA, PayPal, Nequi…",
+            "field_5_type": "text",
+            "field_5_required": false,
+            "field_6_label": "Regalos — Número de cuenta o alias",
+            "field_6_placeholder": "Ej: 1234 5678 9012 3456",
+            "field_6_type": "text",
+            "field_6_required": false,
+            "show_email_field": false,
+            "show_notes_field": false,
+            "show_custom_image_field": true,
+            "image_field_label": "Dress Code — Imagen personalizada"
+          }
+        },
+        "step-rsvp": {
+          "type": "step",
+          "settings": {
+            "step_label": "RSVP",
+            "step_icon": "📝",
+            "step_title": "Formulario de Confirmación (RSVP)",
+            "step_desc": "Elige qué preguntas quieres en la sección Confirmar Asistencia.",
+            "preview_label": "Aparece en: Sección Confirmar Asistencia — formulario que llenarán tus invitados",
+            "field_1_label": "¿Ya tienes un formulario RSVP creado?",
+            "field_1_placeholder": "",
+            "field_1_type": "select",
+            "field_1_options": "No — quiero elegir las preguntas, Sí — tengo un link de Google Forms o Typeform",
+            "field_1_required": false,
+            "field_2_label": "RSVP — Link de formulario externo (si ya tienes uno)",
+            "field_2_placeholder": "https://forms.gle/...",
+            "field_2_type": "url",
+            "field_2_required": false,
+            "field_3_label": "RSVP — Preguntas deseadas",
+            "field_3_placeholder": "Ej: Nombre, ¿Asistirás?, Número de acompañantes, Restricción alimentaria, Canción favorita…",
+            "field_3_type": "textarea",
+            "field_3_required": false,
+            "field_4_label": "RSVP — Fecha límite para confirmar",
+            "field_4_placeholder": "",
+            "field_4_type": "date",
+            "field_4_required": false,
+            "field_5_label": "",
+            "field_5_placeholder": "",
+            "field_5_type": "text",
+            "field_5_required": false,
+            "field_6_label": "",
+            "field_6_placeholder": "",
+            "field_6_type": "text",
+            "field_6_required": false,
+            "show_email_field": false,
+            "show_notes_field": true,
+            "notes_label": "RSVP — Notas adicionales",
+            "notes_hint": "",
+            "notes_placeholder": "Ej: Los invitados pueden confirmar hasta 2 acompañantes.",
+            "show_custom_image_field": false
+          }
+        },
+        "step-contacto": {
+          "type": "step",
+          "settings": {
+            "step_label": "Contacto",
+            "step_icon": "📬",
+            "step_title": "Tus Datos de Contacto",
+            "step_desc": "Para enviarte la invitación personalizada cuando esté lista.",
+            "preview_label": "",
+            "field_1_label": "Tu nombre completo",
+            "field_1_placeholder": "Ej: María González",
+            "field_1_type": "text",
+            "field_1_required": true,
+            "field_2_label": "",
+            "field_2_placeholder": "",
+            "field_2_type": "text",
+            "field_2_required": false,
+            "field_3_label": "",
+            "field_3_placeholder": "",
+            "field_3_type": "text",
+            "field_3_required": false,
+            "field_4_label": "",
+            "field_4_placeholder": "",
+            "field_4_type": "text",
+            "field_4_required": false,
+            "field_5_label": "",
+            "field_5_placeholder": "",
+            "field_5_type": "text",
+            "field_5_required": false,
+            "field_6_label": "",
+            "field_6_placeholder": "",
+            "field_6_type": "text",
+            "field_6_required": false,
+            "show_email_field": true,
+            "show_notes_field": true,
+            "notes_label": "Notas adicionales",
+            "notes_hint": "(colores, preferencias, peticiones especiales)",
+            "notes_placeholder": "Escribe aquí cualquier detalle extra que quieras en tu invitación…",
+            "show_custom_image_field": false
           }
         }
       },
       "block_order": [
-        "heading_tjAq8B",
-        "text_JFdnr7",
-        "button_Xcc3Ty"
-      ],
-      "name": "t:sections.rich-text.presets.name",
-      "settings": {
-        "desktop_content_position": "center",
-        "content_alignment": "center",
-        "color_scheme": "",
-        "full_width": true,
-        "padding_top": 40,
-        "padding_bottom": 52
-      }
+        "step-novios",
+        "step-evento",
+        "step-programa",
+        "step-extras",
+        "step-rsvp",
+        "step-contacto"
+      ]
     }
   },
-  "order": [
-    "main",
-    "rich_text_LcF8RN"
-  ]
+  "order": ["main", "form-clasic"]
 }
