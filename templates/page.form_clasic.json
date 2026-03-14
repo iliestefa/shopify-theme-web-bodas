@@ -113,6 +113,7 @@
             "notes_label": "Recepción — Hora",
             "notes_hint": "",
             "notes_placeholder": "19:30",
+            "notes_type": "time",
             "show_custom_image_field": true,
             "image_field_label": "Recepción — Link Google Maps"
           }

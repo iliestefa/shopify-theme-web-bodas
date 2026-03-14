@@ -3,9 +3,9 @@
 <style>
   #shopify-section-main { display: none; }
   #fc-root .fc-step-circle.active { background-color: #b85c38; border-color: #b85c38; color: #fff; }
-  #fc-root .fc-step-circle.done   { background-color: theme(colors.wb-sage); border-color: theme(colors.wb-sage); color: #fff; font-size: 12px; }
+  #fc-root .fc-step-circle.done   { background-color: #b85c38; border-color: #b85c38; color: #fff; font-size: 12px; }
   #fc-root .fc-step-label.active  { color: #b85c38; }
-  #fc-root .fc-step-label.done    { color: theme(colors.wb-sage); }
+  #fc-root .fc-step-label.done    { color: #b85c38; }
   #fc-root .fc-section-card       { display: none; }
   #fc-root .fc-section-card.visible{ display: block; }
   #fc-root .fc-success-screen     { display: none; }
@@ -28,6 +28,20 @@
   #fc-root input[type=tel]:focus,#fc-root input[type=time]:focus,
   #fc-root input[type=number]:focus,#fc-root select:focus,#fc-root textarea:focus {
     border-color: #b85c38; box-shadow: 0 0 0 3px rgba(184,92,56,.1); outline: none;
+  }
+  /* Prevent iOS zoom on focus (inputs must be ≥16px) */
+  #fc-root input, #fc-root select, #fc-root textarea { font-size: 16px !important; }
+  /* All inputs/selects must stay within container */
+  #fc-root input, #fc-root select, #fc-root textarea { max-width: 100%; box-sizing: border-box; }
+  /* input[type=time]: force full width on all browsers */
+  #fc-root input[type=time] { width: 100%; min-width: 0; }
+  /* Progress bar: hide labels on small screens */
+  @media (max-width: 480px) {
+    #fc-root .fc-step-label { display: none; }
+  }
+  /* Programa rows mobile: activity input takes full second line if needed */
+  @media (max-width: 480px) {
+    #fc-root [id^="fc-prog-list-"] input[name*="Actividad"] { flex-basis: 100%; }
   }
 </style>
 
@@ -59,16 +73,16 @@
     <div class="c-container py-5 flex items-center overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
     {%- for block in step_blocks -%}
       {%- assign idx = forloop.index0 -%}
-      <div class="flex items-center flex-1 min-w-22.5">
+      <div class="flex items-center flex-1 xs-down:min-w-8 min-w-22.5">
         <div class="fc-step-circle w-8 h-8 rounded-full bg-white border-2 border-wb-linen flex items-center justify-center text-[13px] font-medium text-wb-brown-soft shrink-0 transition-all duration-300{% if idx == 0 %} active{% endif %}" id="fc-dot-{{ idx }}">{{ forloop.index }}</div>
         <span class="fc-step-label text-[10px] tracking-wide uppercase text-wb-brown-soft whitespace-nowrap ml-2 font-medium{% if idx == 0 %} active{% endif %}" id="fc-lbl-{{ idx }}">{{ block.settings.step_label }}</span>
-        {%- unless forloop.last -%}<div class="flex-1 h-px bg-wb-linen mx-2.5"></div>{%- endunless -%}
+        {%- unless forloop.last -%}<div class="flex-1 h-px bg-wb-linen mx-1.5 xs-down:mx-1"></div>{%- endunless -%}
       </div>
     {%- endfor -%}
     </div>
   </div>
 
-  <main class="max-w-205 mx-auto px-6 py-13 pb-20">
+  <main class="max-w-205 mx-auto xs-down:px-2 px-6 py-13 pb-20">
 
     {%- form 'contact', id: 'FormClasic', novalidate: true -%}
 
@@ -103,7 +117,7 @@
             <div class="fc-section-card{% if step_idx == 0 %} visible{% endif %} bg-white rounded shadow-card mb-7 overflow-hidden" id="fc-step-{{ step_idx }}" {{ block.shopify_attributes }}>
 
               {{- '<!-- HEADER DEL PASO -->' -}}
-              <div class="px-9 pt-7 flex items-start gap-4 mb-7">
+              <div class="xs-down:px-4 px-9 pt-7 flex items-start gap-4 mb-7">
                 <div class="w-11 h-11 rounded bg-wb-blush-pale flex items-center justify-center text-xl shrink-0 mt-0.5">{{ block.settings.step_icon }}</div>
                 <div>
                   <h2 class="font-wb-serif text-[22px] font-bold text-wb-brown mb-1">{{ block.settings.step_title }}</h2>
@@ -113,7 +127,7 @@
                 </div>
               </div>
 
-              <div class="px-9 pb-9">
+              <div class="xs-down:px-4 px-9 pb-9">
 
                 {{- '<!-- PREVIEW STRIP -->' -}}
                 {%- if block.settings.preview_image != blank or block.settings.preview_label != blank -%}
@@ -161,7 +175,7 @@
                       <label class="text-[11px] font-medium tracking-[2px] uppercase text-wb-brown-mid">
                         Fecha de la boda <span class="text-wb-blush-deep ml-0.5">*</span>
                       </label>
-                      <div class="grid grid-cols-3 gap-3">
+                      <div class="grid grid-cols-3 xs-down:grid-cols-1 gap-3">
                         <select name="contact[Boda - Día]" required
                           class="w-full px-4 py-3 border border-wb-linen rounded-sm bg-wb-parchment text-[14px] font-light text-wb-brown transition-colors">
                           <option value="">Día</option>
@@ -417,9 +431,15 @@
                         {{ block.settings.notes_label }}
                         <span class="text-[10px] tracking-normal normal-case text-wb-brown-soft font-light ml-1.5">{{ block.settings.notes_hint }}</span>
                       </label>
-                      <textarea id="fc-notas_extra" name="contact[{{ block.settings.notes_label }}]"
-                        placeholder="{{ block.settings.notes_placeholder }}"
-                        class="w-full px-4 py-3 border border-wb-linen rounded-sm bg-wb-parchment text-[14px] font-light text-wb-brown placeholder-wb-brown-soft/60 resize-y min-h-22.5 leading-relaxed transition-colors"></textarea>
+                      {%- if block.settings.notes_type == 'time' -%}
+                        <input type="time" id="fc-notas_extra" name="contact[{{ block.settings.notes_label }}]"
+                          placeholder="{{ block.settings.notes_placeholder }}"
+                          class="w-full px-4 py-3 border border-wb-linen rounded-sm bg-wb-parchment font-light text-wb-brown transition-colors">
+                      {%- else -%}
+                        <textarea id="fc-notas_extra" name="contact[{{ block.settings.notes_label }}]"
+                          placeholder="{{ block.settings.notes_placeholder }}"
+                          class="w-full px-4 py-3 border border-wb-linen rounded-sm bg-wb-parchment text-[14px] font-light text-wb-brown placeholder-wb-brown-soft/60 resize-y min-h-22.5 leading-relaxed transition-colors"></textarea>
+                      {%- endif -%}
                     </div>
                   </div>
                 {%- endif -%}
@@ -450,20 +470,20 @@
                 {%- endif -%}
 
                 {{- '<!-- NAV -->' -}}
-                <div class="flex justify-between items-center pt-2 gap-3">
+                <div class="flex justify-between items-center pt-2 gap-3 xs-down:flex-wrap">
                   {%- if step_idx == 0 -%}
-                    <span class="text-[12px] text-wb-brown-soft tracking-wide">Paso {{ step_num }} de {{ total_steps }}</span>
+                    <span class="text-[12px] text-wb-brown-soft tracking-wide xs-down:hidden">Paso {{ step_num }} de {{ total_steps }}</span>
                   {%- else -%}
-                    <button type="button" class="font-body text-[12px] font-medium tracking-[2.5px] uppercase py-3.75 px-9 rounded-sm cursor-pointer bg-wb-parchment text-wb-brown-mid border border-wb-linen hover:bg-wb-blush-pale transition-all" onclick="fcGoTo({{ step_idx | minus: 1 }})">← Atrás</button>
-                    <span class="text-[12px] text-wb-brown-soft tracking-wide">Paso {{ step_num }} de {{ total_steps }}</span>
+                    <button type="button" class="font-body text-[12px] font-medium tracking-[2.5px] uppercase py-3.75 px-9 xs-down:flex-1 rounded-sm cursor-pointer bg-wb-parchment text-wb-brown-mid border border-wb-linen hover:bg-wb-blush-pale transition-all" onclick="fcGoTo({{ step_idx | minus: 1 }})">← Atrás</button>
+                    <span class="text-[12px] text-wb-brown-soft tracking-wide xs-down:hidden">Paso {{ step_num }} de {{ total_steps }}</span>
                   {%- endif -%}
 
                   {%- if is_last -%}
-                    <button type="submit" class="ml-auto font-body text-[12px] font-medium tracking-[2.5px] uppercase py-4 px-13 rounded-sm cursor-pointer border-none text-white transition-all hover:bg-wb-brown" style="background:#b85c38">
+                    <button type="submit" class="xs-down:flex-1 ml-auto font-body text-[12px] font-medium tracking-[2.5px] uppercase py-4 px-13 rounded-sm cursor-pointer border-none text-white transition-all hover:bg-wb-brown" style="background:#b85c38">
                       {{ section.settings.submit_label }}
                     </button>
                   {%- else -%}
-                    <button type="button" class="fc-btn-next relative overflow-hidden ml-auto font-body text-[12px] font-medium tracking-[2.5px] uppercase py-3.75 px-9 rounded-sm cursor-pointer border-none bg-wb-brown text-wb-gold-pale transition-all" onclick="fcGoTo({{ step_idx | plus: 1 }})">
+                    <button type="button" class="fc-btn-next xs-down:flex-1 relative overflow-hidden ml-auto font-body text-[12px] font-medium tracking-[2.5px] uppercase py-3.75 px-9 rounded-sm cursor-pointer border-none bg-wb-brown text-wb-gold-pale transition-all" onclick="fcGoTo({{ step_idx | plus: 1 }})">
                       <span class="relative z-10">{{ section.settings.next_label }}</span>
                     </button>
                   {%- endif -%}
@@ -512,11 +532,11 @@
     var id = 'fcp-' + blockId + '-' + (fcProgId++);
     var div = document.createElement('div');
     div.id = id;
-    div.className = 'flex items-center gap-2.5 mb-2.5 p-3 border border-wb-linen rounded-sm bg-wb-parchment';
+    div.className = 'flex flex-wrap items-center gap-2 mb-2.5 p-3 border border-wb-linen rounded-sm bg-wb-parchment';
     div.innerHTML =
-      '<input type="time" name="contact[Programa - Hora][]" value="' + (row.h || '') + '" class="w-24 shrink-0 px-3 py-2 border border-wb-linen rounded-sm bg-white text-[14px] font-light text-wb-brown transition-colors">' +
-      '<input type="text" name="contact[Programa - Emoji][]" value="' + (row.e || '') + '" placeholder="🎉" class="w-12 shrink-0 px-2 py-2 border border-wb-linen rounded-sm bg-white text-[18px] text-center transition-colors">' +
-      '<input type="text" name="contact[Programa - Actividad][]" value="' + (row.a || '') + '" placeholder="Nombre de la actividad" class="flex-1 px-3 py-2 border border-wb-linen rounded-sm bg-white text-[14px] font-light text-wb-brown placeholder-wb-brown-soft/60 transition-colors">' +
+      '<input type="time" name="contact[Programa - Hora][]" value="' + (row.h || '') + '" class="shrink-0 px-2 py-2 border border-wb-linen rounded-sm bg-white font-light text-wb-brown transition-colors" style="font-size:16px;width:130px;min-width:0">' +
+      '<input type="text" name="contact[Programa - Emoji][]" value="' + (row.e || '') + '" placeholder="🎉" class="shrink-0 px-2 py-2 border border-wb-linen rounded-sm bg-white text-center transition-colors" style="font-size:16px;width:40px">' +
+      '<input type="text" name="contact[Programa - Actividad][]" value="' + (row.a || '') + '" placeholder="Actividad" class="flex-1 min-w-0 px-3 py-2 border border-wb-linen rounded-sm bg-white font-light text-wb-brown transition-colors" style="font-size:16px">' +
       '<button type="button" onclick="fcRemProg(\'' + id + '\')" class="w-8 h-8 shrink-0 flex items-center justify-center rounded-full border border-wb-linen bg-transparent text-wb-brown-soft text-lg cursor-pointer hover:border-red-400 hover:text-red-400 transition-colors">×</button>';
     list.appendChild(div);
   };
@@ -694,6 +714,7 @@
         { "type": "text",     "id": "notes_label",            "label": "Etiqueta del campo Notas",  "default": "Notas adicionales" },
         { "type": "text",     "id": "notes_hint",             "label": "Hint del campo Notas",      "default": "(colores, preferencias, peticiones especiales)" },
         { "type": "text",     "id": "notes_placeholder",      "label": "Placeholder del campo Notas", "default": "Escribe aquí cualquier detalle extra..." },
+        { "type": "select",   "id": "notes_type",             "label": "Tipo del campo Notas", "options": [{ "value": "textarea", "label": "Texto largo" }, { "value": "time", "label": "Hora" }], "default": "textarea" },
         { "type": "checkbox", "id": "show_custom_image_field","label": "Mostrar campo URL de imagen personalizada",       "default": false },
         { "type": "text",     "id": "image_field_label",      "label": "Etiqueta del campo imagen", "default": "Imagen personalizada" }
       ]
