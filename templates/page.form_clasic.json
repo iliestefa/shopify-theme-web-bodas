@@ -22,6 +22,7 @@
         "step-novios": {
           "type": "step",
           "settings": {
+            "step_type": "novios",
             "step_label": "Novios",
             "step_icon": "💍",
             "step_title": "Los Novios & Fecha",
@@ -35,19 +36,6 @@
             "field_2_placeholder": "Ej: Gabriel",
             "field_2_type": "text",
             "field_2_required": true,
-            "field_3_label": "Día de la boda",
-            "field_3_placeholder": "18",
-            "field_3_type": "number",
-            "field_3_required": true,
-            "field_4_label": "Mes de la boda",
-            "field_4_placeholder": "",
-            "field_4_type": "select",
-            "field_4_options": "Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre",
-            "field_4_required": true,
-            "field_5_label": "Año de la boda",
-            "field_5_placeholder": "2026",
-            "field_5_type": "number",
-            "field_5_required": true,
             "field_6_label": "Frase de bienvenida",
             "field_6_placeholder": "Ej: Estamos muy felices de invitarte a nuestra boda",
             "field_6_type": "text",
@@ -104,11 +92,15 @@
         "step-programa": {
           "type": "step",
           "settings": {
+            "step_type": "programa",
             "step_label": "Programa",
             "step_icon": "📋",
             "step_title": "Programa del Día",
             "step_desc": "Lista de actividades ordenadas por hora. Aparecen en la sección Programa.",
             "preview_label": "Aparece en: Sección Programa — actividades ordenadas por hora",
+            "show_email_field": false,
+            "show_notes_field": false,
+            "show_custom_image_field": false,
             "field_1_label": "Actividad 1",
             "field_1_placeholder": "Ej: ⛪ 17:00 Misa",
             "field_1_type": "text",
@@ -132,10 +124,7 @@
             "field_6_label": "Actividades adicionales",
             "field_6_placeholder": "Ej: 🍽️ 22:00 Cena · 🎉 00:30 Baile · 🪅 01:30 Piñata",
             "field_6_type": "textarea",
-            "field_6_required": false,
-            "show_email_field": false,
-            "show_notes_field": false,
-            "show_custom_image_field": false
+            "field_6_required": false
           }
         },
         "step-extras": {
@@ -258,14 +247,7 @@
           }
         }
       },
-      "block_order": [
-        "step-novios",
-        "step-evento",
-        "step-programa",
-        "step-extras",
-        "step-rsvp",
-        "step-contacto"
-      ]
+      "block_order": ["step-novios", "step-evento", "step-programa", "step-extras", "step-rsvp", "step-contacto"]
     }
   },
   "order": ["main", "form-clasic"]
