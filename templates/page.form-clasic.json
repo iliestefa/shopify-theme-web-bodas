@@ -1,5 +1,9 @@
 {
   "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {}
+    },
     "form-clasic": {
       "type": "form-clasic",
       "settings": {
@@ -264,5 +268,5 @@
       ]
     }
   },
-  "order": ["form-clasic"]
+  "order": ["main", "form-clasic"]
 }
