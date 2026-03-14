@@ -1,0 +1,576 @@
+{% comment %} ── FORM CLÁSIC · Formulario personalización invitación de boda (v2 — blocks) ── {% endcomment %}
+
+<style>
+  #fc-root .fc-step-circle.active { background-color: #b85c38; border-color: #b85c38; color: #fff; }
+  #fc-root .fc-step-circle.done   { background-color: theme(colors.wb-sage); border-color: theme(colors.wb-sage); color: #fff; font-size: 12px; }
+  #fc-root .fc-step-label.active  { color: #b85c38; }
+  #fc-root .fc-step-label.done    { color: theme(colors.wb-sage); }
+  #fc-root .fc-section-card       { display: none; }
+  #fc-root .fc-section-card.visible{ display: block; }
+  #fc-root .fc-success-screen     { display: none; }
+  #fc-root .fc-success-screen.show{ display: block; }
+  #fc-root .fc-img-thumb          { display: none; }
+  #fc-root .fc-img-thumb.show     { display: block; }
+  #fc-root .fc-tg input[type=radio]{ display: none; }
+  #fc-root .fc-tg input:checked + label { background-color: #b85c38; border-color: #b85c38; color: #fff; }
+  #fc-root .fc-btn-next::after    { content:''; position:absolute; inset:0; background:#b85c38; transform:translateX(-100%); transition:transform .3s; }
+  #fc-root .fc-btn-next:hover::after { transform:translateX(0); }
+  #fc-root .fc-error-banner       { display: none; }
+  #fc-root .fc-error-banner.show  { display: block; }
+  @keyframes fc-spin-in { from{transform:scale(0) rotate(-20deg);opacity:0;} to{transform:scale(1) rotate(0);opacity:1;} }
+  #fc-root .fc-success-rings      { animation: fc-spin-in .6s ease; }
+  #fc-root select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 4.5L11 1' stroke='%237a5c4a' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 14px center; padding-right: 38px; cursor: pointer; -webkit-appearance: none;
+  }
+  #fc-root input[type=text]:focus,#fc-root input[type=email]:focus,#fc-root input[type=url]:focus,
+  #fc-root input[type=tel]:focus,#fc-root input[type=time]:focus,#fc-root input[type=date]:focus,
+  #fc-root input[type=number]:focus,#fc-root select:focus,#fc-root textarea:focus {
+    border-color: #b85c38; box-shadow: 0 0 0 3px rgba(184,92,56,.1); outline: none;
+  }
+</style>
+
+{%- liquid
+  assign step_blocks = section.blocks | where: 'type', 'step'
+  assign total_steps = step_blocks.size
+-%}
+
+<div id="fc-root" class="bg-wb-parchment font-body text-wb-brown">
+
+  {{- '<!-- TOPBAR -->' -}}
+  <div class="bg-wb-brown px-10 flex items-center justify-between h-14">
+    <span class="font-wb-serif italic text-wb-gold text-lg tracking-wide">{{ section.settings.topbar_brand }}</span>
+    <span class="text-[11px] tracking-[3px] uppercase text-wb-gold opacity-50">{{ section.settings.topbar_tag }}</span>
+  </div>
+
+  {{- '<!-- HERO -->' -}}
+  <section class="bg-wb-brown py-[70px] px-10 text-center relative overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 70% 60% at 20% 100%,rgba(184,92,56,.18) 0%,transparent 60%),radial-gradient(ellipse 50% 70% at 85% 20%,rgba(200,164,110,.14) 0%,transparent 60%)"></div>
+    <p class="text-[11px] tracking-[5px] uppercase text-wb-gold opacity-75 mb-4 relative" id="fc-heroSup">Paso 1 de {{ total_steps }} · Personalización</p>
+    <h1 class="font-wb-serif font-normal text-white leading-tight relative" style="font-size:clamp(36px,6vw,64px)">
+      {{ section.settings.hero_title }}
+      <em class="text-wb-gold block italic" style="font-size:.72em;margin-top:4px">{{ section.settings.hero_subtitle }}</em>
+    </h1>
+    <div class="flex items-center justify-center gap-3.5 my-6 mx-auto w-fit relative">
+      <span class="block h-px w-16" style="background:linear-gradient(90deg,transparent,theme(colors.wb-gold),transparent)"></span>
+      <span class="block w-2 h-2 bg-wb-gold rotate-45"></span>
+      <span class="block h-px w-16" style="background:linear-gradient(90deg,transparent,theme(colors.wb-gold),transparent)"></span>
+    </div>
+    <p class="relative text-white/60 text-[15px] leading-relaxed max-w-[520px] mx-auto">{{ section.settings.hero_desc }}</p>
+  </section>
+
+  {{- '<!-- PROGRESS BAR -->' -}}
+  <div class="bg-wb-blush-pale px-10 py-5 flex items-center overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" id="fc-progressBar">
+    {%- for block in step_blocks -%}
+      {%- assign idx = forloop.index0 -%}
+      <div class="flex items-center flex-1 min-w-[90px]">
+        <div class="fc-step-circle w-8 h-8 rounded-full bg-white border-2 border-wb-linen flex items-center justify-center text-[13px] font-medium text-wb-brown-soft shrink-0 transition-all duration-300{% if idx == 0 %} active{% endif %}" id="fc-dot-{{ idx }}">{{ forloop.index }}</div>
+        <span class="fc-step-label text-[10px] tracking-wide uppercase text-wb-brown-soft whitespace-nowrap ml-2 font-medium{% if idx == 0 %} active{% endif %}" id="fc-lbl-{{ idx }}">{{ block.settings.step_label }}</span>
+        {%- unless forloop.last -%}<div class="flex-1 h-px bg-wb-linen mx-2.5"></div>{%- endunless -%}
+      </div>
+    {%- endfor -%}
+  </div>
+
+  <main class="max-w-[820px] mx-auto px-6 py-[52px] pb-20">
+
+    {%- form 'contact', id: 'FormClasic', novalidate: true -%}
+
+      {%- if form.posted_successfully? -%}
+        <div class="fc-success-screen show text-center py-20 px-10 bg-white rounded shadow-card">
+          <span class="fc-success-rings text-5xl mb-6 block">💌</span>
+          <h2 class="font-wb-serif text-4xl font-normal text-wb-brown mb-2">{{ section.settings.success_title }}</h2>
+          <div class="flex items-center justify-center gap-3.5 my-5 mx-auto w-fit">
+            <span class="block h-px w-16" style="background:linear-gradient(90deg,transparent,theme(colors.wb-gold),transparent)"></span>
+            <span class="block w-2 h-2 bg-wb-gold rotate-45"></span>
+            <span class="block h-px w-16" style="background:linear-gradient(90deg,transparent,theme(colors.wb-gold),transparent)"></span>
+          </div>
+          <p class="text-wb-brown-mid text-[15px] leading-relaxed max-w-[440px] mx-auto mb-2">{{ section.settings.success_body }}</p>
+          <p class="mt-6 font-wb-serif text-[22px] italic" style="color:#b85c38">{{ section.settings.success_sign }}</p>
+        </div>
+
+      {%- else -%}
+
+        {%- if form.errors -%}
+          <div class="fc-error-banner show bg-wb-blush-pale border border-wb-blush-deep rounded px-4 py-3 text-[13px] text-wb-brown mb-5">
+            ⚠️ Por favor revisa los campos marcados e intenta de nuevo. Asegúrate de ingresar un correo electrónico válido.
+          </div>
+        {%- endif -%}
+
+        <div id="fc-mainForm">
+
+          {%- for block in step_blocks -%}
+            {%- assign step_idx = forloop.index0 -%}
+            {%- assign is_last  = forloop.last -%}
+            {%- assign step_num = forloop.index -%}
+
+            <div class="fc-section-card{% if step_idx == 0 %} visible{% endif %} bg-white rounded shadow-card mb-7 overflow-hidden" id="fc-step-{{ step_idx }}" {{ block.shopify_attributes }}>
+
+              {{- '<!-- HEADER DEL PASO -->' -}}
+              <div class="px-9 pt-7 flex items-start gap-4 mb-7">
+                <div class="w-11 h-11 rounded bg-wb-blush-pale flex items-center justify-center text-xl shrink-0 mt-0.5">{{ block.settings.step_icon }}</div>
+                <div>
+                  <h2 class="font-wb-serif text-[22px] font-bold text-wb-brown mb-1">{{ block.settings.step_title }}</h2>
+                  {%- if block.settings.step_desc != blank -%}
+                    <p class="text-[13px] text-wb-brown-soft leading-relaxed">{{ block.settings.step_desc }}</p>
+                  {%- endif -%}
+                </div>
+              </div>
+
+              <div class="px-9 pb-9">
+
+                {{- '<!-- PREVIEW STRIP -->' -}}
+                {%- if block.settings.preview_image != blank or block.settings.preview_label != blank -%}
+                  <div class="rounded mb-5 overflow-hidden border border-wb-linen">
+                    {%- if block.settings.preview_image != blank -%}
+                      {%- assign preview_alt = block.settings.step_title | escape -%}
+                      {%- render 'image', image: block.settings.preview_image, class: 'w-full max-h-[200px] object-cover object-top block', alt: preview_alt, max_width: 820 -%}
+                    {%- else -%}
+                      <div class="w-full h-27.5 flex items-center justify-center" style="background:linear-gradient(135deg,#1a1410 0%,#2d1f16 100%)">
+                        <span class="text-white/25 text-[12px] tracking-[3px] uppercase">{{ block.settings.step_icon }} {{ block.settings.step_title | upcase }}</span>
+                      </div>
+                    {%- endif -%}
+                    {%- if block.settings.preview_label != blank -%}
+                      <div class="px-4 py-2.5" style="background:linear-gradient(135deg,#1a1410 0%,#2d1f16 100%)">
+                        <span class="text-[12px] text-wb-gold-pale opacity-85">{{ block.settings.preview_label }}</span>
+                      </div>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+
+                {{- '<!-- CAMPOS ESTÁTICOS DEL PASO -->' -}}
+                {%- if block.settings.field_1_label != blank -%}
+                  <div class="mb-5">
+                    <div class="flex flex-col gap-1.5">
+                      <label class="text-[11px] font-medium tracking-[2px] uppercase text-wb-brown-mid" for="fc-{{ block.id }}-f1">
+                        {{ block.settings.field_1_label }}
+                        {%- if block.settings.field_1_required -%}<span class="text-wb-blush-deep ml-0.5">*</span>{%- endif -%}
+                      </label>
+                      {%- if block.settings.field_1_type == 'textarea' -%}
+                        <textarea id="fc-{{ block.id }}-f1" name="contact[{{ block.settings.field_1_label }}]"
+                          placeholder="{{ block.settings.field_1_placeholder }}"
+                          {% if block.settings.field_1_required %}required{% endif %}
+                          class="w-full px-4 py-3 border border-wb-linen rounded-sm bg-wb-parchment text-[14px] font-light text-wb-brown placeholder-wb-brown-soft/60 resize-y min-h-20 leading-relaxed transition-colors"></textarea>
+                      {%- elsif block.settings.field_1_type == 'select' -%}
+                        <select id="fc-{{ block.id }}-f1" name="contact[{{ block.settings.field_1_label }}]"
+                          {% if block.settings.field_1_required %}required{% endif %}
+                          class="w-full px-4 py-3 border border-wb-linen rounded-sm bg-wb-parchment text-[14px] font-light text-wb-brown transition-colors">
+                          <option value="">Selecciona…</option>
+                          {%- assign opts = block.settings.field_1_options | split: ',' -%}
+                          {%- for opt in opts -%}<option>{{ opt | strip }}</option>{%- endfor -%}
+                        </select>
+                      {%- else -%}
+                        <input type="{{ block.settings.field_1_type }}" id="fc-{{ block.id }}-f1" name="contact[{{ block.settings.field_1_label }}]"
+                          placeholder="{{ block.settings.field_1_placeholder }}"
+                          {% if block.settings.field_1_required %}required{% endif %}
+                          class="w-full px-4 py-3 border border-wb-linen rounded-sm bg-wb-parchment text-[14px] font-light text-wb-brown placeholder-wb-brown-soft/60 transition-colors">
+                      {%- endif -%}
+                    </div>
+                  </div>
+                {%- endif -%}
+
+                {%- if block.settings.field_2_label != blank -%}
+                  <div class="mb-5">
+                    <div class="flex flex-col gap-1.5">
+                      <label class="text-[11px] font-medium tracking-[2px] uppercase text-wb-brown-mid" for="fc-{{ block.id }}-f2">
+                        {{ block.settings.field_2_label }}
+                        {%- if block.settings.field_2_required -%}<span class="text-wb-blush-deep ml-0.5">*</span>{%- endif -%}
+                      </label>
+                      {%- if block.settings.field_2_type == 'textarea' -%}
+                        <textarea id="fc-{{ block.id }}-f2" name="contact[{{ block.settings.field_2_label }}]"
+                          placeholder="{{ block.settings.field_2_placeholder }}"
+                          {% if block.settings.field_2_required %}required{% endif %}
+                          class="w-full px-4 py-3 border border-wb-linen rounded-sm bg-wb-parchment text-[14px] font-light text-wb-brown placeholder-wb-brown-soft/60 resize-y min-h-20 leading-relaxed transition-colors"></textarea>
+                      {%- elsif block.settings.field_2_type == 'select' -%}
+                        <select id="fc-{{ block.id }}-f2" name="contact[{{ block.settings.field_2_label }}]"
+                          {% if block.settings.field_2_required %}required{% endif %}
+                          class="w-full px-4 py-3 border border-wb-linen rounded-sm bg-wb-parchment text-[14px] font-light text-wb-brown transition-colors">
+                          <option value="">Selecciona…</option>
+                          {%- assign opts2 = block.settings.field_2_options | split: ',' -%}
+                          {%- for opt in opts2 -%}<option>{{ opt | strip }}</option>{%- endfor -%}
+                        </select>
+                      {%- else -%}
+                        <input type="{{ block.settings.field_2_type }}" id="fc-{{ block.id }}-f2" name="contact[{{ block.settings.field_2_label }}]"
+                          placeholder="{{ block.settings.field_2_placeholder }}"
+                          {% if block.settings.field_2_required %}required{% endif %}
+                          class="w-full px-4 py-3 border border-wb-linen rounded-sm bg-wb-parchment text-[14px] font-light text-wb-brown placeholder-wb-brown-soft/60 transition-colors">
+                      {%- endif -%}
+                    </div>
+                  </div>
+                {%- endif -%}
+
+                {%- if block.settings.field_3_label != blank -%}
+                  <div class="mb-5">
+                    <div class="flex flex-col gap-1.5">
+                      <label class="text-[11px] font-medium tracking-[2px] uppercase text-wb-brown-mid" for="fc-{{ block.id }}-f3">
+                        {{ block.settings.field_3_label }}
+                        {%- if block.settings.field_3_required -%}<span class="text-wb-blush-deep ml-0.5">*</span>{%- endif -%}
+                      </label>
+                      {%- if block.settings.field_3_type == 'textarea' -%}
+                        <textarea id="fc-{{ block.id }}-f3" name="contact[{{ block.settings.field_3_label }}]"
+                          placeholder="{{ block.settings.field_3_placeholder }}"
+                          {% if block.settings.field_3_required %}required{% endif %}
+                          class="w-full px-4 py-3 border border-wb-linen rounded-sm bg-wb-parchment text-[14px] font-light text-wb-brown placeholder-wb-brown-soft/60 resize-y min-h-20 leading-relaxed transition-colors"></textarea>
+                      {%- elsif block.settings.field_3_type == 'select' -%}
+                        <select id="fc-{{ block.id }}-f3" name="contact[{{ block.settings.field_3_label }}]"
+                          {% if block.settings.field_3_required %}required{% endif %}
+                          class="w-full px-4 py-3 border border-wb-linen rounded-sm bg-wb-parchment text-[14px] font-light text-wb-brown transition-colors">
+                          <option value="">Selecciona…</option>
+                          {%- assign opts3 = block.settings.field_3_options | split: ',' -%}
+                          {%- for opt in opts3 -%}<option>{{ opt | strip }}</option>{%- endfor -%}
+                        </select>
+                      {%- else -%}
+                        <input type="{{ block.settings.field_3_type }}" id="fc-{{ block.id }}-f3" name="contact[{{ block.settings.field_3_label }}]"
+                          placeholder="{{ block.settings.field_3_placeholder }}"
+                          {% if block.settings.field_3_required %}required{% endif %}
+                          class="w-full px-4 py-3 border border-wb-linen rounded-sm bg-wb-parchment text-[14px] font-light text-wb-brown placeholder-wb-brown-soft/60 transition-colors">
+                      {%- endif -%}
+                    </div>
+                  </div>
+                {%- endif -%}
+
+                {%- if block.settings.field_4_label != blank -%}
+                  <div class="mb-5">
+                    <div class="flex flex-col gap-1.5">
+                      <label class="text-[11px] font-medium tracking-[2px] uppercase text-wb-brown-mid" for="fc-{{ block.id }}-f4">
+                        {{ block.settings.field_4_label }}
+                        {%- if block.settings.field_4_required -%}<span class="text-wb-blush-deep ml-0.5">*</span>{%- endif -%}
+                      </label>
+                      {%- if block.settings.field_4_type == 'textarea' -%}
+                        <textarea id="fc-{{ block.id }}-f4" name="contact[{{ block.settings.field_4_label }}]"
+                          placeholder="{{ block.settings.field_4_placeholder }}"
+                          {% if block.settings.field_4_required %}required{% endif %}
+                          class="w-full px-4 py-3 border border-wb-linen rounded-sm bg-wb-parchment text-[14px] font-light text-wb-brown placeholder-wb-brown-soft/60 resize-y min-h-20 leading-relaxed transition-colors"></textarea>
+                      {%- elsif block.settings.field_4_type == 'select' -%}
+                        <select id="fc-{{ block.id }}-f4" name="contact[{{ block.settings.field_4_label }}]"
+                          {% if block.settings.field_4_required %}required{% endif %}
+                          class="w-full px-4 py-3 border border-wb-linen rounded-sm bg-wb-parchment text-[14px] font-light text-wb-brown transition-colors">
+                          <option value="">Selecciona…</option>
+                          {%- assign opts4 = block.settings.field_4_options | split: ',' -%}
+                          {%- for opt in opts4 -%}<option>{{ opt | strip }}</option>{%- endfor -%}
+                        </select>
+                      {%- else -%}
+                        <input type="{{ block.settings.field_4_type }}" id="fc-{{ block.id }}-f4" name="contact[{{ block.settings.field_4_label }}]"
+                          placeholder="{{ block.settings.field_4_placeholder }}"
+                          {% if block.settings.field_4_required %}required{% endif %}
+                          class="w-full px-4 py-3 border border-wb-linen rounded-sm bg-wb-parchment text-[14px] font-light text-wb-brown placeholder-wb-brown-soft/60 transition-colors">
+                      {%- endif -%}
+                    </div>
+                  </div>
+                {%- endif -%}
+
+                {%- if block.settings.field_5_label != blank -%}
+                  <div class="mb-5">
+                    <div class="flex flex-col gap-1.5">
+                      <label class="text-[11px] font-medium tracking-[2px] uppercase text-wb-brown-mid" for="fc-{{ block.id }}-f5">
+                        {{ block.settings.field_5_label }}
+                        {%- if block.settings.field_5_required -%}<span class="text-wb-blush-deep ml-0.5">*</span>{%- endif -%}
+                      </label>
+                      {%- if block.settings.field_5_type == 'textarea' -%}
+                        <textarea id="fc-{{ block.id }}-f5" name="contact[{{ block.settings.field_5_label }}]"
+                          placeholder="{{ block.settings.field_5_placeholder }}"
+                          {% if block.settings.field_5_required %}required{% endif %}
+                          class="w-full px-4 py-3 border border-wb-linen rounded-sm bg-wb-parchment text-[14px] font-light text-wb-brown placeholder-wb-brown-soft/60 resize-y min-h-20 leading-relaxed transition-colors"></textarea>
+                      {%- elsif block.settings.field_5_type == 'select' -%}
+                        <select id="fc-{{ block.id }}-f5" name="contact[{{ block.settings.field_5_label }}]"
+                          {% if block.settings.field_5_required %}required{% endif %}
+                          class="w-full px-4 py-3 border border-wb-linen rounded-sm bg-wb-parchment text-[14px] font-light text-wb-brown transition-colors">
+                          <option value="">Selecciona…</option>
+                          {%- assign opts5 = block.settings.field_5_options | split: ',' -%}
+                          {%- for opt in opts5 -%}<option>{{ opt | strip }}</option>{%- endfor -%}
+                        </select>
+                      {%- else -%}
+                        <input type="{{ block.settings.field_5_type }}" id="fc-{{ block.id }}-f5" name="contact[{{ block.settings.field_5_label }}]"
+                          placeholder="{{ block.settings.field_5_placeholder }}"
+                          {% if block.settings.field_5_required %}required{% endif %}
+                          class="w-full px-4 py-3 border border-wb-linen rounded-sm bg-wb-parchment text-[14px] font-light text-wb-brown placeholder-wb-brown-soft/60 transition-colors">
+                      {%- endif -%}
+                    </div>
+                  </div>
+                {%- endif -%}
+
+                {%- if block.settings.field_6_label != blank -%}
+                  <div class="mb-5">
+                    <div class="flex flex-col gap-1.5">
+                      <label class="text-[11px] font-medium tracking-[2px] uppercase text-wb-brown-mid" for="fc-{{ block.id }}-f6">
+                        {{ block.settings.field_6_label }}
+                        {%- if block.settings.field_6_required -%}<span class="text-wb-blush-deep ml-0.5">*</span>{%- endif -%}
+                      </label>
+                      {%- if block.settings.field_6_type == 'textarea' -%}
+                        <textarea id="fc-{{ block.id }}-f6" name="contact[{{ block.settings.field_6_label }}]"
+                          placeholder="{{ block.settings.field_6_placeholder }}"
+                          {% if block.settings.field_6_required %}required{% endif %}
+                          class="w-full px-4 py-3 border border-wb-linen rounded-sm bg-wb-parchment text-[14px] font-light text-wb-brown placeholder-wb-brown-soft/60 resize-y min-h-20 leading-relaxed transition-colors"></textarea>
+                      {%- elsif block.settings.field_6_type == 'select' -%}
+                        <select id="fc-{{ block.id }}-f6" name="contact[{{ block.settings.field_6_label }}]"
+                          {% if block.settings.field_6_required %}required{% endif %}
+                          class="w-full px-4 py-3 border border-wb-linen rounded-sm bg-wb-parchment text-[14px] font-light text-wb-brown transition-colors">
+                          <option value="">Selecciona…</option>
+                          {%- assign opts6 = block.settings.field_6_options | split: ',' -%}
+                          {%- for opt in opts6 -%}<option>{{ opt | strip }}</option>{%- endfor -%}
+                        </select>
+                      {%- else -%}
+                        <input type="{{ block.settings.field_6_type }}" id="fc-{{ block.id }}-f6" name="contact[{{ block.settings.field_6_label }}]"
+                          placeholder="{{ block.settings.field_6_placeholder }}"
+                          {% if block.settings.field_6_required %}required{% endif %}
+                          class="w-full px-4 py-3 border border-wb-linen rounded-sm bg-wb-parchment text-[14px] font-light text-wb-brown placeholder-wb-brown-soft/60 transition-colors">
+                      {%- endif -%}
+                    </div>
+                  </div>
+                {%- endif -%}
+
+                {{- '<!-- CAMPO EMAIL ESPECIAL (solo si el bloque tiene email_field activado) -->' -}}
+                {%- if block.settings.show_email_field -%}
+                  <div class="mb-5">
+                    <div class="flex flex-col gap-1.5">
+                      <label class="text-[11px] font-medium tracking-[2px] uppercase text-wb-brown-mid" for="ContactForm-email">
+                        Correo electrónico <span class="text-wb-blush-deep ml-0.5">*</span>
+                      </label>
+                      <input type="email" id="ContactForm-email" name="contact[email]" autocomplete="email" spellcheck="false" autocapitalize="off"
+                        placeholder="tu@correo.com"
+                        value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+                        aria-required="true"
+                        {% if form.errors contains 'email' %}aria-invalid="true"{% endif %} required
+                        class="w-full px-4 py-3 border border-wb-linen rounded-sm bg-wb-parchment text-[14px] font-light text-wb-brown placeholder-wb-brown-soft/60 transition-colors">
+                      {%- if form.errors contains 'email' -%}
+                        <span class="text-[12px]" style="color:#b85c38">{{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}</span>
+                      {%- endif -%}
+                    </div>
+                  </div>
+                {%- endif -%}
+
+                {{- '<!-- CAMPO NOTAS EXTRA -->' -}}
+                {%- if block.settings.show_notes_field -%}
+                  <div class="mb-5">
+                    <div class="flex flex-col gap-1.5">
+                      <label class="text-[11px] font-medium tracking-[2px] uppercase text-wb-brown-mid" for="fc-notas_extra">
+                        {{ block.settings.notes_label }}
+                        <span class="text-[10px] tracking-normal normal-case text-wb-brown-soft font-light ml-1.5">{{ block.settings.notes_hint }}</span>
+                      </label>
+                      <textarea id="fc-notas_extra" name="contact[{{ block.settings.notes_label }}]"
+                        placeholder="{{ block.settings.notes_placeholder }}"
+                        class="w-full px-4 py-3 border border-wb-linen rounded-sm bg-wb-parchment text-[14px] font-light text-wb-brown placeholder-wb-brown-soft/60 resize-y min-h-22.5 leading-relaxed transition-colors"></textarea>
+                    </div>
+                  </div>
+                {%- endif -%}
+
+                {{- '<!-- IMAGEN PERSONALIZABLE DEL BLOQUE (con preview) -->' -}}
+                {%- if block.settings.show_custom_image_field -%}
+                  <div class="mb-5">
+                    <div class="flex flex-col gap-1.5">
+                      <label class="text-[11px] font-medium tracking-[2px] uppercase text-wb-brown-mid" for="fc-{{ block.id }}-img">
+                        {{ block.settings.image_field_label }}
+                        <span class="text-[10px] tracking-normal normal-case text-wb-brown-soft font-light ml-1.5">(link URL — opcional)</span>
+                      </label>
+                      <div class="grid gap-2.5 items-center" style="grid-template-columns:1fr auto">
+                        <input type="url" id="fc-{{ block.id }}-img" name="contact[{{ block.settings.image_field_label }}]"
+                          placeholder="https://…" oninput="fcPrevImg(this,'fc-th-{{ block.id }}')"
+                          class="w-full px-4 py-3 border border-wb-linen rounded-sm bg-wb-parchment text-[14px] font-light text-wb-brown placeholder-wb-brown-soft/60 transition-colors">
+                        <img id="fc-th-{{ block.id }}" class="fc-img-thumb w-14 h-14 rounded-sm border border-wb-linen object-cover bg-wb-blush-pale" width="56" height="56" loading="lazy" alt="">
+                      </div>
+                      <span class="text-[11px] text-wb-brown-soft leading-relaxed mt-1">💡 Sube tu foto a Google Drive o Imgur y pega el link directo.</span>
+                    </div>
+                  </div>
+                {%- endif -%}
+
+                {{- '<!-- HIDDEN PARA EL PASO ACTUAL -->' -}}
+                {%- if is_last -%}
+                  <input type="hidden" name="contact[Nombre]" id="fc-contact-name-hidden">
+                {%- endif -%}
+
+                {{- '<!-- NAV -->' -}}
+                <div class="flex justify-between items-center pt-2 gap-3">
+                  {%- if step_idx == 0 -%}
+                    <span class="text-[12px] text-wb-brown-soft tracking-wide">Paso {{ step_num }} de {{ total_steps }}</span>
+                  {%- else -%}
+                    <button type="button" class="font-body text-[12px] font-medium tracking-[2.5px] uppercase py-3.75 px-9 rounded-sm cursor-pointer bg-wb-parchment text-wb-brown-mid border border-wb-linen hover:bg-wb-blush-pale transition-all" onclick="fcGoTo({{ step_idx | minus: 1 }})">← Atrás</button>
+                    <span class="text-[12px] text-wb-brown-soft tracking-wide">Paso {{ step_num }} de {{ total_steps }}</span>
+                  {%- endif -%}
+
+                  {%- if is_last -%}
+                    <button type="submit" class="ml-auto font-body text-[12px] font-medium tracking-[2.5px] uppercase py-4 px-13 rounded-sm cursor-pointer border-none text-white transition-all hover:bg-wb-brown" style="background:#b85c38">
+                      {{ section.settings.submit_label }}
+                    </button>
+                  {%- else -%}
+                    <button type="button" class="fc-btn-next relative overflow-hidden ml-auto font-body text-[12px] font-medium tracking-[2.5px] uppercase py-3.75 px-9 rounded-sm cursor-pointer border-none bg-wb-brown text-wb-gold-pale transition-all" onclick="fcGoTo({{ step_idx | plus: 1 }})">
+                      <span class="relative z-10">{{ section.settings.next_label }}</span>
+                    </button>
+                  {%- endif -%}
+                </div>
+
+              </div>
+            </div>
+
+          {%- endfor -%}
+
+        </div>
+
+      {%- endif -%}
+
+    {%- endform -%}
+
+  </main>
+</div>
+
+<script defer>
+(function(){
+  // ── Image preview ──
+  window.fcPrevImg = function(input, thumbId) {
+    var t = document.getElementById(thumbId);
+    if (!t) return;
+    if (input.value.startsWith('http')) {
+      t.src = input.value; t.classList.add('show');
+      t.onerror = function(){ t.classList.remove('show'); };
+    } else {
+      t.classList.remove('show');
+    }
+  };
+
+  // ── Step navigation ──
+  var fcCur = 0;
+  var FC_TOTAL = {{ total_steps }};
+
+  window.fcGoTo = function(step) {
+    document.getElementById('fc-step-' + fcCur).classList.remove('visible');
+    document.getElementById('fc-dot-' + fcCur).className = 'fc-step-circle w-8 h-8 rounded-full bg-white border-2 border-wb-linen flex items-center justify-center text-[13px] font-medium text-wb-brown-soft shrink-0 transition-all duration-300 done';
+    document.getElementById('fc-dot-' + fcCur).textContent = '✓';
+    document.getElementById('fc-lbl-' + fcCur).className = 'fc-step-label text-[10px] tracking-wide uppercase whitespace-nowrap ml-2 font-medium done';
+    fcCur = step;
+    document.getElementById('fc-step-' + fcCur).classList.add('visible');
+    document.getElementById('fc-dot-' + fcCur).className = 'fc-step-circle w-8 h-8 rounded-full bg-white border-2 border-wb-linen flex items-center justify-center text-[13px] font-medium shrink-0 transition-all duration-300 active';
+    document.getElementById('fc-dot-' + fcCur).textContent = fcCur + 1;
+    document.getElementById('fc-lbl-' + fcCur).className = 'fc-step-label text-[10px] tracking-wide uppercase whitespace-nowrap ml-2 font-medium active';
+    for (var i = fcCur + 1; i < FC_TOTAL; i++) {
+      var dot = document.getElementById('fc-dot-' + i);
+      if (dot && dot.classList.contains('done')) {
+        dot.className = 'fc-step-circle w-8 h-8 rounded-full bg-white border-2 border-wb-linen flex items-center justify-center text-[13px] font-medium text-wb-brown-soft shrink-0 transition-all duration-300';
+        dot.textContent = i + 1;
+        document.getElementById('fc-lbl-' + i).className = 'fc-step-label text-[10px] tracking-wide uppercase text-wb-brown-soft whitespace-nowrap ml-2 font-medium';
+      }
+    }
+    var heroSup = document.getElementById('fc-heroSup');
+    if (heroSup) heroSup.textContent = 'Paso ' + (fcCur + 1) + ' de ' + FC_TOTAL + ' · Personalización';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Form Clásic",
+  "class": "form-clasic-section",
+  "disabled_on": { "groups": ["header","footer"] },
+  "settings": [
+    { "type": "header", "content": "Barra superior" },
+    { "type": "text", "id": "topbar_brand", "label": "Nombre de marca", "default": "✦ Tu Invitación Digital" },
+    { "type": "text", "id": "topbar_tag",   "label": "Etiqueta",         "default": "Formulario de Datos" },
+    { "type": "header", "content": "Hero" },
+    { "type": "text",     "id": "hero_title",    "label": "Título",      "default": "¡Vamos a crear" },
+    { "type": "text",     "id": "hero_subtitle", "label": "Subtítulo en cursiva", "default": "tu invitación de boda!" },
+    { "type": "text",     "id": "hero_desc",     "label": "Descripción", "default": "Completa los datos y los usaremos para personalizar tu invitación digital. Solo toma unos minutos 💌" },
+    { "type": "header", "content": "Botones y navegación" },
+    { "type": "text", "id": "next_label",   "label": "Texto botón Continuar", "default": "Continuar →" },
+    { "type": "text", "id": "submit_label", "label": "Texto botón Enviar",    "default": "✦ Enviar mis datos" },
+    { "type": "header", "content": "Pantalla de éxito" },
+    { "type": "text",     "id": "success_title", "label": "Título",      "default": "¡Recibimos todo!" },
+    { "type": "text",     "id": "success_body",  "label": "Mensaje",     "default": "Gracias por confiar en nosotros para tu gran día. Nos pondremos en contacto contigo muy pronto con tu invitación personalizada." },
+    { "type": "text",     "id": "success_sign",  "label": "Firma",       "default": "Con mucho cariño ✦" }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Paso del formulario",
+      "settings": [
+        { "type": "header", "content": "Identificación del paso" },
+        { "type": "text", "id": "step_label", "label": "Etiqueta en la barra de progreso", "default": "Paso" },
+        { "type": "text", "id": "step_icon",  "label": "Emoji / ícono",                    "default": "📝" },
+        { "type": "text", "id": "step_title", "label": "Título del paso",                  "default": "Nuevo paso" },
+        { "type": "text", "id": "step_desc",  "label": "Descripción del paso",             "default": "" },
+        { "type": "header", "content": "Preview strip" },
+        { "type": "image_picker", "id": "preview_image", "label": "Imagen de preview (opcional)" },
+        { "type": "text", "id": "preview_label", "label": "Texto del preview strip", "default": "" },
+        { "type": "header", "content": "Campo 1" },
+        { "type": "text",     "id": "field_1_label",       "label": "Etiqueta",          "default": "" },
+        { "type": "text",     "id": "field_1_placeholder", "label": "Placeholder",        "default": "" },
+        { "type": "select",   "id": "field_1_type",        "label": "Tipo de campo",
+          "options": [
+            {"value":"text",     "label":"Texto"},
+            {"value":"email",    "label":"Email"},
+            {"value":"tel",      "label":"Teléfono"},
+            {"value":"url",      "label":"URL / Link"},
+            {"value":"number",   "label":"Número"},
+            {"value":"date",     "label":"Fecha"},
+            {"value":"time",     "label":"Hora"},
+            {"value":"textarea", "label":"Texto largo"},
+            {"value":"select",   "label":"Lista de opciones"}
+          ], "default": "text" },
+        { "type": "text",     "id": "field_1_options",  "label": "Opciones (separadas por coma, solo para Lista)", "default": "" },
+        { "type": "checkbox", "id": "field_1_required", "label": "¿Obligatorio?", "default": false },
+        { "type": "header", "content": "Campo 2" },
+        { "type": "text",     "id": "field_2_label",       "label": "Etiqueta",   "default": "" },
+        { "type": "text",     "id": "field_2_placeholder", "label": "Placeholder","default": "" },
+        { "type": "select",   "id": "field_2_type",        "label": "Tipo de campo",
+          "options": [
+            {"value":"text","label":"Texto"},{"value":"email","label":"Email"},{"value":"tel","label":"Teléfono"},
+            {"value":"url","label":"URL / Link"},{"value":"number","label":"Número"},{"value":"date","label":"Fecha"},
+            {"value":"time","label":"Hora"},{"value":"textarea","label":"Texto largo"},{"value":"select","label":"Lista de opciones"}
+          ], "default": "text" },
+        { "type": "text",     "id": "field_2_options",  "label": "Opciones (separadas por coma)", "default": "" },
+        { "type": "checkbox", "id": "field_2_required", "label": "¿Obligatorio?", "default": false },
+        { "type": "header", "content": "Campo 3" },
+        { "type": "text",     "id": "field_3_label",       "label": "Etiqueta",   "default": "" },
+        { "type": "text",     "id": "field_3_placeholder", "label": "Placeholder","default": "" },
+        { "type": "select",   "id": "field_3_type",        "label": "Tipo de campo",
+          "options": [
+            {"value":"text","label":"Texto"},{"value":"email","label":"Email"},{"value":"tel","label":"Teléfono"},
+            {"value":"url","label":"URL / Link"},{"value":"number","label":"Número"},{"value":"date","label":"Fecha"},
+            {"value":"time","label":"Hora"},{"value":"textarea","label":"Texto largo"},{"value":"select","label":"Lista de opciones"}
+          ], "default": "text" },
+        { "type": "text",     "id": "field_3_options",  "label": "Opciones (separadas por coma)", "default": "" },
+        { "type": "checkbox", "id": "field_3_required", "label": "¿Obligatorio?", "default": false },
+        { "type": "header", "content": "Campo 4" },
+        { "type": "text",     "id": "field_4_label",       "label": "Etiqueta",   "default": "" },
+        { "type": "text",     "id": "field_4_placeholder", "label": "Placeholder","default": "" },
+        { "type": "select",   "id": "field_4_type",        "label": "Tipo de campo",
+          "options": [
+            {"value":"text","label":"Texto"},{"value":"email","label":"Email"},{"value":"tel","label":"Teléfono"},
+            {"value":"url","label":"URL / Link"},{"value":"number","label":"Número"},{"value":"date","label":"Fecha"},
+            {"value":"time","label":"Hora"},{"value":"textarea","label":"Texto largo"},{"value":"select","label":"Lista de opciones"}
+          ], "default": "text" },
+        { "type": "text",     "id": "field_4_options",  "label": "Opciones (separadas por coma)", "default": "" },
+        { "type": "checkbox", "id": "field_4_required", "label": "¿Obligatorio?", "default": false },
+        { "type": "header", "content": "Campo 5" },
+        { "type": "text",     "id": "field_5_label",       "label": "Etiqueta",   "default": "" },
+        { "type": "text",     "id": "field_5_placeholder", "label": "Placeholder","default": "" },
+        { "type": "select",   "id": "field_5_type",        "label": "Tipo de campo",
+          "options": [
+            {"value":"text","label":"Texto"},{"value":"email","label":"Email"},{"value":"tel","label":"Teléfono"},
+            {"value":"url","label":"URL / Link"},{"value":"number","label":"Número"},{"value":"date","label":"Fecha"},
+            {"value":"time","label":"Hora"},{"value":"textarea","label":"Texto largo"},{"value":"select","label":"Lista de opciones"}
+          ], "default": "text" },
+        { "type": "text",     "id": "field_5_options",  "label": "Opciones (separadas por coma)", "default": "" },
+        { "type": "checkbox", "id": "field_5_required", "label": "¿Obligatorio?", "default": false },
+        { "type": "header", "content": "Campo 6" },
+        { "type": "text",     "id": "field_6_label",       "label": "Etiqueta",   "default": "" },
+        { "type": "text",     "id": "field_6_placeholder", "label": "Placeholder","default": "" },
+        { "type": "select",   "id": "field_6_type",        "label": "Tipo de campo",
+          "options": [
+            {"value":"text","label":"Texto"},{"value":"email","label":"Email"},{"value":"tel","label":"Teléfono"},
+            {"value":"url","label":"URL / Link"},{"value":"number","label":"Número"},{"value":"date","label":"Fecha"},
+            {"value":"time","label":"Hora"},{"value":"textarea","label":"Texto largo"},{"value":"select","label":"Lista de opciones"}
+          ], "default": "text" },
+        { "type": "text",     "id": "field_6_options",  "label": "Opciones (separadas por coma)", "default": "" },
+        { "type": "checkbox", "id": "field_6_required", "label": "¿Obligatorio?", "default": false },
+        { "type": "header", "content": "Campos especiales" },
+        { "type": "checkbox", "id": "show_email_field",       "label": "Mostrar campo Email (obligatorio para enviar)",   "default": false },
+        { "type": "checkbox", "id": "show_notes_field",       "label": "Mostrar campo Notas adicionales",                 "default": false },
+        { "type": "text",     "id": "notes_label",            "label": "Etiqueta del campo Notas",  "default": "Notas adicionales" },
+        { "type": "text",     "id": "notes_hint",             "label": "Hint del campo Notas",      "default": "(colores, preferencias, peticiones especiales)" },
+        { "type": "text",     "id": "notes_placeholder",      "label": "Placeholder del campo Notas", "default": "Escribe aquí cualquier detalle extra..." },
+        { "type": "checkbox", "id": "show_custom_image_field","label": "Mostrar campo URL de imagen personalizada",       "default": false },
+        { "type": "text",     "id": "image_field_label",      "label": "Etiqueta del campo imagen", "default": "Imagen personalizada" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Form Clásic" }]
+}
+{% endschema %}
