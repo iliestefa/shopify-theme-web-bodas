@@ -35,6 +35,17 @@
   #fc-root input, #fc-root select, #fc-root textarea { max-width: 100%; box-sizing: border-box; }
   /* input[type=time]: force full width on all browsers */
   #fc-root input[type=time] { width: 100%; min-width: 0; }
+  /* Programa rows: en móvil el input de hora ocupa todo el ancho disponible */
+  @media (max-width: 480px) {
+    #fc-root [id^="fc-prog-list-"] input[type=time] { width: 100%; }
+    #fc-root [id^="fc-prog-list-"] .fcp-row { position: relative; padding-right: 2.5rem; }
+    #fc-root [id^="fc-prog-list-"] .fcp-row .fcp-remove { position: absolute; top: 0.375rem; right: 0.375rem; }
+  }
+  /* Botones nav: en móvil ocupan todo el ancho disponible */
+  @media (max-width: 480px) {
+    #fc-root .fc-nav { flex-wrap: wrap; }
+    #fc-root .fc-nav .fc-btn-nav { flex: 1; margin-left: 0; }
+  }
   /* Progress bar: hide labels on small screens */
   @media (max-width: 480px) {
     #fc-root .fc-step-label { display: none; }
@@ -470,20 +481,20 @@
                 {%- endif -%}
 
                 {{- '<!-- NAV -->' -}}
-                <div class="flex justify-between items-center pt-2 gap-3 xs-down:flex-wrap">
+                <div class="fc-nav flex justify-between items-center pt-2 gap-3">
                   {%- if step_idx == 0 -%}
                     <span class="text-[12px] text-wb-brown-soft tracking-wide xs-down:hidden">Paso {{ step_num }} de {{ total_steps }}</span>
                   {%- else -%}
-                    <button type="button" class="font-body text-[12px] font-medium tracking-[2.5px] uppercase py-3.75 px-9 xs-down:flex-1 rounded-sm cursor-pointer bg-wb-parchment text-wb-brown-mid border border-wb-linen hover:bg-wb-blush-pale transition-all" onclick="fcGoTo({{ step_idx | minus: 1 }})">← Atrás</button>
+                    <button type="button" class="fc-btn-nav font-body text-[12px] font-medium tracking-[2.5px] uppercase py-3.75 px-9 rounded-sm cursor-pointer bg-wb-parchment text-wb-brown-mid border border-wb-linen hover:bg-wb-blush-pale transition-all" onclick="fcGoTo({{ step_idx | minus: 1 }})">← Atrás</button>
                     <span class="text-[12px] text-wb-brown-soft tracking-wide xs-down:hidden">Paso {{ step_num }} de {{ total_steps }}</span>
                   {%- endif -%}
 
                   {%- if is_last -%}
-                    <button type="submit" class="xs-down:flex-1 ml-auto font-body text-[12px] font-medium tracking-[2.5px] uppercase py-4 px-13 rounded-sm cursor-pointer border-none text-white transition-all hover:bg-wb-brown" style="background:#b85c38">
+                    <button type="submit" class="fc-btn-nav ml-auto font-body text-[12px] font-medium tracking-[2.5px] uppercase py-4 px-13 rounded-sm cursor-pointer border-none text-white transition-all hover:bg-wb-brown" style="background:#b85c38">
                       {{ section.settings.submit_label }}
                     </button>
                   {%- else -%}
-                    <button type="button" class="fc-btn-next xs-down:flex-1 relative overflow-hidden ml-auto font-body text-[12px] font-medium tracking-[2.5px] uppercase py-3.75 px-9 rounded-sm cursor-pointer border-none bg-wb-brown text-wb-gold-pale transition-all" onclick="fcGoTo({{ step_idx | plus: 1 }})">
+                    <button type="button" class="fc-btn-nav fc-btn-next relative overflow-hidden ml-auto font-body text-[12px] font-medium tracking-[2.5px] uppercase py-3.75 px-9 rounded-sm cursor-pointer border-none bg-wb-brown text-wb-gold-pale transition-all" onclick="fcGoTo({{ step_idx | plus: 1 }})">
                       <span class="relative z-10">{{ section.settings.next_label }}</span>
                     </button>
                   {%- endif -%}
@@ -532,12 +543,12 @@
     var id = 'fcp-' + blockId + '-' + (fcProgId++);
     var div = document.createElement('div');
     div.id = id;
-    div.className = 'flex flex-wrap items-center gap-2 mb-2.5 p-3 border border-wb-linen rounded-sm bg-wb-parchment';
+    div.className = 'fcp-row flex flex-wrap items-center gap-2 mb-2.5 p-3 border border-wb-linen rounded-sm bg-wb-parchment';
     div.innerHTML =
-      '<input type="time" name="contact[Programa - Hora][]" value="' + (row.h || '') + '" class="shrink-0 px-2 py-2 border border-wb-linen rounded-sm bg-white font-light text-wb-brown transition-colors" style="font-size:16px;width:130px;min-width:0">' +
+      '<input type="time" name="contact[Programa - Hora][]" value="' + (row.h || '') + '" class="shrink-0 px-2 py-2 border border-wb-linen rounded-sm bg-white font-light text-wb-brown transition-colors" style="font-size:16px;width:130px;max-width:100%;min-width:0;box-sizing:border-box">' +
       '<input type="text" name="contact[Programa - Emoji][]" value="' + (row.e || '') + '" placeholder="🎉" class="shrink-0 px-2 py-2 border border-wb-linen rounded-sm bg-white text-center transition-colors" style="font-size:16px;width:40px">' +
       '<input type="text" name="contact[Programa - Actividad][]" value="' + (row.a || '') + '" placeholder="Actividad" class="flex-1 min-w-0 px-3 py-2 border border-wb-linen rounded-sm bg-white font-light text-wb-brown transition-colors" style="font-size:16px">' +
-      '<button type="button" onclick="fcRemProg(\'' + id + '\')" class="w-8 h-8 shrink-0 flex items-center justify-center rounded-full border border-wb-linen bg-transparent text-wb-brown-soft text-lg cursor-pointer hover:border-red-400 hover:text-red-400 transition-colors">×</button>';
+      '<button type="button" onclick="fcRemProg(\'' + id + '\')" class="fcp-remove w-8 h-8 shrink-0 flex items-center justify-center rounded-full border border-wb-linen bg-transparent text-wb-brown-soft text-lg cursor-pointer hover:border-red-400 hover:text-red-400 transition-colors">×</button>';
     list.appendChild(div);
   };
 
