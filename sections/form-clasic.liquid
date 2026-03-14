@@ -101,20 +101,9 @@
 
     {%- form 'contact', id: 'FormClasic', novalidate: true -%}
 
-      {%- if form.posted_successfully? -%}
-        <div class="fc-success-screen show text-center py-20 px-10 bg-white rounded shadow-card">
-          <span class="fc-success-rings text-5xl mb-6 block">💌</span>
-          <h2 class="font-wb-serif text-4xl font-normal text-wb-brown mb-2">{{ section.settings.success_title }}</h2>
-          <div class="flex items-center justify-center gap-3.5 my-5 mx-auto w-fit">
-            <span class="block h-px w-16" style="background:linear-gradient(90deg,transparent,theme(colors.wb-gold),transparent)"></span>
-            <span class="block w-2 h-2 bg-wb-gold rotate-45"></span>
-            <span class="block h-px w-16" style="background:linear-gradient(90deg,transparent,theme(colors.wb-gold),transparent)"></span>
-          </div>
-          <p class="text-wb-brown-mid text-[15px] leading-relaxed max-w-110 mx-auto mb-2">{{ section.settings.success_body }}</p>
-          <p class="mt-6 font-wb-serif text-[22px] italic" style="color:#b85c38">{{ section.settings.success_sign }}</p>
-        </div>
+      {{- '<!-- SUCCESS OVERLAY (JS lo muestra tras envío exitoso por EmailJS) -->' -}}
 
-      {%- else -%}
+      {%- unless form.posted_successfully? -%}
 
         {%- if form.errors -%}
           <div class="fc-error-banner show bg-wb-blush-pale border border-wb-blush-deep rounded px-4 py-3 text-[13px] text-wb-brown mb-5">
@@ -516,8 +505,26 @@
     {%- endform -%}
 
   </main>
+
+  {{- '<!-- SUCCESS OVERLAY -->' -}}
+  <div id="fc-success-overlay" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(26,20,16,.72);align-items:center;justify-content:center;padding:1.5rem">
+    <div style="background:#fdf8f3;border-radius:12px;max-width:480px;width:100%;padding:3rem 2.5rem;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.3)">
+      <div style="font-size:3.5rem;margin-bottom:1.25rem">💌</div>
+      <h2 style="font-family:Georgia,serif;font-size:1.75rem;font-weight:400;color:#3d2b1f;margin:0 0 1rem">¡Datos recibidos!</h2>
+      <div style="display:flex;align-items:center;justify-content:center;gap:0.875rem;margin:0 auto 1.25rem;width:fit-content">
+        <span style="display:block;height:1px;width:4rem;background:linear-gradient(90deg,transparent,#c8a46e,transparent)"></span>
+        <span style="display:block;width:0.5rem;height:0.5rem;background:#c8a46e;transform:rotate(45deg)"></span>
+        <span style="display:block;height:1px;width:4rem;background:linear-gradient(90deg,transparent,#c8a46e,transparent)"></span>
+      </div>
+      <p style="color:#7a5c4a;font-size:0.9375rem;line-height:1.7;margin:0 0 0.625rem">Estamos preparando tu invitación digital.</p>
+      <p style="color:#3d2b1f;font-size:1rem;font-weight:600;margin:0 0 2rem">En máximo 48 horas estará lista. ✦</p>
+      <a href="/" style="display:inline-block;background:#b85c38;color:#fff;font-size:0.75rem;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;padding:1rem 2.5rem;border-radius:4px;text-decoration:none;transition:background .2s" onmouseover="this.style.background='#3d2b1f'" onmouseout="this.style.background='#b85c38'">OK, entendido</a>
+    </div>
+  </div>
+
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script defer>
 (function(){
   // ── Orden ID desde URL ──
@@ -634,6 +641,65 @@
     if (heroSup) heroSup.textContent = 'Paso ' + (fcCur + 1) + ' de ' + FC_TOTAL + ' · Personalización';
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  // ── Submit via EmailJS (sin Shopify contact form, sin CAPTCHA) ──
+  var fcForm = document.getElementById('FormClasic');
+  if (fcForm) {
+    fcForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var btn = fcForm.querySelector('[type=submit]');
+      if (btn) { btn.disabled = true; btn.textContent = 'Enviando…'; }
+
+      // Recopilar todos los campos del formulario como texto
+      var data = new FormData(fcForm);
+      var lines = [];
+      data.forEach(function(val, key) {
+        // Eliminar prefijo "contact[" y sufijo "]"
+        var label = key.replace(/^contact\[/, '').replace(/\]$/, '');
+        if (label && val) lines.push(label + ': ' + val);
+      });
+      var bodyText = lines.join('\n');
+
+      // Leer nombre y orden para el subject
+      var nombreEl = document.getElementById('fc-contact-name-hidden');
+      var ordenEl  = document.getElementById('fc-orden-hidden');
+      var nombre   = (nombreEl && nombreEl.value) ? nombreEl.value : '(sin nombre)';
+      var orden    = (ordenEl  && ordenEl.value)  ? ordenEl.value  : '(sin orden)';
+
+      var templateParams = {
+        to_email:       'developer@iliestefa.com',
+        subject:        'Datos de boda — ' + nombre + (orden !== '(sin orden)' ? ' [orden: ' + orden + ']' : ''),
+        bride_name:     nombre,
+        groom_name:     orden,
+        wedding_date:   '',
+        orden:          orden,
+        extra_notes:    '',
+        constants_file: bodyText,
+        data_json:      bodyText
+      };
+
+      emailjs.send('service_o6i2yoo', 'template_jd7l5j5', templateParams, 'wlAEepoAN1XYRb3ML')
+        .then(function() {
+          var mainForm = document.getElementById('fc-mainForm');
+          if (mainForm) mainForm.style.display = 'none';
+          var progressBar = document.getElementById('fc-progressBar');
+          if (progressBar) progressBar.style.display = 'none';
+          var hero = document.getElementById('fc-heroSup');
+          var heroSection = hero && hero.closest('section');
+          if (heroSection) heroSection.style.display = 'none';
+          var success = document.getElementById('fc-success-overlay');
+          if (success) { success.style.display = 'flex'; window.scrollTo({ top: 0, behavior: 'smooth' }); }
+        })
+        .catch(function(err) {
+          if (btn) { btn.disabled = false; btn.textContent = btn.dataset.label || 'Enviar'; }
+          alert('Error al enviar. Inténtalo de nuevo. (' + (err && err.text ? err.text : 'EmailJS error') + ')');
+        });
+    });
+
+    // Guardar label original del botón submit
+    var submitBtn = fcForm.querySelector('[type=submit]');
+    if (submitBtn) submitBtn.dataset.label = submitBtn.textContent;
+  }
 })();
 </script>
 
