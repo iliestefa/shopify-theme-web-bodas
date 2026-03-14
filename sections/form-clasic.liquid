@@ -33,22 +33,26 @@
   #fc-root input, #fc-root select, #fc-root textarea { font-size: 16px !important; }
   /* All inputs/selects must stay within container */
   #fc-root input, #fc-root select, #fc-root textarea { max-width: 100%; box-sizing: border-box; }
-  /* input[type=time]: force full width on all browsers */
-  #fc-root input[type=time] { width: 100%; min-width: 0; }
+  /* input[type=time]: force full width on all browsers (including iOS Safari) */
+  #fc-root input[type=time] { display: block; width: 100%; min-width: 0; }
   /* Programa rows: en móvil el input de hora ocupa todo el ancho disponible */
   @media (max-width: 480px) {
     #fc-root [id^="fc-prog-list-"] input[type=time] { width: 100%; }
     #fc-root [id^="fc-prog-list-"] .fcp-row { position: relative; padding-right: 2.5rem; }
     #fc-root [id^="fc-prog-list-"] .fcp-row .fcp-remove { position: absolute; top: 0.375rem; right: 0.375rem; }
   }
-  /* Botones nav: en móvil ocupan todo el ancho disponible */
+  /* Botones nav: en móvil cada botón ocupa su propia fila (Continuar arriba, Atrás abajo) */
   @media (max-width: 480px) {
-    #fc-root .fc-nav { flex-wrap: wrap; }
-    #fc-root .fc-nav .fc-btn-nav { flex: 1; margin-left: 0; }
+    #fc-root .fc-nav { flex-direction: column-reverse; gap: 0.5rem; }
+    #fc-root .fc-nav .fc-step-counter { display: none; }
+    #fc-root .fc-nav .fc-btn-nav { width: 100%; margin-left: 0; text-align: center; }
   }
-  /* Progress bar: hide labels on small screens */
+  /* Progress bar: en móvil distribuir círculos uniformemente */
   @media (max-width: 480px) {
     #fc-root .fc-step-label { display: none; }
+    #fc-root #fc-progressBar > div { justify-content: space-between; overflow: visible; }
+    #fc-root #fc-progressBar .fc-step-item { flex: none !important; min-width: 0 !important; }
+    #fc-root #fc-progressBar .fc-step-divider { display: none; }
   }
   /* Programa rows mobile: activity input takes full second line if needed */
   @media (max-width: 480px) {
@@ -84,10 +88,10 @@
     <div class="c-container py-5 flex items-center overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
     {%- for block in step_blocks -%}
       {%- assign idx = forloop.index0 -%}
-      <div class="flex items-center flex-1 xs-down:min-w-8 min-w-22.5">
+      <div class="fc-step-item flex items-center flex-1 min-w-22.5">
         <div class="fc-step-circle w-8 h-8 rounded-full bg-white border-2 border-wb-linen flex items-center justify-center text-[13px] font-medium text-wb-brown-soft shrink-0 transition-all duration-300{% if idx == 0 %} active{% endif %}" id="fc-dot-{{ idx }}">{{ forloop.index }}</div>
         <span class="fc-step-label text-[10px] tracking-wide uppercase text-wb-brown-soft whitespace-nowrap ml-2 font-medium{% if idx == 0 %} active{% endif %}" id="fc-lbl-{{ idx }}">{{ block.settings.step_label }}</span>
-        {%- unless forloop.last -%}<div class="flex-1 h-px bg-wb-linen mx-1.5 xs-down:mx-1"></div>{%- endunless -%}
+        {%- unless forloop.last -%}<div class="fc-step-divider flex-1 h-px bg-wb-linen mx-1.5"></div>{%- endunless -%}
       </div>
     {%- endfor -%}
     </div>
@@ -463,11 +467,11 @@
                         {{ block.settings.image_field_label }}
                         <span class="text-[10px] tracking-normal normal-case text-wb-brown-soft font-light ml-1.5">(link URL — opcional)</span>
                       </label>
-                      <div class="grid gap-2.5 items-center" style="grid-template-columns:1fr auto">
+                      <div class="flex gap-2.5 items-center">
                         <input type="url" id="fc-{{ block.id }}-img" name="contact[{{ block.settings.image_field_label }}]"
                           placeholder="https://…" oninput="fcPrevImg(this,'fc-th-{{ block.id }}')"
-                          class="w-full px-4 py-3 border border-wb-linen rounded-sm bg-wb-parchment text-[14px] font-light text-wb-brown placeholder-wb-brown-soft/60 transition-colors">
-                        <img id="fc-th-{{ block.id }}" class="fc-img-thumb w-14 h-14 rounded-sm border border-wb-linen object-cover bg-wb-blush-pale" width="56" height="56" loading="lazy" alt="">
+                          class="flex-1 min-w-0 px-4 py-3 border border-wb-linen rounded-sm bg-wb-parchment text-[14px] font-light text-wb-brown placeholder-wb-brown-soft/60 transition-colors">
+                        <img id="fc-th-{{ block.id }}" class="fc-img-thumb shrink-0 w-14 h-14 rounded-sm border border-wb-linen object-cover bg-wb-blush-pale" width="56" height="56" loading="lazy" alt="">
                       </div>
                       <span class="text-[11px] text-wb-brown-soft leading-relaxed mt-1">💡 Sube tu foto a Google Drive o Imgur y pega el link directo.</span>
                     </div>
@@ -483,10 +487,10 @@
                 {{- '<!-- NAV -->' -}}
                 <div class="fc-nav flex justify-between items-center pt-2 gap-3">
                   {%- if step_idx == 0 -%}
-                    <span class="text-[12px] text-wb-brown-soft tracking-wide xs-down:hidden">Paso {{ step_num }} de {{ total_steps }}</span>
+                    <span class="fc-step-counter text-[12px] text-wb-brown-soft tracking-wide">Paso {{ step_num }} de {{ total_steps }}</span>
                   {%- else -%}
                     <button type="button" class="fc-btn-nav font-body text-[12px] font-medium tracking-[2.5px] uppercase py-3.75 px-9 rounded-sm cursor-pointer bg-wb-parchment text-wb-brown-mid border border-wb-linen hover:bg-wb-blush-pale transition-all" onclick="fcGoTo({{ step_idx | minus: 1 }})">← Atrás</button>
-                    <span class="text-[12px] text-wb-brown-soft tracking-wide xs-down:hidden">Paso {{ step_num }} de {{ total_steps }}</span>
+                    <span class="fc-step-counter text-[12px] text-wb-brown-soft tracking-wide">Paso {{ step_num }} de {{ total_steps }}</span>
                   {%- endif -%}
 
                   {%- if is_last -%}
@@ -583,6 +587,32 @@
   var FC_BASE_LBL = 'fc-step-label text-[10px] tracking-wide uppercase whitespace-nowrap ml-2 font-medium';
 
   window.fcGoTo = function(step) {
+    // Validar campos requeridos del paso actual solo al avanzar
+    if (step > fcCur) {
+      var card = document.getElementById('fc-step-' + fcCur);
+      var fields = card.querySelectorAll('input[required], select[required], textarea[required]');
+      var valid = true;
+      fields.forEach(function(f) {
+        f.style.borderColor = '';
+        if (!f.value.trim()) { f.style.borderColor = '#c0392b'; valid = false; }
+      });
+      if (!valid) {
+        var banner = card.querySelector('.fc-step-error');
+        if (!banner) {
+          banner = document.createElement('div');
+          banner.className = 'fc-step-error';
+          banner.style.cssText = 'background:#fdf2f2;border:1px solid #e5b3b3;border-radius:4px;padding:10px 14px;font-size:13px;color:#7a3030;margin-bottom:16px';
+          card.querySelector('.fc-nav').before(banner);
+        }
+        banner.textContent = '⚠️ Por favor completa los campos obligatorios antes de continuar.';
+        banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        return;
+      }
+      // Limpiar error si pasa validación
+      var banner = card.querySelector('.fc-step-error');
+      if (banner) banner.remove();
+      card.querySelectorAll('input, select, textarea').forEach(function(f) { f.style.borderColor = ''; });
+    }
     document.getElementById('fc-step-' + fcCur).classList.remove('visible');
     document.getElementById('fc-dot-' + fcCur).className = FC_BASE_DOT + ' done';
     document.getElementById('fc-dot-' + fcCur).textContent = '✓';
