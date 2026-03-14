@@ -446,6 +446,7 @@
                 {{- '<!-- HIDDEN PARA EL PASO ACTUAL -->' -}}
                 {%- if is_last -%}
                   <input type="hidden" name="contact[Nombre]" id="fc-contact-name-hidden">
+                  <input type="hidden" name="contact[Orden ID]" id="fc-orden-hidden">
                 {%- endif -%}
 
                 {{- '<!-- NAV -->' -}}
@@ -484,6 +485,13 @@
 
 <script defer>
 (function(){
+  // ── Orden ID desde URL ──
+  var fcOrdenHidden = document.getElementById('fc-orden-hidden');
+  if (fcOrdenHidden) {
+    var fcOrden = new URLSearchParams(window.location.search).get('orden');
+    if (fcOrden) fcOrdenHidden.value = fcOrden;
+  }
+
   // ── Programa rows ──
   var FC_PROG_DEFAULTS = [
     {h:'17:00',e:'⛪',a:'Misa'},
@@ -540,22 +548,25 @@
   var fcCur = 0;
   var FC_TOTAL = {{ total_steps }};
 
+  var FC_BASE_DOT = 'fc-step-circle w-8 h-8 rounded-full border-2 flex items-center justify-center text-[13px] font-medium shrink-0 transition-all duration-300';
+  var FC_BASE_LBL = 'fc-step-label text-[10px] tracking-wide uppercase whitespace-nowrap ml-2 font-medium';
+
   window.fcGoTo = function(step) {
     document.getElementById('fc-step-' + fcCur).classList.remove('visible');
-    document.getElementById('fc-dot-' + fcCur).className = 'fc-step-circle w-8 h-8 rounded-full bg-white border-2 border-wb-linen flex items-center justify-center text-[13px] font-medium text-wb-brown-soft shrink-0 transition-all duration-300 done';
+    document.getElementById('fc-dot-' + fcCur).className = FC_BASE_DOT + ' done';
     document.getElementById('fc-dot-' + fcCur).textContent = '✓';
-    document.getElementById('fc-lbl-' + fcCur).className = 'fc-step-label text-[10px] tracking-wide uppercase whitespace-nowrap ml-2 font-medium done';
+    document.getElementById('fc-lbl-' + fcCur).className = FC_BASE_LBL + ' done';
     fcCur = step;
     document.getElementById('fc-step-' + fcCur).classList.add('visible');
-    document.getElementById('fc-dot-' + fcCur).className = 'fc-step-circle w-8 h-8 rounded-full bg-white border-2 border-wb-linen flex items-center justify-center text-[13px] font-medium shrink-0 transition-all duration-300 active';
+    document.getElementById('fc-dot-' + fcCur).className = FC_BASE_DOT + ' active';
     document.getElementById('fc-dot-' + fcCur).textContent = fcCur + 1;
-    document.getElementById('fc-lbl-' + fcCur).className = 'fc-step-label text-[10px] tracking-wide uppercase whitespace-nowrap ml-2 font-medium active';
+    document.getElementById('fc-lbl-' + fcCur).className = FC_BASE_LBL + ' active';
     for (var i = fcCur + 1; i < FC_TOTAL; i++) {
       var dot = document.getElementById('fc-dot-' + i);
       if (dot && dot.classList.contains('done')) {
-        dot.className = 'fc-step-circle w-8 h-8 rounded-full bg-white border-2 border-wb-linen flex items-center justify-center text-[13px] font-medium text-wb-brown-soft shrink-0 transition-all duration-300';
+        dot.className = FC_BASE_DOT;
         dot.textContent = i + 1;
-        document.getElementById('fc-lbl-' + i).className = 'fc-step-label text-[10px] tracking-wide uppercase text-wb-brown-soft whitespace-nowrap ml-2 font-medium';
+        document.getElementById('fc-lbl-' + i).className = FC_BASE_LBL;
       }
     }
     var heroSup = document.getElementById('fc-heroSup');
