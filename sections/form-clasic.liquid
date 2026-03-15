@@ -483,7 +483,7 @@
                   {%- endif -%}
 
                   {%- if is_last -%}
-                    <button type="submit" class="fc-btn-nav ml-auto font-body text-[12px] font-medium tracking-[2.5px] uppercase py-4 px-13 rounded-sm cursor-pointer border-none text-white transition-all hover:bg-wb-brown" style="background:#b85c38">
+                    <button type="button" id="fc-submit-btn" class="fc-btn-nav ml-auto font-body text-[12px] font-medium tracking-[2.5px] uppercase py-4 px-13 rounded-sm cursor-pointer border-none text-white transition-all hover:bg-wb-brown" style="background:#b85c38" onclick="fcSubmitForm()">
                       {{ section.settings.submit_label }}
                     </button>
                   {%- else -%}
@@ -518,13 +518,13 @@
       </div>
       <p style="color:#7a5c4a;font-size:0.9375rem;line-height:1.7;margin:0 0 0.625rem">Estamos preparando tu invitación digital.</p>
       <p style="color:#3d2b1f;font-size:1rem;font-weight:600;margin:0 0 2rem">En máximo 48 horas estará lista. ✦</p>
-      <a href="/" style="display:inline-block;background:#b85c38;color:#fff;font-size:0.75rem;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;padding:1rem 2.5rem;border-radius:4px;text-decoration:none;transition:background .2s" onmouseover="this.style.background='#3d2b1f'" onmouseout="this.style.background='#b85c38'">OK, entendido</a>
+      <a href="{{ routes.root_url }}" style="display:inline-block;background:#b85c38;color:#fff;font-size:0.75rem;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;padding:1rem 2.5rem;border-radius:4px;text-decoration:none;transition:background .2s" onmouseover="this.style.background='#3d2b1f'" onmouseout="this.style.background='#b85c38'">OK, entendido</a>
     </div>
   </div>
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" async></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 (function(){
@@ -643,64 +643,69 @@ document.addEventListener('DOMContentLoaded', function() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // ── Submit via EmailJS (sin Shopify contact form, sin CAPTCHA) ──
-  var fcForm = document.getElementById('FormClasic');
-  if (fcForm) {
-    fcForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      var btn = fcForm.querySelector('[type=submit]');
-      if (btn) { btn.disabled = true; btn.textContent = 'Enviando…'; }
+  // ── Submit via EmailJS (botón type=button, sin submit nativo de Shopify) ──
+  window.fcSubmitForm = function() {
+    if (typeof emailjs === 'undefined') {
+      setTimeout(window.fcSubmitForm, 200); return;
+    }
+    var btn = document.getElementById('fc-submit-btn');
+    var fcForm = document.getElementById('FormClasic');
+    if (!fcForm) return;
+    if (btn) { btn.disabled = true; btn.textContent = 'Enviando…'; }
 
-      // Recopilar todos los campos del formulario como texto
-      var data = new FormData(fcForm);
-      var lines = [];
-      data.forEach(function(val, key) {
-        // Eliminar prefijo "contact[" y sufijo "]"
-        var label = key.replace(/^contact\[/, '').replace(/\]$/, '');
-        if (label && val) lines.push(label + ': ' + val);
-      });
-      var bodyText = lines.join('\n');
-
-      // Leer nombre y orden para el subject
-      var nombreEl = document.getElementById('fc-contact-name-hidden');
-      var ordenEl  = document.getElementById('fc-orden-hidden');
-      var nombre   = (nombreEl && nombreEl.value) ? nombreEl.value : '(sin nombre)';
-      var orden    = (ordenEl  && ordenEl.value)  ? ordenEl.value  : '(sin orden)';
-
-      var templateParams = {
-        to_email:       'developer@iliestefa.com',
-        subject:        'Datos de boda — ' + nombre + (orden !== '(sin orden)' ? ' [orden: ' + orden + ']' : ''),
-        bride_name:     nombre,
-        groom_name:     orden,
-        wedding_date:   '',
-        orden:          orden,
-        extra_notes:    '',
-        constants_file: bodyText,
-        data_json:      bodyText
-      };
-
-      emailjs.send('service_o6i2yoo', 'template_jd7l5j5', templateParams, 'wlAEepoAN1XYRb3ML')
-        .then(function() {
-          var mainForm = document.getElementById('fc-mainForm');
-          if (mainForm) mainForm.style.display = 'none';
-          var progressBar = document.getElementById('fc-progressBar');
-          if (progressBar) progressBar.style.display = 'none';
-          var hero = document.getElementById('fc-heroSup');
-          var heroSection = hero && hero.closest('section');
-          if (heroSection) heroSection.style.display = 'none';
-          var success = document.getElementById('fc-success-overlay');
-          if (success) { success.style.display = 'flex'; window.scrollTo({ top: 0, behavior: 'smooth' }); }
-        })
-        .catch(function(err) {
-          if (btn) { btn.disabled = false; btn.textContent = btn.dataset.label || 'Enviar'; }
-          alert('Error al enviar. Inténtalo de nuevo. (' + (err && err.text ? err.text : 'EmailJS error') + ')');
-        });
+    var data = new FormData(fcForm);
+    var lines = [];
+    data.forEach(function(val, key) {
+      var label = key.replace(/^contact\[/, '').replace(/\](\[\])?$/, '');
+      if (label && val) lines.push(label + ': ' + val);
     });
+    var bodyText = lines.join('\n');
 
-    // Guardar label original del botón submit
-    var submitBtn = fcForm.querySelector('[type=submit]');
-    if (submitBtn) submitBtn.dataset.label = submitBtn.textContent;
-  }
+    var orden  = new URLSearchParams(window.location.search).get('orden') || '(sin orden)';
+    var nombre = (function() {
+      var data2 = new FormData(document.getElementById('FormClasic'));
+      // Intentar leer el campo hidden Nombre, o el primer campo de texto que tenga valor
+      var n = data2.get('contact[Nombre]');
+      if (n && n.trim()) return n.trim();
+      // Fallback: primer campo con label que contenga "nombre" (case insensitive)
+      var allFields = document.querySelectorAll('#FormClasic input[name^="contact["]');
+      for (var i = 0; i < allFields.length; i++) {
+        if (allFields[i].name.toLowerCase().indexOf('novia') !== -1 || allFields[i].name.toLowerCase().indexOf('novio') !== -1) {
+          if (allFields[i].value.trim()) return allFields[i].value.trim();
+        }
+      }
+      return '(sin nombre)';
+    }());
+
+    var templateParams = {
+      to_email:       'developer@iliestefa.com',
+      subject:        'Datos de boda — ' + nombre + (orden !== '(sin orden)' ? ' [orden: ' + orden + ']' : ''),
+      bride_name:     nombre,
+      groom_name:     'Orden: ' + orden,
+      wedding_date:   orden,
+      orden:          orden,
+      extra_notes:    'Orden: ' + orden,
+      constants_file: '=== ORDEN: ' + orden + ' ===\n\n' + bodyText,
+      data_json:      '=== ORDEN: ' + orden + ' ===\n\n' + bodyText
+    };
+
+    emailjs.send('service_o6i2yoo', 'template_jd7l5j5', templateParams, 'wlAEepoAN1XYRb3ML')
+      .then(function() {
+        var mainForm = document.getElementById('fc-mainForm');
+        if (mainForm) mainForm.style.display = 'none';
+        var progressBar = document.getElementById('fc-progressBar');
+        if (progressBar) progressBar.style.display = 'none';
+        var hero = document.getElementById('fc-heroSup');
+        var heroSection = hero && hero.closest('section');
+        if (heroSection) heroSection.style.display = 'none';
+        var success = document.getElementById('fc-success-overlay');
+        if (success) { success.style.display = 'flex'; window.scrollTo({ top: 0, behavior: 'smooth' }); }
+      })
+      .catch(function(err) {
+        if (btn) { btn.disabled = false; btn.textContent = '✦ Enviar mis datos'; }
+        alert('Error al enviar. Inténtalo de nuevo. (' + (err && err.text ? err.text : 'EmailJS error') + ')');
+      });
+  };
 })();
 }); // DOMContentLoaded
 </script>
