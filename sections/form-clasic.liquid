@@ -522,6 +522,21 @@
     </div>
   </div>
 
+  <div id="fc-error-overlay" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(26,20,16,.72);align-items:center;justify-content:center;padding:1.5rem">
+    <div style="background:#fdf8f3;border-radius:12px;max-width:480px;width:100%;padding:3rem 2.5rem;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.3)">
+      <div style="font-size:3.5rem;margin-bottom:1.25rem">😔</div>
+      <h2 style="font-family:Georgia,serif;font-size:1.75rem;font-weight:400;color:#3d2b1f;margin:0 0 1rem">¡Ups! Algo salió mal</h2>
+      <div style="display:flex;align-items:center;justify-content:center;gap:0.875rem;margin:0 auto 1.25rem;width:fit-content">
+        <span style="display:block;height:1px;width:4rem;background:linear-gradient(90deg,transparent,#c8a46e,transparent)"></span>
+        <span style="display:block;width:0.5rem;height:0.5rem;background:#c8a46e;transform:rotate(45deg)"></span>
+        <span style="display:block;height:1px;width:4rem;background:linear-gradient(90deg,transparent,#c8a46e,transparent)"></span>
+      </div>
+      <p style="color:#7a5c4a;font-size:0.9375rem;line-height:1.7;margin:0 0 0.625rem">Hubo un error al enviar tus datos.</p>
+      <p style="color:#3d2b1f;font-size:1rem;font-weight:600;margin:0 0 2rem">Por favor contáctanos en Instagram y te ayudamos. ✦</p>
+      <button onclick="document.getElementById('fc-error-overlay').style.display='none'" style="display:inline-block;background:#b85c38;color:#fff;font-size:0.75rem;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;padding:1rem 2.5rem;border-radius:4px;border:none;cursor:pointer;transition:background .2s" onmouseover="this.style.background='#3d2b1f'" onmouseout="this.style.background='#b85c38'">Entendido</button>
+    </div>
+  </div>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" async></script>
@@ -653,43 +668,47 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!fcForm) return;
     if (btn) { btn.disabled = true; btn.textContent = 'Enviando…'; }
 
+    var order = new URLSearchParams(window.location.search).get('orden') || new URLSearchParams(window.location.search).get('order') || '';
+
     var data = new FormData(fcForm);
-    var lines = [];
+    var formObj = {};
     data.forEach(function(val, key) {
       var label = key.replace(/^contact\[/, '').replace(/\](\[\])?$/, '');
-      if (label && val) lines.push(label + ': ' + val);
-    });
-    var bodyText = lines.join('\n');
-
-    var orden  = new URLSearchParams(window.location.search).get('orden') || '(sin orden)';
-    var nombre = (function() {
-      var data2 = new FormData(document.getElementById('FormClasic'));
-      // Intentar leer el campo hidden Nombre, o el primer campo de texto que tenga valor
-      var n = data2.get('contact[Nombre]');
-      if (n && n.trim()) return n.trim();
-      // Fallback: primer campo con label que contenga "nombre" (case insensitive)
-      var allFields = document.querySelectorAll('#FormClasic input[name^="contact["]');
-      for (var i = 0; i < allFields.length; i++) {
-        if (allFields[i].name.toLowerCase().indexOf('novia') !== -1 || allFields[i].name.toLowerCase().indexOf('novio') !== -1) {
-          if (allFields[i].value.trim()) return allFields[i].value.trim();
-        }
+      if (!label) return;
+      if (formObj[label] !== undefined) {
+        if (!Array.isArray(formObj[label])) formObj[label] = [formObj[label]];
+        formObj[label].push(val);
+      } else {
+        formObj[label] = val;
       }
-      return '(sin nombre)';
-    }());
+    });
+
+    var brideName  = formObj['Novia'] || formObj['Nombre de la novia'] || formObj['Ella'] || '';
+    var groomName  = formObj['Novio'] || formObj['Nombre del novio'] || formObj['Él'] || '';
+    var weddingDay = formObj['Boda - Día'] || '';
+    var weddingMon = formObj['Boda - Mes'] || '';
+    var weddingYr  = formObj['Boda - Año'] || '';
+    var weddingDate = [weddingDay, weddingMon, weddingYr].filter(Boolean).join(' de ');
+    var extraNotes = formObj['Notas adicionales'] || formObj['Notas'] || '';
+
+    if (!brideName || !groomName) {
+      var inputs = fcForm.querySelectorAll('input[type=text][name^="contact["]');
+      if (inputs[0] && !brideName) brideName = inputs[0].value;
+      if (inputs[1] && !groomName) groomName = inputs[1].value;
+    }
 
     var templateParams = {
-      to_email:       'developer@iliestefa.com',
-      subject:        'Datos de boda — ' + nombre + (orden !== '(sin orden)' ? ' [orden: ' + orden + ']' : ''),
-      bride_name:     nombre,
-      groom_name:     'Orden: ' + orden,
-      wedding_date:   orden,
-      orden:          orden,
-      extra_notes:    'Orden: ' + orden,
-      constants_file: '=== ORDEN: ' + orden + ' ===\n\n' + bodyText,
-      data_json:      '=== ORDEN: ' + orden + ' ===\n\n' + bodyText
+      subject:        'Clasic template for order - ' + (order || '(sin orden)'),
+      bride_name:     brideName   || '(sin nombre)',
+      groom_name:     groomName   || '(sin nombre)',
+      wedding_date:   weddingDate || '(sin fecha)',
+      order:          order       || '(sin orden)',
+      constants_file: '',
+      extra_notes:    extraNotes  || '',
+      data_json:      JSON.stringify(formObj, null, 2)
     };
 
-    emailjs.send('service_o6i2yoo', 'template_jd7l5j5', templateParams, 'wlAEepoAN1XYRb3ML')
+    emailjs.send('service_o6i2yoo', 'template_1odn862', templateParams, 'wlAEepoAN1XYRb3ML')
       .then(function() {
         var mainForm = document.getElementById('fc-mainForm');
         if (mainForm) mainForm.style.display = 'none';
@@ -701,9 +720,10 @@ document.addEventListener('DOMContentLoaded', function() {
         var success = document.getElementById('fc-success-overlay');
         if (success) { success.style.display = 'flex'; window.scrollTo({ top: 0, behavior: 'smooth' }); }
       })
-      .catch(function(err) {
+      .catch(function() {
         if (btn) { btn.disabled = false; btn.textContent = '✦ Enviar mis datos'; }
-        alert('Error al enviar. Inténtalo de nuevo. (' + (err && err.text ? err.text : 'EmailJS error') + ')');
+        var errOverlay = document.getElementById('fc-error-overlay');
+        if (errOverlay) errOverlay.style.display = 'flex';
       });
   };
 })();
