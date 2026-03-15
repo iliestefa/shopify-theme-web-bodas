@@ -507,20 +507,7 @@
   </main>
 
   {{- '<!-- SUCCESS OVERLAY -->' -}}
-  <div id="fc-success-overlay" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(26,20,16,.72);align-items:center;justify-content:center;padding:1.5rem">
-    <div style="background:#fdf8f3;border-radius:12px;max-width:480px;width:100%;padding:3rem 2.5rem;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.3)">
-      <div style="font-size:3.5rem;margin-bottom:1.25rem">💌</div>
-      <h2 style="font-family:Georgia,serif;font-size:1.75rem;font-weight:400;color:#3d2b1f;margin:0 0 1rem">¡Datos recibidos!</h2>
-      <div style="display:flex;align-items:center;justify-content:center;gap:0.875rem;margin:0 auto 1.25rem;width:fit-content">
-        <span style="display:block;height:1px;width:4rem;background:linear-gradient(90deg,transparent,#c8a46e,transparent)"></span>
-        <span style="display:block;width:0.5rem;height:0.5rem;background:#c8a46e;transform:rotate(45deg)"></span>
-        <span style="display:block;height:1px;width:4rem;background:linear-gradient(90deg,transparent,#c8a46e,transparent)"></span>
-      </div>
-      <p style="color:#7a5c4a;font-size:0.9375rem;line-height:1.7;margin:0 0 0.625rem">Estamos preparando tu invitación digital.</p>
-      <p style="color:#3d2b1f;font-size:1rem;font-weight:600;margin:0 0 2rem">En máximo 48 horas estará lista. ✦</p>
-      <a href="{{ routes.root_url }}" style="display:inline-block;background:#b85c38;color:#fff;font-size:0.75rem;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;padding:1rem 2.5rem;border-radius:4px;text-decoration:none;transition:background .2s" onmouseover="this.style.background='#3d2b1f'" onmouseout="this.style.background='#b85c38'">OK, entendido</a>
-    </div>
-  </div>
+  {%- render 'overlay-success', overlay_id: 'fc-success-overlay', btn_href: routes.root_url -%}
 
   <div id="fc-error-overlay" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(26,20,16,.72);align-items:center;justify-content:center;padding:1.5rem">
     <div style="background:#fdf8f3;border-radius:12px;max-width:480px;width:100%;padding:3rem 2.5rem;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.3)">
@@ -710,15 +697,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     emailjs.send('service_o6i2yoo', 'template_1odn862', templateParams, 'wlAEepoAN1XYRb3ML')
       .then(function() {
-        var mainForm = document.getElementById('fc-mainForm');
-        if (mainForm) mainForm.style.display = 'none';
-        var progressBar = document.getElementById('fc-progressBar');
-        if (progressBar) progressBar.style.display = 'none';
-        var hero = document.getElementById('fc-heroSup');
-        var heroSection = hero && hero.closest('section');
-        if (heroSection) heroSection.style.display = 'none';
         var success = document.getElementById('fc-success-overlay');
-        if (success) { success.style.display = 'flex'; window.scrollTo({ top: 0, behavior: 'smooth' }); }
+        if (success) { success.style.display = 'flex'; }
       })
       .catch(function() {
         if (btn) { btn.disabled = false; btn.textContent = '✦ Enviar mis datos'; }

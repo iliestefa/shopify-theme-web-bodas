@@ -1,0 +1,56 @@
+{%- comment -%}
+  Success overlay — fixed modal shown after a successful async action.
+
+  Parameters (all optional):
+    overlay_id    — id for the wrapper div              (default: "overlay-success")
+    icon          — emoji shown at the top              (default: "💌")
+    title         — heading text                        (default: "¡Datos recibidos!")
+    subtitle      — lighter paragraph below title       (default: "Estamos preparando tu invitación digital.")
+    message       — bold paragraph below subtitle       (default: "En máximo 48 horas estará lista. ✦")
+    btn_label     — button / link text                  (default: "OK, entendido")
+    btn_href      — if set, renders an <a>; else a <button> that closes the overlay
+{%- endcomment -%}
+
+{%- assign overlay_id = overlay_id | default: 'overlay-success' -%}
+{%- assign icon = icon | default: '💌' -%}
+{%- assign title = title | default: '¡Datos recibidos!' -%}
+{%- assign subtitle = subtitle | default: 'Estamos preparando tu invitación digital.' -%}
+{%- assign message = message | default: 'En máximo 48 horas estará lista. ✦' -%}
+{%- assign btn_label = btn_label | default: 'OK, entendido' -%}
+
+<div
+  id="{{ overlay_id }}"
+  class="hidden fixed inset-0 z-9999 items-center justify-center p-6"
+  style="background:rgba(26,20,16,.72)"
+>
+  <div class="bg-wb-cream rounded-3 max-w-120 w-full px-10 py-12 text-center shadow-[0_24px_60px_rgba(0,0,0,.3)]">
+    <div class="text-[3.5rem] mb-5">{{ icon }}</div>
+    <h2 class="font-wb-serif text-[1.75rem] font-normal text-wb-terracota-dark m-0 mb-4">{{ title }}</h2>
+    <div class="flex items-center justify-center gap-3.5 mx-auto mb-5 w-fit">
+      <span class="block h-px w-16 bg-linear-to-r from-transparent via-wb-gold to-transparent"></span>
+      <span class="block w-2 h-2 bg-wb-gold rotate-45"></span>
+      <span class="block h-px w-16 bg-linear-to-r from-transparent via-wb-gold to-transparent"></span>
+    </div>
+    {%- if subtitle != blank -%}
+      <p class="text-wb-brown-text text-[0.9375rem] leading-7 m-0 mb-2.5">{{ subtitle }}</p>
+    {%- endif -%}
+    {%- if message != blank -%}
+      <p class="text-wb-terracota-dark text-base font-semibold m-0 mb-8">{{ message }}</p>
+    {%- endif -%}
+    {%- if btn_href != blank -%}
+      <a
+        href="{{ btn_href }}"
+        class="inline-block bg-wb-terracota hover:bg-wb-terracota-dark text-white text-[0.75rem] font-medium tracking-[2.5px] uppercase px-10 py-4 rounded-1 no-underline transition-colors duration-200"
+      >
+        {{- btn_label -}}
+      </a>
+    {%- else -%}
+      <button
+        onclick="document.getElementById('{{ overlay_id }}').style.display='none'"
+        class="inline-block bg-wb-terracota hover:bg-wb-terracota-dark text-white text-[0.75rem] font-medium tracking-[2.5px] uppercase px-10 py-4 rounded-1 border-0 cursor-pointer transition-colors duration-200"
+      >
+        {{ btn_label }}
+      </button>
+    {%- endif -%}
+  </div>
+</div>
