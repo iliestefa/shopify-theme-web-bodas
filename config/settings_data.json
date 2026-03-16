@@ -11,6 +11,7 @@
   "current": {
     "logo": "shopify://shop_images/Logo.png",
     "logo_width": 140,
+    "favicon": "shopify://shop_images/Refined_Minimalist_Envelope_Favicon_Design.png",
     "type_header_font": "poppins_n4",
     "type_body_font": "questrial_n4",
     "social_facebook_link": "#",
@@ -30,6 +31,10 @@
     "cart_stack_discount_codes": true,
     "cart_drawer_collection": "automated-collection",
     "cart_color_scheme": "scheme-1",
+    "checkout_body_background_color": "#faf6f0",
+    "checkout_sidebar_background_color": "#f5efe4",
+    "checkout_accent_color": "#7a5f4e",
+    "checkout_button_color": "#e8b4b0",
     "sections": {
       "main-password-header": {
         "type": "main-password-header",
