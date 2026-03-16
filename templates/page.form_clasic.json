@@ -63,6 +63,7 @@
             "notes_label": "Subtítulo en negrita",
             "notes_hint": "(aparece debajo del título principal)",
             "notes_placeholder": "Ej: Un momento especial se acerca, y no estaría completo sin ti.",
+            "notes_type": "textarea",
             "show_custom_image_field": false,
             "image_field_label": "Imagen personalizada"
           }
@@ -164,6 +165,7 @@
             "notes_label": "Notas adicionales",
             "notes_hint": "(colores, preferencias, peticiones especiales)",
             "notes_placeholder": "Escribe aquí cualquier detalle extra...",
+            "notes_type": "textarea",
             "show_custom_image_field": false,
             "image_field_label": "Imagen personalizada"
           }
@@ -214,6 +216,7 @@
             "notes_label": "Notas adicionales",
             "notes_hint": "(colores, preferencias, peticiones especiales)",
             "notes_placeholder": "Escribe aquí cualquier detalle extra...",
+            "notes_type": "textarea",
             "show_custom_image_field": true,
             "image_field_label": "Dress Code — Imagen personalizada"
           }
@@ -264,6 +267,7 @@
             "notes_label": "RSVP — Notas adicionales",
             "notes_hint": "",
             "notes_placeholder": "Ej: Los invitados pueden confirmar hasta 2 acompañantes.",
+            "notes_type": "textarea",
             "show_custom_image_field": false,
             "image_field_label": "Imagen personalizada"
           }
@@ -312,6 +316,7 @@
             "notes_label": "Notas adicionales",
             "notes_hint": "(colores, preferencias, peticiones especiales)",
             "notes_placeholder": "Escribe aquí cualquier detalle extra que quieras en tu invitación…",
+            "notes_type": "textarea",
             "show_custom_image_field": false,
             "image_field_label": "Imagen personalizada"
           }
